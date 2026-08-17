@@ -1,298 +1,338 @@
-<header class="bg-white border-b border-gray-100 sticky top-0 z-20">
-    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="bg-blue-600 text-white p-2 rounded-xl">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zirek Digital - Онлайн Тест</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .toast-enter { animation: slideInRight 0.3s forwards; }
+        .toast-leave { animation: slideOutRight 0.3s forwards; }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 font-bold text-xl">
+                    Z
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold text-slate-900 tracking-tight leading-none">ZIREK</h1>
+                    <span class="text-[10px] font-semibold text-blue-600 uppercase tracking-widest">Test Platform</span>
+                </div>
             </div>
-            <h1 class="text-xl font-bold text-gray-900">Билим Тест</h1>
+            <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full font-semibold border border-slate-200">Окуучулар үчүн</span>
         </div>
-        <span class="text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">Окуучулар үчүн</span>
-    </div>
-</header>
+    </header>
 
-<div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2"></div>
+    <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2"></div>
 
-<main class="flex-1 overflow-y-auto p-4 sm:p-6 flex justify-center w-full">
-    <div class="w-full max-w-4xl">
-        
-        <div id="page-student-login" class="max-w-md mx-auto mt-6 md:mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 class="text-2xl font-bold mb-2 text-gray-800 text-center">Тестке кирүү</h2>
-            <p class="text-sm text-gray-500 mb-6 text-center">Маалыматтарды толтуруп, тестти баштаңыз</p>
+    <main class="flex-1 overflow-y-auto p-4 sm:p-6 flex justify-center w-full">
+        <div class="w-full max-w-4xl">
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Аты-жөнүңүз</label>
-                    <input type="text" id="student-fullname" placeholder="Мисалы: Асан Усенов" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-colors font-medium" />
+            <!-- LOGIN PAGE -->
+            <div id="page-student-login" class="max-w-md mx-auto mt-4 sm:mt-10 bg-white p-6 sm:p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900">Тестке кирүү</h2>
+                    <p class="text-xs text-slate-500 mt-1">Маалыматтарды киргизип, тестти баштаңыз</p>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Телефон номериңиз</label>
-                    <input type="tel" id="student-phone" placeholder="Мисалы: 0777123456" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-colors font-medium" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Тесттин коду</label>
-                    <input type="text" id="student-test-code" placeholder="Мисалы: MATH100" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition-colors uppercase font-medium" />
-                </div>
-                <button onclick="startTest()" id="btn-start-test" class="w-full bg-blue-600 text-white font-semibold py-3.5 rounded-xl hover:bg-blue-700 transition-colors mt-2 flex justify-center items-center shadow-md shadow-blue-100">
-                    Тестти баштоо
-                </button>
-            </div>
-        </div>
-
-        <div id="page-student-test" class="hidden w-full">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-200 mb-6 sticky top-20 z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                <div>
-                    <div class="text-sm text-gray-600 font-medium" id="display-student-info"></div>
-                    <div class="text-xs text-gray-400 mt-0.5">Код: <strong id="active-test-code" class="text-blue-600 uppercase font-bold"></strong></div>
-                </div>
-                <div class="flex items-center justify-between w-full sm:w-auto gap-4">
-                    <span class="text-sm text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg font-medium">Белгиленди: <strong id="progress-text" class="text-blue-600">0 / 0</strong></span>
-                    <button onclick="submitTest()" id="btn-submit-test" class="bg-green-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-green-700 transition-colors shadow-sm">
-                        Жөнөтүү
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Аты-жөнүңүз</label>
+                        <input type="text" id="student-fullname" placeholder="Мисалы: Асан Усенов" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition font-medium text-slate-800 placeholder:text-slate-400 text-sm" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Телефон номериңиз</label>
+                        <input type="tel" id="student-phone" placeholder="Мисалы: 0777123456" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition font-medium text-slate-800 placeholder:text-slate-400 text-sm" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Тесттин коду</label>
+                        <input type="text" id="student-test-code" placeholder="Мисалы: MATH100" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition font-bold uppercase tracking-wider text-blue-600 placeholder:text-slate-400 text-sm" />
+                    </div>
+                    <button onclick="startTest()" id="btn-start-test" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/25 mt-2 flex justify-center items-center text-sm">
+                        Тестти баштоо
                     </button>
                 </div>
             </div>
 
-            <div class="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
-                <div class="mb-6 border-b border-gray-100 pb-4">
-                    <h3 class="text-lg font-bold text-gray-800">Китепчедеги варианттарды белгилеңиз</h3>
-                    <p class="text-gray-500 text-xs mt-1">Ар бир суроого туура вариантты тандаңыз</p>
-                </div>
+            <!-- TEST TAKING PAGE -->
+            <div id="page-student-test" class="hidden w-full space-y-4">
                 
-                <div id="student-questions-grid" class="q-grid mb-8">
-                    <!-- Dynamic questions -->
+                <!-- STICKY TOP BAR -->
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 sticky top-20 z-20 flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <div class="w-full sm:w-auto">
+                        <div class="text-sm font-bold text-slate-800" id="display-student-info"></div>
+                        <div class="text-xs text-slate-400 font-medium">Код: <strong id="active-test-code" class="text-blue-600 uppercase font-bold"></strong></div>
+                    </div>
+                    <div class="flex items-center justify-between w-full sm:w-auto gap-4">
+                        <div class="bg-slate-100 px-4 py-2 rounded-xl text-xs font-bold text-slate-600 border border-slate-200">
+                            Белгиленди: <span id="progress-text" class="text-blue-600 font-extrabold text-sm ml-1">0 / 0</span>
+                        </div>
+                        <button onclick="submitTest()" id="btn-submit-test" class="bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white px-6 py-2.5 rounded-xl font-bold text-sm transition shadow-md shadow-emerald-600/20">
+                            Жөнөтүү
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Comment/Feedback Box -->
-                <div class="border-t border-gray-100 pt-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Мугалимге комментарий же пикириңиз (милдеттүү эмес):</label>
-                    <textarea id="student-comment" rows="3" placeholder="Каалоо же суроолоруңузду ушул жерге жазсаңыз болот..." class="w-full p-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm text-gray-700"></textarea>
+                <!-- QUESTIONS GRID CONTAINER -->
+                <div class="bg-white p-4 sm:p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="mb-6 border-b border-slate-100 pb-4 flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900">Китепчедеги варианттарды белгилеңиз</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Ар бир суроонун туура вариантын тандаңыз</p>
+                        </div>
+                    </div>
+                    
+                    <div id="student-questions-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-8">
+                        <!-- Dynamic questions -->
+                    </div>
+
+                    <!-- COMMENT BOX -->
+                    <div class="border-t border-slate-100 pt-6">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Мугалимге комментарий же пикир (милдеттүү эмес):</label>
+                        <textarea id="student-comment" rows="3" placeholder="Суроо же каалоолоруңузду жазсаңыз болот..." class="w-full p-3.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm text-slate-800 transition placeholder:text-slate-400 font-medium"></textarea>
+                    </div>
                 </div>
             </div>
+
+            <!-- RESULT PAGE -->
+            <div id="page-student-result" class="hidden max-w-md mx-auto mt-10 bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 text-center">
+                <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-900 mb-1">Жооптор кабыл алынды!</h2>
+                <p class="text-slate-400 mb-6 text-xs font-medium">Сиздин жыйынтыгыңыз системага сакталды</p>
+                
+                <div class="bg-slate-50 rounded-2xl p-6 mb-8 border border-slate-200/80">
+                    <div class="text-6xl font-black text-blue-600 tracking-tight mb-1" id="result-score">0</div>
+                    <div class="text-slate-500 text-xs font-bold border-t border-slate-200 pt-3 mt-3 uppercase tracking-wider" id="result-total">жалпы 0 суроодон</div>
+                </div>
+
+                <button onclick="window.location.reload()" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 rounded-xl transition text-sm shadow-md">
+                    Кайра баштоо
+                </button>
+            </div>
+
         </div>
+    </main>
 
-        <div id="page-student-result" class="hidden max-w-md mx-auto mt-10 bg-white p-8 rounded-2xl shadow-md border border-gray-100 text-center">
-            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h2 class="text-2xl font-bold mb-2 text-gray-800">Жооптор кабыл алынды!</h2>
-            <p class="text-gray-500 mb-6 text-sm">Сиздин жыйынтыгыңыз:</p>
-            
-            <div class="bg-slate-50 rounded-2xl p-6 mb-8 border border-gray-200">
-                <div class="text-6xl font-black text-blue-600 mb-2" id="result-score">0</div>
-                <div class="text-gray-500 text-sm font-medium border-t border-gray-200 pt-3 mt-3" id="result-total">жалпы 0 суроодон</div>
-            </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-            <button onclick="window.location.reload()" class="w-full bg-gray-900 text-white font-medium py-3 rounded-xl hover:bg-black transition-colors text-sm">
-                Кайра баштоо
-            </button>
-        </div>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAy9kIiHAJn4t8lm2Ae0huvXsC829caXv0",
+            authDomain: "zirek-test.firebaseapp.com",
+            projectId: "zirek-test",
+            storageBucket: "zirek-test.firebasestorage.app",
+            messagingSenderId: "900448087340",
+            appId: "1:900448087340:web:3c6b56d3e3969343279089",
+            measurementId: "G-C53Z8FTFW5"
+        };
 
-    </div>
-</main>
+        let app, auth, db;
+        let currentTestConfig = null;
+        let studentAnswers = {};
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // 🔥 ӨЗҮҢҮЗДҮН FIREBASE КӨЧҮРҮЛГӨН АЧКЫЧТАРЫНЫЗДЫ ТӨМӨНГӨ КОЮҢУЗ:
-    const firebaseConfig = {
-        apiKey: "СИЗДИН_API_KEY",
-        authDomain: "СИЗДИН_PROJECT.firebaseapp.com",
-        projectId: "СИЗДИН_PROJECT_ID",
-        storageBucket: "СИЗДИН_PROJECT.appspot.com",
-        messagingSenderId: "СИЗДИН_SENDER_ID",
-        appId: "СИЗДИН_APP_ID"
-    };
-
-    let app, auth, db;
-    let currentTestConfig = null;
-    let studentAnswers = {};
-
-    window.showToast = function(message, type = "success") {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        let bgClass = type === 'error' ? "bg-red-600" : "bg-green-600";
-        toast.className = `${bgClass} text-white px-5 py-3 rounded-xl shadow-lg flex items-center toast-enter text-sm font-medium min-w-[250px]`;
-        toast.innerText = message;
-        container.appendChild(toast);
-        setTimeout(() => {
-            toast.classList.remove('toast-enter');
-            toast.classList.add('toast-leave');
-            setTimeout(() => toast.remove(), 300);
-        }, 3500);
-    }
-
-    async function initApp() {
-        if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("СИЗДИН_")) {
-            showToast("Firebase ачкычтары коюла элек! Файлды оңдоңуз.", "error");
-            return;
-        }
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            await signInAnonymously(auth);
-        } catch (err) {
-            console.error("Initialization Error:", err);
-            showToast("Серверге туташуу оңунан чыккан жок.", "error");
-        }
-    }
-
-    window.startTest = async function() {
-        const fullName = document.getElementById('student-fullname').value.trim();
-        const phone = document.getElementById('student-phone').value.trim();
-        const code = document.getElementById('student-test-code').value.trim().toUpperCase();
-
-        if (!fullName || fullName.length < 3) {
-            showToast("Аты-жөнүңүздү толук жазыңыз", "error");
-            return;
-        }
-        if (!phone || phone.length < 5) {
-            showToast("Телефон номериңизди туура жазыңыз", "error");
-            return;
-        }
-        if (!code) {
-            showToast("Тесттин кодун киргизиңиз", "error");
-            return;
+        window.showToast = function(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            let bgClass = type === 'error' ? "bg-rose-600" : "bg-emerald-600";
+            toast.className = `${bgClass} text-white px-5 py-3 rounded-2xl shadow-xl flex items-center toast-enter text-xs font-bold tracking-wide min-w-[250px] z-50`;
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-leave');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
         }
 
-        const btn = document.getElementById('btn-start-test');
-        btn.innerHTML = `<div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>`;
-        btn.disabled = true;
-
-        try {
-            const testRef = doc(db, 'tests', code);
-            const snap = await getDoc(testRef);
-
-            if (snap.exists()) {
-                currentTestConfig = snap.data();
-                currentTestConfig.code = code;
-                currentTestConfig.fullName = fullName;
-                currentTestConfig.phone = phone;
-                
-                studentAnswers = {};
-                
-                document.getElementById('active-test-code').innerText = code;
-                document.getElementById('display-student-info').innerText = `${fullName} (${phone})`;
-                updateStudentProgress();
-                
-                buildStudentGrid(currentTestConfig.qCount);
-                
-                document.getElementById('page-student-login').classList.add('hidden');
-                document.getElementById('page-student-test').classList.remove('hidden');
-                window.scrollTo(0,0);
-            } else {
-                showToast(`"${code}" коду менен тест табылган жок.`, "error");
+        async function initApp() {
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                await signInAnonymously(auth);
+            } catch (err) {
+                console.error("Initialization Error:", err);
+                showToast("Серверге туташуу оңунан чыккан жок.", "error");
             }
-        } catch (err) {
-            console.error(err);
-            showToast("Системалык ката кетти же базага туташуу болбой жатат.", "error");
-        } finally {
-            btn.innerHTML = "Тестти баштоо";
-            btn.disabled = false;
         }
-    }
 
-    function buildStudentGrid(count) {
-        const container = document.getElementById('student-questions-grid');
-        container.innerHTML = '';
-        
-        for (let i = 1; i <= count; i++) {
-            const row = document.createElement('div');
-            row.className = "bg-slate-50 p-2.5 rounded-xl border border-gray-200 flex items-center justify-between";
+        window.startTest = async function() {
+            const fullName = document.getElementById('student-fullname').value.trim();
+            const phone = document.getElementById('student-phone').value.trim();
+            const code = document.getElementById('student-test-code').value.trim().toUpperCase();
+
+            if (!fullName || fullName.length < 3) {
+                showToast("Аты-жөнүңүздү толук жазыңыз", "error");
+                return;
+            }
+            if (!phone || phone.length < 5) {
+                showToast("Телефон номериңизди туура жазыңыз", "error");
+                return;
+            }
+            if (!code) {
+                showToast("Тесттин кодун киргизиңиз", "error");
+                return;
+            }
+
+            const btn = document.getElementById('btn-start-test');
+            btn.innerHTML = `<div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>`;
+            btn.disabled = true;
+
+            try {
+                const testRef = doc(db, 'tests', code);
+                const snap = await getDoc(testRef);
+
+                if (snap.exists()) {
+                    currentTestConfig = snap.data();
+                    currentTestConfig.code = code;
+                    currentTestConfig.fullName = fullName;
+                    currentTestConfig.phone = phone;
+                    
+                    studentAnswers = {};
+                    
+                    document.getElementById('active-test-code').innerText = code;
+                    document.getElementById('display-student-info').innerText = `${fullName} (${phone})`;
+                    updateStudentProgress();
+                    
+                    buildStudentGrid(currentTestConfig.qCount);
+                    
+                    document.getElementById('page-student-login').classList.add('hidden');
+                    document.getElementById('page-student-test').classList.remove('hidden');
+                    window.scrollTo(0,0);
+                } else {
+                    showToast(`"${code}" коду менен тест табылган жок.`, "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Базадан тестти жүктөөдө ката кетти.", "error");
+            } finally {
+                btn.innerHTML = "Тестти баштоо";
+                btn.disabled = false;
+            }
+        }
+
+        function buildStudentGrid(count) {
+            const container = document.getElementById('student-questions-grid');
+            container.innerHTML = '';
             
-            const num = document.createElement('span');
-            num.className = "font-bold text-gray-700 w-7 text-center text-sm";
-            num.innerText = i;
-            
-            const optsBox = document.createElement('div');
-            optsBox.className = "flex gap-1.5";
-            
-            ['A', 'B', 'C', 'D'].forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "option-btn w-9 h-9 rounded-lg border border-gray-300 font-semibold text-gray-700 bg-white hover:bg-blue-50 focus:outline-none text-sm";
-                btn.innerText = opt;
-                btn.onclick = () => selectStudentAnswer(i, opt, row);
-                optsBox.appendChild(btn);
+            for (let i = 1; i <= count; i++) {
+                const row = document.createElement('div');
+                row.className = "bg-slate-50 p-3 rounded-2xl border border-slate-200/80 flex items-center justify-between gap-2 hover:border-slate-300 transition";
+                
+                const num = document.createElement('span');
+                num.className = "font-extrabold text-slate-700 text-sm w-7 text-center";
+                num.innerText = i;
+                
+                const optsBox = document.createElement('div');
+                optsBox.className = "flex gap-1.5";
+                
+                ['A', 'B', 'C', 'D'].forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = "w-9 h-9 rounded-xl font-bold text-sm transition-all duration-150 border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 hover:border-slate-300 focus:outline-none";
+                    btn.innerText = opt;
+                    btn.onclick = () => selectStudentAnswer(i, opt, row);
+                    optsBox.appendChild(btn);
+                });
+                
+                row.appendChild(num);
+                row.appendChild(optsBox);
+                container.appendChild(row);
+            }
+        }
+
+        function selectStudentAnswer(qIndex, option, rowElement) {
+            studentAnswers[qIndex] = option;
+            const buttons = rowElement.querySelectorAll('button');
+            buttons.forEach(b => {
+                b.className = "w-9 h-9 rounded-xl font-bold text-sm transition-all duration-150 border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 focus:outline-none";
             });
             
-            row.appendChild(num);
-            row.appendChild(optsBox);
-            container.appendChild(row);
-        }
-    }
-
-    function selectStudentAnswer(qIndex, option, rowElement) {
-        studentAnswers[qIndex] = option;
-        const buttons = rowElement.querySelectorAll('button');
-        buttons.forEach(b => b.classList.remove('selected', 'shadow-sm'));
-        
-        const selectedBtn = Array.from(buttons).find(b => b.innerText === option);
-        if(selectedBtn) selectedBtn.classList.add('selected', 'shadow-sm');
-
-        updateStudentProgress();
-    }
-
-    function updateStudentProgress() {
-        if(!currentTestConfig) return;
-        const answered = Object.keys(studentAnswers).length;
-        document.getElementById('progress-text').innerText = `${answered} / ${currentTestConfig.qCount}`;
-    }
-
-    window.submitTest = async function() {
-        if (!currentTestConfig) return;
-        
-        const answeredCount = Object.keys(studentAnswers).length;
-        if (answeredCount < currentTestConfig.qCount) {
-            showToast(`Толук белгилеңиз! (${answeredCount}/${currentTestConfig.qCount})`, "error");
-            return;
-        }
-
-        const comment = document.getElementById('student-comment').value.trim();
-        const btn = document.getElementById('btn-submit-test');
-        btn.innerHTML = `<div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>`;
-        btn.disabled = true;
-
-        try {
-            let score = 0;
-            const correctKey = currentTestConfig.key;
-            
-            for (let i = 1; i <= currentTestConfig.qCount; i++) {
-                if (studentAnswers[i] && correctKey[i] === studentAnswers[i]) {
-                    score++;
-                }
+            const selectedBtn = Array.from(buttons).find(b => b.innerText === option);
+            if(selectedBtn) {
+                selectedBtn.className = "w-9 h-9 rounded-xl font-bold text-sm transition-all duration-150 border-2 border-blue-600 bg-blue-600 text-white shadow-md shadow-blue-500/30 transform scale-105";
             }
 
-            const subData = {
-                testCode: currentTestConfig.code,
-                fullName: currentTestConfig.fullName,
-                phone: currentTestConfig.phone,
-                comment: comment,
-                score: score,
-                total: currentTestConfig.qCount,
-                answers: studentAnswers,
-                timestamp: new Date().toISOString()
-            };
-
-            const subsRef = collection(db, 'submissions');
-            await addDoc(subsRef, subData);
-
-            document.getElementById('result-score').innerText = score;
-            document.getElementById('result-total').innerText = `жалпы ${currentTestConfig.qCount} суроодон`;
-            
-            document.getElementById('page-student-test').classList.add('hidden');
-            document.getElementById('page-student-result').classList.remove('hidden');
-            window.scrollTo(0,0);
-
-        } catch(e) {
-            console.error(e);
-            showToast("Жөнөтүүдө ката кетти.", "error");
-        } finally {
-            btn.innerHTML = "Жөнөтүү";
-            btn.disabled = false;
+            updateStudentProgress();
         }
-    }
 
-    window.onload = () => { initApp(); };
-</script>
+        function updateStudentProgress() {
+            if(!currentTestConfig) return;
+            const answered = Object.keys(studentAnswers).length;
+            document.getElementById('progress-text').innerText = `${answered} / ${currentTestConfig.qCount}`;
+        }
+
+        window.submitTest = async function() {
+            if (!currentTestConfig) return;
+            
+            const answeredCount = Object.keys(studentAnswers).length;
+            if (answeredCount < currentTestConfig.qCount) {
+                showToast(`Толук белгилеңиз! (${answeredCount}/${currentTestConfig.qCount})`, "error");
+                return;
+            }
+
+            const comment = document.getElementById('student-comment').value.trim();
+            const btn = document.getElementById('btn-submit-test');
+            btn.innerHTML = `<div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>`;
+            btn.disabled = true;
+
+            try {
+                let score = 0;
+                const correctKey = currentTestConfig.key;
+                
+                for (let i = 1; i <= currentTestConfig.qCount; i++) {
+                    if (studentAnswers[i] && correctKey[i] === studentAnswers[i]) {
+                        score++;
+                    }
+                }
+
+                const subData = {
+                    testCode: currentTestConfig.code,
+                    fullName: currentTestConfig.fullName,
+                    phone: currentTestConfig.phone,
+                    comment: comment,
+                    score: score,
+                    total: currentTestConfig.qCount,
+                    answers: studentAnswers,
+                    timestamp: new Date().toISOString()
+                };
+
+                const subsRef = collection(db, 'submissions');
+                await addDoc(subsRef, subData);
+
+                document.getElementById('result-score').innerText = score;
+                document.getElementById('result-total').innerText = `жалпы ${currentTestConfig.qCount} суроодон`;
+                
+                document.getElementById('page-student-test').classList.add('hidden');
+                document.getElementById('page-student-result').classList.remove('hidden');
+                window.scrollTo(0,0);
+
+            } catch(e) {
+                console.error(e);
+                showToast("Жөнөтүүдө ката кетти.", "error");
+            } finally {
+                btn.innerHTML = "Жөнөтүү";
+                btn.disabled = false;
+            }
+        }
+
+        window.onload = () => { initApp(); };
+    </script>
+</body>
+</html>
