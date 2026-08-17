@@ -96,6 +96,7 @@
                                     <th class="px-6 py-4 font-bold">Жооптор</th>
                                     <th class="px-6 py-4 font-bold">Пикир</th>
                                     <th class="px-6 py-4 font-bold">Убактысы</th>
+                                    <th class="px-6 py-4 font-bold text-right">Аракет</th>
                                 </tr>
                             </thead>
                             <tbody id="submissions-table-body" class="divide-y divide-slate-800/60 text-xs text-slate-300">
@@ -279,7 +280,7 @@
         window.loadSubmissions = async function() {
             if(!db) return;
             const tbody = document.getElementById('submissions-table-body');
-            tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center"><div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div></td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center"><div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div></td></tr>';
             
             const filterCode = document.getElementById('filter-test-code').value.trim().toUpperCase();
 
@@ -324,7 +325,7 @@
                 tbody.innerHTML = '';
                 
                 if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-slate-500 font-medium">Жыйынтыктар табылган жок.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-slate-500 font-medium">Жыйынтыктар табылган жок.</td></tr>';
                     return;
                 }
 
@@ -353,13 +354,18 @@
                         </td>
                         <td class="px-6 py-4">${commentText}</td>
                         <td class="px-6 py-4 text-slate-500 text-[11px] font-mono">${timeStr}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="deleteSubmission('${item.id}')" class="bg-rose-950/60 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-800/80 px-2.5 py-1 rounded-lg font-bold text-xs transition flex items-center gap-1 ml-auto">
+                                🗑 Өчүрүү
+                            </button>
+                        </td>
                     `;
                     tbody.appendChild(tr);
                 });
 
             } catch (err) {
                 console.error("Fetch error:", err);
-                tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-rose-400 font-medium">Ката кетти.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-rose-400 font-medium">Ката кетти.</td></tr>';
             }
         }
 
@@ -407,6 +413,20 @@
 
         window.closeAnswersModal = function() {
             document.getElementById('modal-view-answers').classList.add('hidden');
+        }
+
+        window.deleteSubmission = async function(id) {
+            if (!confirm("Бул окуучунун жыйынтыгын базадан өчүрүүнү каалайсызбы?")) return;
+
+            try {
+                const subRef = doc(db, 'submissions', id);
+                await deleteDoc(subRef);
+                showToast("Жыйынтык ийгиликтүү өчүрүлдү");
+                loadSubmissions();
+            } catch (err) {
+                console.error("Delete submission error:", err);
+                showToast("Өчүрүүдө ката кетти", "error");
+            }
         }
 
         // --- EXISTING TESTS MANAGEMENT ---
