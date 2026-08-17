@@ -284,11 +284,35 @@
             const filterCode = document.getElementById('filter-test-code').value.trim().toUpperCase();
 
             try {
+                // Тесттердин акыркы ачкычтарын базадан жүктөө
+                const testsRef = collection(db, 'tests');
+                const testsSnap = await getDocs(testsRef);
+                const testKeysMap = {};
+                testsSnap.forEach(tDoc => {
+                    testKeysMap[tDoc.id] = tDoc.data().key || {};
+                });
+
                 const subsRef = collection(db, 'submissions');
                 const snap = await getDocs(subsRef);
                 
                 loadedSubmissions = [];
-                snap.forEach(doc => loadedSubmissions.push({ id: doc.id, ...doc.data() }));
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const testKey = testKeysMap[data.testCode];
+                    
+                    // Эгерде ачкыч өзгөрсө, окуучунун упайын жаңы ачкыч менен кайра динамикалык эсептөө
+                    let dynamicScore = data.score;
+                    if (testKey && data.answers && data.total) {
+                        dynamicScore = 0;
+                        for (let i = 1; i <= data.total; i++) {
+                            if (data.answers[i] && testKey[i] === data.answers[i]) {
+                                dynamicScore++;
+                            }
+                        }
+                    }
+
+                    loadedSubmissions.push({ id: doc.id, ...data, computedScore: dynamicScore });
+                });
                 
                 loadedSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 
@@ -308,10 +332,11 @@
                     const tr = document.createElement('tr');
                     tr.className = "hover:bg-slate-800/40 transition-colors";
                     
-                    const percent = item.total > 0 ? (item.score / item.total) : 0;
-                    let scoreBadge = `<span class="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg font-bold">${item.score} / ${item.total}</span>`;
-                    if(percent >= 0.8) scoreBadge = `<span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-lg font-bold">${item.score} / ${item.total}</span>`;
-                    else if(percent < 0.5) scoreBadge = `<span class="bg-rose-950 text-rose-400 border border-rose-800 px-3 py-1 rounded-lg font-bold">${item.score} / ${item.total}</span>`;
+                    const score = item.computedScore !== undefined ? item.computedScore : item.score;
+                    const percent = item.total > 0 ? (score / item.total) : 0;
+                    let scoreBadge = `<span class="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg font-bold">${score} / ${item.total}</span>`;
+                    if(percent >= 0.8) scoreBadge = `<span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-lg font-bold">${score} / ${item.total}</span>`;
+                    else if(percent < 0.5) scoreBadge = `<span class="bg-rose-950 text-rose-400 border border-rose-800 px-3 py-1 rounded-lg font-bold">${score} / ${item.total}</span>`;
 
                     const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleString('ru-RU') : '-';
                     const commentText = item.comment ? `<span class="text-xs bg-amber-950/60 text-amber-300 border border-amber-800/60 p-2 rounded-xl block max-w-xs font-medium">${item.comment}</span>` : '<span class="text-slate-600">-</span>';
@@ -342,8 +367,9 @@
             const sub = loadedSubmissions.find(s => s.id === docId);
             if (!sub) return;
 
+            const score = sub.computedScore !== undefined ? sub.computedScore : sub.score;
             document.getElementById('modal-student-name').innerText = `${sub.fullName} (${sub.testCode})`;
-            document.getElementById('modal-student-info').innerText = `Тел: ${sub.phone} | Упай: ${sub.score}/${sub.total}`;
+            document.getElementById('modal-student-info').innerText = `Тел: ${sub.phone} | Упай: ${score}/${sub.total}`;
 
             const container = document.getElementById('modal-answers-grid');
             container.innerHTML = '<div class="col-span-3 text-center py-4 text-slate-400">Жүктөлүүдө...</div>';
