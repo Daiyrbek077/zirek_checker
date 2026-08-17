@@ -20,7 +20,7 @@
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-30">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/20">
                     Z
                 </div>
                 <div>
@@ -39,7 +39,7 @@
     <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 flex justify-center w-full">
         <div class="w-full max-w-6xl">
 
-            <!-- LOGIN -->
+            <!-- LOGIN PAGE -->
             <div id="page-admin-login" class="max-w-sm mx-auto mt-12 bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-2xl">
                 <div class="text-center mb-6">
                     <div class="w-14 h-14 bg-blue-600/10 text-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-blue-500/20">
@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <!-- DASHBOARD -->
+            <!-- DASHBOARD PAGE -->
             <div id="page-admin-dashboard" class="hidden w-full space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
                     <div>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="flex gap-2 bg-slate-900 p-1.5 rounded-2xl border border-slate-800">
                         <button onclick="switchAdminTab('results')" id="tab-btn-results" class="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold transition shadow-sm">Жыйынтыктар</button>
-                        <button onclick="switchAdminTab('create')" id="tab-btn-create" class="px-5 py-2.5 text-slate-400 hover:text-white rounded-xl text-xs font-bold transition">Тест түзүү / Оңдоо</button>
+                        <button onclick="switchAdminTab('create')" id="tab-btn-create" class="px-5 py-2.5 text-slate-400 hover:text-white rounded-xl text-xs font-bold transition">Тест түзүү / Башкаруу</button>
                     </div>
                 </div>
 
@@ -99,17 +99,36 @@
                                 </tr>
                             </thead>
                             <tbody id="submissions-table-body" class="divide-y divide-slate-800/60 text-xs text-slate-300">
-                                <!-- Submissions -->
+                                <!-- Submissions dynamically loaded here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 <!-- TAB 2: CREATE OR EDIT TEST -->
-                <div id="admin-tab-create" class="hidden">
+                <div id="admin-tab-create" class="hidden space-y-6">
+                    
+                    <!-- EXISTING TESTS LIST CARD -->
                     <div class="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl">
-                        <h3 class="text-xl font-bold mb-1 text-white">Тест ачкычтарын башкаруу</h3>
-                        <p class="text-slate-400 text-xs mb-6 border-b border-slate-800 pb-4">Жаңы тест кошуңуз же мурдагы ачкычты оңдоңуз</p>
+                        <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Түзүлгөн тесттердин тизмеси</h3>
+                                <p class="text-slate-400 text-xs mt-0.5">Базадагы бардык активдүү тесттерди ушул жерден оңдоп же өчүрө аласыз</p>
+                            </div>
+                            <button onclick="loadTestsList()" class="bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 px-3.5 py-2 rounded-xl border border-slate-700 transition">
+                                Жаңыртуу
+                            </button>
+                        </div>
+
+                        <div id="existing-tests-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <!-- Dynamic list of tests -->
+                        </div>
+                    </div>
+
+                    <!-- TEST EDITOR SECTION -->
+                    <div id="test-editor-container" class="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-xl">
+                        <h3 class="text-xl font-bold mb-1 text-white">Тест ачкычтарын киргизүү / Оңдоо</h3>
+                        <p class="text-slate-400 text-xs mb-6 border-b border-slate-800 pb-4">Жаңы тесттин кодун жазыңыз же жогорудагы тизмеден "Оңдоо" баскычын басыңыз</p>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div>
@@ -121,7 +140,7 @@
                                 <div class="flex gap-2">
                                     <input type="number" id="new-test-count" value="100" min="1" max="200" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm" />
                                     <button onclick="loadOrCreateTestConfig()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold text-xs whitespace-nowrap transition shadow-lg shadow-blue-600/30">
-                                        Жүктөө / Оңдоо
+                                        Жүктөө / Даярдоо
                                     </button>
                                 </div>
                             </div>
@@ -129,12 +148,12 @@
 
                         <div id="admin-key-section" class="hidden">
                             <div class="bg-blue-950/40 border border-blue-800/60 text-blue-300 p-4 rounded-2xl text-xs mb-6 font-medium flex justify-between items-center">
-                                <span>Суроолордун ачкычын киргизиңиз же оңдоңуз:</span>
+                                <span>Суроолордун туура ачкычын белгилеңиз:</span>
                                 <span id="test-edit-status-badge" class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded">Жаңы тест</span>
                             </div>
                             
                             <div id="admin-questions-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-8">
-                                <!-- Dynamic admin grid -->
+                                <!-- Dynamic admin question grid -->
                             </div>
                             
                             <div class="border-t border-slate-800 pt-6 flex justify-end">
@@ -144,6 +163,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -162,7 +182,7 @@
             </div>
             
             <div id="modal-answers-grid" class="overflow-y-auto flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 p-1">
-                <!-- Dynamic student answers breakdown -->
+                <!-- Dynamic student breakdown -->
             </div>
 
             <div class="border-t border-slate-800 pt-4 mt-4 flex justify-end">
@@ -176,7 +196,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAy9kIiHAJn4t8lm2Ae0huvXsC829caXv0",
@@ -251,9 +271,11 @@
             } else {
                 document.getElementById('admin-tab-create').classList.remove('hidden');
                 btnCreate.className = "px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold transition shadow-sm";
+                loadTestsList();
             }
         }
 
+        // --- SUBMISSIONS (RESULTS) LOGIC ---
         window.loadSubmissions = async function() {
             if(!db) return;
             const tbody = document.getElementById('submissions-table-body');
@@ -282,11 +304,11 @@
                     return;
                 }
 
-                data.forEach((item, index) => {
+                data.forEach((item) => {
                     const tr = document.createElement('tr');
                     tr.className = "hover:bg-slate-800/40 transition-colors";
                     
-                    const percent = item.score / item.total;
+                    const percent = item.total > 0 ? (item.score / item.total) : 0;
                     let scoreBadge = `<span class="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg font-bold">${item.score} / ${item.total}</span>`;
                     if(percent >= 0.8) scoreBadge = `<span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-lg font-bold">${item.score} / ${item.total}</span>`;
                     else if(percent < 0.5) scoreBadge = `<span class="bg-rose-950 text-rose-400 border border-rose-800 px-3 py-1 rounded-lg font-bold">${item.score} / ${item.total}</span>`;
@@ -328,7 +350,6 @@
             document.getElementById('modal-view-answers').classList.remove('hidden');
 
             try {
-                // Fetch actual key from test to compare accurately
                 const testRef = doc(db, 'tests', sub.testCode);
                 const testSnap = await getDoc(testRef);
                 const testKey = testSnap.exists() ? testSnap.data().key : {};
@@ -362,6 +383,89 @@
             document.getElementById('modal-view-answers').classList.add('hidden');
         }
 
+        // --- EXISTING TESTS MANAGEMENT ---
+        window.loadTestsList = async function() {
+            if(!db) return;
+            const container = document.getElementById('existing-tests-grid');
+            container.innerHTML = '<div class="col-span-full text-center py-6 text-slate-500 font-medium"><div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mx-auto mb-2"></div>Тесттер жүктөлүүдө...</div>';
+
+            try {
+                const testsRef = collection(db, 'tests');
+                const snap = await getDocs(testsRef);
+
+                container.innerHTML = '';
+
+                if (snap.empty) {
+                    container.innerHTML = '<div class="col-span-full text-center py-6 text-slate-500 font-medium">Базада сакталган тест жок. Жаңы тест кошуңуз.</div>';
+                    return;
+                }
+
+                snap.forEach(docSnap => {
+                    const testCode = docSnap.id;
+                    const testData = docSnap.data();
+                    const qCount = testData.qCount || 0;
+                    const updatedAt = testData.updatedAt ? new Date(testData.updatedAt).toLocaleDateString('ru-RU') : '';
+
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition shadow-md";
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <span class="bg-blue-600/20 text-blue-400 border border-blue-500/30 font-black text-base px-3 py-1 rounded-xl uppercase tracking-wider block">
+                                    ${testCode}
+                                </span>
+                                <span class="text-[11px] text-slate-400 block mt-2 font-medium">Суроолор: <strong class="text-white font-bold">${qCount}</strong></span>
+                                ${updatedAt ? `<span class="text-[10px] text-slate-500 block font-mono">Жаңыртылган: ${updatedAt}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex gap-2 pt-2 border-t border-slate-700/60 mt-2">
+                            <button onclick="editTestByCode('${testCode}')" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs transition shadow-sm flex justify-center items-center gap-1">
+                                ✎ Оңдоо
+                            </button>
+                            <button onclick="deleteTestByCode('${testCode}')" class="bg-rose-950/60 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-800 font-bold px-3 py-2 rounded-xl text-xs transition flex justify-center items-center">
+                                🗑 Өчүрүү
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch(e) {
+                console.error("Fetch tests list error:", e);
+                container.innerHTML = '<div class="col-span-full text-center py-6 text-rose-400 text-xs">Тесттерди жүктөөдө ката кетти.</div>';
+            }
+        }
+
+        window.editTestByCode = function(code) {
+            document.getElementById('new-test-code').value = code;
+            loadOrCreateTestConfig();
+            
+            // Scroll to editor smoothly
+            document.getElementById('test-editor-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.deleteTestByCode = async function(code) {
+            if (!confirm(`"${code}" тестин базадан таптакыр өчүрүүнү каалайсызбы?`)) return;
+
+            try {
+                const testRef = doc(db, 'tests', code);
+                await deleteDoc(testRef);
+                showToast(`"${code}" тести өчүрүлдү`);
+                
+                // If editing section was open for this test, hide it
+                if (document.getElementById('new-test-code').value.toUpperCase() === code) {
+                    document.getElementById('admin-key-section').classList.add('hidden');
+                }
+
+                loadTestsList();
+            } catch(e) {
+                console.error("Delete test error:", e);
+                showToast("Тестти өчүрүүдө ката кетти", "error");
+            }
+        }
+
+        // --- CREATE & EDIT TEST KEYS LOGIC ---
         window.loadOrCreateTestConfig = async function() {
             const code = document.getElementById('new-test-code').value.trim().toUpperCase();
             let count = parseInt(document.getElementById('new-test-count').value);
@@ -471,6 +575,7 @@
                 await setDoc(testRef, data, { merge: true });
                 
                 showToast("Тест ачкычтары базага сакталды!");
+                loadTestsList();
             } catch(e) {
                 console.error("Save error:", e);
                 showToast("Сактоодо ката кетти.", "error");
