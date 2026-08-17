@@ -187,7 +187,11 @@
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
-                await signInAnonymously(auth);
+                try {
+                    await signInAnonymously(auth);
+                } catch (authErr) {
+                    console.warn("Anonymous sign-in is disabled or restricted in Firebase Console:", authErr);
+                }
             } catch (err) {
                 console.error("Initialization Error:", err);
             }
