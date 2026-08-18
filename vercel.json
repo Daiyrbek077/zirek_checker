@@ -7,6 +7,9 @@
   {
 "source": "/test18",
 "destination": "/test18.html"
-}
+},
+  {
+"source": "/test100_18.html",
+"}
 ]
 }
