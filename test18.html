@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Жөнөкөй бөлчөктөр — Презентация, ZIREK Тест & Админ Панель</title>
+    <title>Жөнөкөй бөлчөктөр — ZIREK Тест жыйнагы</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -35,23 +35,22 @@
             display: flex;
         }
         .fade-in {
-            animation: fadeIn 0.35s ease-out;
+            animation: fadeIn 0.3s ease-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .option-btn {
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
         }
         .option-btn.selected {
             border-color: #2563eb;
             background-color: #eff6ff;
             color: #1e40af;
             font-weight: 700;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -62,528 +61,301 @@
             background: #cbd5e1;
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
     </style>
 </head>
 <body class="flex flex-col justify-between min-h-screen bg-[#f8f9fa] antialiased">
 
-    <!-- Top Header & Navigation Bar -->
-    <header class="w-full max-w-6xl mx-auto px-4 md:px-6 pt-6 flex flex-wrap justify-between items-center gap-4 border-b border-gray-200/60 pb-4">
+    <!-- Header Navigation -->
+    <header class="w-full max-w-6xl mx-auto px-4 md:px-6 pt-5 flex flex-wrap justify-between items-center gap-4 border-b border-gray-200/80 pb-4">
         <div class="flex items-center space-x-3 cursor-pointer" onclick="goToSlide(0)">
-            <div class="w-9 h-9 bg-gradient-to-tr from-blue-700 to-indigo-500 rounded-xl flex items-center justify-center text-white font-black text-lg shadow-sm">
+            <div class="w-9 h-9 bg-gradient-to-tr from-blue-700 to-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-lg shadow-sm">
                 Z
             </div>
             <div>
-                <span class="tracking-wider uppercase text-xs font-extrabold text-blue-600 block">ZIREK | GeekBrains</span>
-                <span class="text-xs text-gray-500 font-medium">ЖРТ Математика • /test18</span>
+                <span class="tracking-wider uppercase text-xs font-extrabold text-blue-600 block">ZIREK</span>
+                <span class="text-xs text-slate-500 font-medium">Жөнөкөй бөлчөктөр • /test18</span>
             </div>
         </div>
 
-        <div class="flex items-center space-x-2 md:space-x-3">
-            <button onclick="goToSlide(0)" class="px-3 py-1.5 text-xs font-semibold text-gray-600 hover:text-blue-600 hover:bg-white rounded-lg transition border border-gray-200/80">
-                <i class="fa-solid fa-book-open mr-1.5"></i> Презентация
+        <div class="flex items-center space-x-2">
+            <button onclick="goToSlide(0)" class="px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-blue-600 hover:bg-white rounded-lg transition border border-gray-200/80">
+                <i class="fa-solid fa-book-open mr-1"></i> Теория
             </button>
-            <button onclick="jumpToTest()" class="px-3.5 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition shadow-sm flex items-center gap-1.5">
-                <i class="fa-solid fa-pen-to-square"></i> ZIREK Тест (15 суроо)
+            <button onclick="jumpToTest()" class="px-3.5 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition shadow-xs flex items-center gap-1.5">
+                <i class="fa-solid fa-pen-to-square"></i> Тест (40 суроо)
             </button>
-            <button onclick="openAdminPrompt()" class="px-3 py-1.5 text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition border border-amber-200 flex items-center gap-1.5">
-                <i class="fa-solid fa-user-shield text-amber-600"></i> Админка
-            </button>
-            <div id="slide-indicator" class="font-mono text-xs font-bold text-gray-600 bg-white px-2.5 py-1.5 rounded-lg border border-gray-200 shadow-2xs">
-                01 / 14
+            <div id="slide-indicator" class="font-mono text-xs font-bold text-slate-700 bg-white px-2.5 py-1.5 rounded-lg border border-gray-200 shadow-2xs">
+                01 / 05
             </div>
         </div>
     </header>
 
-    <!-- Main Presentation & Content Section -->
+    <!-- Main Container -->
     <main class="w-full max-w-6xl mx-auto px-4 md:px-6 my-auto flex-grow flex items-center justify-center py-6">
 
-        <!-- Slide 1: Title -->
-        <section class="slide active fade-in flex-col justify-center items-center text-center w-full py-8">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 text-blue-700 rounded-full text-xs font-semibold uppercase tracking-wider mb-6">
-                <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-                ЖРТга Математикалык даярдык
+        <!-- Slide 1: Welcome & Overview -->
+        <section class="slide active fade-in flex-col justify-center items-center text-center w-full py-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 border border-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wider mb-5">
+                <i class="fa-solid fa-award"></i> ЖРТ Математика • ZIREK Интерактив Окуу Курсу
             </div>
-            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-4 uppercase">
+            <h1 class="text-3xl md:text-5xl font-black tracking-tight text-slate-900 mb-4 uppercase">
                 Жөнөкөй бөлчөктөр
             </h1>
-            
-            <div class="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm max-w-md w-full">
-                <p class="text-xs uppercase tracking-widest font-bold text-slate-400 mb-2">Автор & Мугалим</p>
-                <p class="text-xl font-extrabold text-slate-800">Дайырбек Гүлжигитов</p>
-                <div class="mt-3 pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs text-slate-600">
-                    <div class="bg-slate-50 p-2 rounded-lg">
-                        <span class="block font-bold text-blue-600 text-sm">207 Балл</span>
-                        ОРТ 2026 (Мат: 124)
-                    </div>
-                    <div class="bg-slate-50 p-2 rounded-lg">
-                        <span class="block font-bold text-blue-600 text-sm">200 Балл</span>
-                        ОРТ 2025 (Мат: 128)
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 2: Бөлчөктүн түзүлүшү -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">01. Негизги Түшүнүк</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Бөлчөктүн Түзүлүшү</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm text-center">
-                    <div class="text-6xl md:text-7xl font-serif text-slate-900 font-bold mb-4">
-                        $$\frac{A}{B}$$
-                    </div>
-                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Жөнөкөй бөлчөк форматы</p>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="p-5 bg-white border border-slate-200/80 rounded-2xl shadow-2xs">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-extrabold text-blue-600 uppercase tracking-wide">A — АЛЫМ</span>
-                            <span class="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-bold">Жогорку сан</span>
-                        </div>
-                        <p class="text-sm text-slate-600">Канча бөлүк алынганын же эсептелгенин көрсөтөт.</p>
-                    </div>
-
-                    <div class="p-5 bg-white border border-slate-200/80 rounded-2xl shadow-2xs">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-extrabold text-amber-600 uppercase tracking-wide">B — БӨЛҮМ</span>
-                            <span class="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded font-bold">$B \neq 0$</span>
-                        </div>
-                        <p class="text-sm text-slate-600">Бүтүн нерсе канча барабар бөлүккө бөлүнгөнүн көрсөтөт.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 3: Бөлчөктөрдүн классификациясы -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">02. Типтер</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8 text-center">Бөлчөктөрдүн Классификациясы</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl shadow-2xs flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs font-extrabold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase">1. Дурус бөлчөк</span>
-                        <p class="text-slate-600 text-sm mt-3 mb-4">Алым < Бөлүм ($A < B$). Мааниси $1$ден дайыма кичине.</p>
-                    </div>
-                    <div class="text-2xl text-center py-3 bg-slate-50 rounded-xl font-bold">
-                        $$\frac{2}{3}, \quad \frac{5}{8}$$
-                    </div>
-                </div>
-
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl shadow-2xs flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full uppercase">2. Буруш бөлчөк</span>
-                        <p class="text-slate-600 text-sm mt-3 mb-4">Алым $\ge$ Бөлүм ($A \ge B$). Мааниси $1$ге барабар же чоң.</p>
-                    </div>
-                    <div class="text-2xl text-center py-3 bg-slate-50 rounded-xl font-bold">
-                        $$\frac{7}{3}, \quad \frac{5}{5}$$
-                    </div>
-                </div>
-
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl shadow-2xs flex flex-col justify-between">
-                    <div>
-                        <span class="text-xs font-extrabold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full uppercase">3. Аралаш сан</span>
-                        <p class="text-slate-600 text-sm mt-3 mb-4">Бүтүн сан + Дурус бөлчөк айкалышы.</p>
-                    </div>
-                    <div class="text-2xl text-center py-3 bg-slate-50 rounded-xl font-bold">
-                        $$2 \frac{1}{3} = \frac{7}{3}$$
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 4: Координаталык түз сызык -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">03. Графика</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8 text-center">Координаталык Түз Сызык</h2>
-
-            <div class="p-8 bg-white border border-slate-200/80 rounded-2xl shadow-sm text-center">
-                <div class="relative my-8 py-6 max-w-2xl mx-auto flex items-center justify-between border-b-2 border-slate-800">
-                    <div class="flex flex-col items-center">
-                        <span class="w-3 h-3 bg-slate-900 rounded-full -mb-1.5 z-10"></span>
-                        <span class="mt-4 font-extrabold text-slate-900">0</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="w-2.5 h-2.5 bg-blue-600 rounded-full -mb-1.2 z-10"></span>
-                        <span class="mt-4 font-bold text-blue-600">$$\frac{1}{5}$$</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="w-2.5 h-2.5 bg-blue-600 rounded-full -mb-1.2 z-10"></span>
-                        <span class="mt-4 font-bold text-blue-600">$$\frac{2}{5}$$</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="w-4 h-4 bg-indigo-600 rounded-full -mb-2 z-10 ring-4 ring-indigo-100"></span>
-                        <span class="mt-4 font-extrabold text-indigo-700 text-lg">$$\frac{3}{5}$$</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="w-2.5 h-2.5 bg-blue-600 rounded-full -mb-1.2 z-10"></span>
-                        <span class="mt-4 font-bold text-blue-600">$$\frac{4}{5}$$</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="w-3 h-3 bg-slate-900 rounded-full -mb-1.5 z-10"></span>
-                        <span class="mt-4 font-extrabold text-slate-900">1</span>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto text-left text-xs mt-6">
-                    <div class="p-3 bg-slate-50 rounded-xl"><strong>Бөлүм (5):</strong> Бүтүндү 5 барабар аралыкка бөлөт.</div>
-                    <div class="p-3 bg-slate-50 rounded-xl"><strong>Алым (3):</strong> 0дөн баштап оңго карай 3 кадам таштайт.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 5: Барабар бөлчөктөр жана кыскартуу -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">04. Касиеттер</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8 text-center">Барабар Бөлчөктөр & Кыскартуу</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl shadow-2xs">
-                    <h3 class="font-bold text-slate-900 mb-3 text-lg">Негизги Эреже:</h3>
-                    <div class="text-2xl py-4 bg-slate-50 rounded-xl text-center mb-4 font-bold">
-                        $$\frac{a}{b} = \frac{a \cdot c}{b \cdot c} \quad (c \neq 0)$$
-                    </div>
-                    <p class="text-xs text-slate-600">Бөлчөктүн алымын да, бөлүмүн да бирдей санга көбөйтсөк же бөлсөк, анын мааниси өзгөрбөйт.</p>
-                </div>
-
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl shadow-2xs">
-                    <h3 class="font-bold text-slate-900 mb-3 text-lg">Кыскартуу Мисалы:</h3>
-                    <div class="text-2xl py-4 bg-blue-50/60 rounded-xl text-center mb-4 font-bold text-blue-900">
-                        $$\frac{24}{36} = \frac{24 \div 12}{36 \div 12} = \frac{2}{3}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Эң Чоң Жалпы Бөлүүчүнү (ЭЧЖБ = 12) табуу менен эң жөнөкөй формага келтиребиз.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 6: Мейкиндикти кеңейтүү -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">05. Логика</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Ортодогу Бөлчөктү Табуу (Кеңейтүү)</h2>
-
-            <div class="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-2xs mb-6">
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Тапшырма</p>
-                <p class="text-lg font-bold text-slate-900">$$\frac{1}{3} \text{ жана } \frac{2}{3} \text{ бөлчөктөрүнүн ортосунда кайсы бөлчөк бар?}$$</p>
-            </div>
-
-            <div class="bg-emerald-50 border border-emerald-200/80 p-6 rounded-2xl">
-                <p class="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">Чечүү Жолу (2ге кеңейтүү):</p>
-                <div class="text-2xl text-center py-3 bg-white rounded-xl font-bold my-2 text-slate-900 shadow-2xs">
-                    $$\frac{1 \cdot 2}{3 \cdot 2} = \frac{2}{6} \quad \text{жана} \quad \frac{2 \cdot 2}{3 \cdot 2} = \frac{4}{6}$$
-                </div>
-                <p class="text-center font-bold text-emerald-900 text-lg mt-3">
-                    Жооп: Ортодогу бөлчөк = $$\mathbf{\frac{3}{6} = \frac{1}{2}}$$
-                </p>
-            </div>
-        </section>
-
-        <!-- Slide 7: Даражалардын механикасы -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">06. Даражалар</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8 text-center">Терс Даражалуу Бөлчөктөр</h2>
-
-            <div class="p-8 bg-white border border-slate-200/80 rounded-2xl shadow-sm text-center max-w-2xl mx-auto w-full">
-                <div class="text-3xl md:text-5xl font-bold text-slate-900 my-6">
-                    $$\left( \frac{2}{3} \right)^{-3} = \left( \frac{3}{2} \right)^{3} = \frac{3^3}{2^3} = \frac{27}{8}$$
-                </div>
-                <div class="p-4 bg-amber-50 border border-amber-200/80 rounded-xl text-amber-900 text-xs font-semibold text-left">
-                    <i class="fa-solid fa-lightbulb text-amber-600 mr-2"></i>
-                    <strong>Терс даража эрежеси:</strong> Бөлчөктүн даражасы терс болсо, бөлчөктү тескерисинен оодарып, даражасын оң кылып алабыз!
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 8: Кошуу жана кемитүү -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">07. Амалдар</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8">Кошуу жана Кемитүү</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl">
-                    <span class="text-xs font-bold text-blue-600 uppercase">1. Бөлүмдөрү бирдей</span>
-                    <div class="text-2xl py-4 bg-slate-50 rounded-xl text-center my-3 font-bold">
-                        $$\frac{3}{4} + \frac{2}{4} = \frac{3+2}{4} = \frac{5}{4}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Алымдары гана кошулат, бөлүмү өзгөрүүсүз калат.</p>
-                </div>
-
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl">
-                    <span class="text-xs font-bold text-blue-600 uppercase">2. Бөлүмдөрү ар түрдүү (Көбөлөк ыкмасы)</span>
-                    <div class="text-2xl py-4 bg-slate-50 rounded-xl text-center my-3 font-bold">
-                        $$\frac{4}{7} + \frac{2}{5} = \frac{20 + 14}{35} = \frac{34}{35}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Жалпы бөлүм $7 \times 5 = 35$ табылат.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 9: Көбөйтүү жана бөлүү -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">08. Амалдар</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8">Көбөйтүү жана Бөлүү</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl">
-                    <span class="text-xs font-bold text-indigo-600 uppercase">Көбөйтүү (Түз жол)</span>
-                    <div class="text-2xl py-4 bg-indigo-50/50 rounded-xl text-center my-3 font-bold">
-                        $$\frac{15}{6} \cdot \frac{3}{4} = \frac{45}{24} = \frac{15}{8}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Алымын алымына, бөлүмүн бөлүмүнө көбөйтөбүз.</p>
-                </div>
-
-                <div class="p-6 bg-white border border-slate-200/80 rounded-2xl">
-                    <span class="text-xs font-bold text-indigo-600 uppercase">Бөлүү (Реверс)</span>
-                    <div class="text-2xl py-4 bg-indigo-50/50 rounded-xl text-center my-3 font-bold">
-                        $$\frac{2}{5} \div \frac{8}{15} = \frac{2}{5} \cdot \frac{15}{8} = \frac{30}{40} = \frac{3}{4}$$
-                    </div>
-                    <p class="text-xs text-slate-600">Экинчи бөлчөктү оодарып, көбөйтүүгө айландырабыз.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 10: Башкы стратегия (Шпаргалка) -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">09. Шпаргалка</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-8 text-center">Татаал Мисалдарды Чечүү Стратегиясы</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-4 bg-white border border-slate-200/80 rounded-xl text-xs">
-                    <span class="font-extrabold text-blue-600 block mb-1">1-кадам:</span>
-                    Аралаш сандарды буруш бөлчөккө айландыруу ($1 \frac{1}{2} \to 3/2$).
-                </div>
-                <div class="p-4 bg-white border border-slate-200/80 rounded-xl text-xs">
-                    <span class="font-extrabold text-blue-600 block mb-1">2-кадам:</span>
-                    Бөлүүдө экинчи бөлчөктү оодарып көбөйтүү ($\div 3/4 \to \times 4/3$).
-                </div>
-                <div class="p-4 bg-white border border-slate-200/80 rounded-xl text-xs">
-                    <span class="font-extrabold text-blue-600 block mb-1">3-кадам:</span>
-                    Терс даражадан арылуу кадамдары.
-                </div>
-                <div class="p-4 bg-white border border-slate-200/80 rounded-xl text-xs">
-                    <span class="font-extrabold text-blue-600 block mb-1">4-кадам:</span>
-                    Алым-бөлүмүн өз-өзүнчө кашаа боюнча иреттөө.
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 11: ОРТ Стратегиясы: Мамилелер -->
-        <section class="slide fade-in flex-col justify-center w-full py-6">
-            <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">10. ЖРТ Тактикасы</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-6 text-center">Сандарды Салыштыруу (Колонкалар)</h2>
-
-            <div class="p-6 bg-white border border-slate-200/80 rounded-2xl shadow-sm text-center">
-                <p class="text-xs text-slate-500 font-bold uppercase mb-4">ЖРТ суроолорунда бардык эсептөөнү аягына чыгаруу дайыма эле керек эмес!</p>
-                <div class="grid grid-cols-2 gap-6 my-4">
-                    <div class="p-4 bg-blue-50 border border-blue-200/80 rounded-xl">
-                        <span class="text-xs font-bold text-blue-600 uppercase">А Колонкасы</span>
-                        <div class="text-2xl font-black text-slate-900 my-2">$$\frac{31}{13}$$</div>
-                        <span class="text-[11px] text-emerald-600 font-semibold">Буруш бөлчөк (> 1)</span>
-                    </div>
-                    <div class="p-4 bg-amber-50 border border-amber-200/80 rounded-xl">
-                        <span class="text-xs font-bold text-amber-600 uppercase">Б Колонкасы</span>
-                        <div class="text-2xl font-black text-slate-900 my-2">$$\frac{13}{31}$$</div>
-                        <span class="text-[11px] text-amber-600 font-semibold">Дурус бөлчөк (< 1)</span>
-                    </div>
-                </div>
-                <p class="text-xs font-bold text-blue-700 bg-blue-50 py-2 rounded-lg mt-2">
-                    Эч кандай эсептөөсүз эле: А колонкасы чоң! (А вариант)
-                </p>
-            </div>
-        </section>
-
-        <!-- Slide 12: Практикага өтүү анонсу -->
-        <section class="slide fade-in flex-col justify-center items-center text-center w-full py-8">
-            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl font-bold mb-4">
-                <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-                Эми Практикага Даярсызбы?
-            </h2>
-            <p class="text-slate-600 max-w-lg mb-8 text-sm">
-                Төмөнкү ZIREK TEST бөлүмүнөн 15 ЖРТ сандык салыштыруу (колонка) суроосуна жооп берип, өз билимиңизди дароо текшериңиз!
+            <p class="text-slate-600 max-w-2xl text-sm mb-8 leading-relaxed">
+                Бул презентацияда ЖРТда эң көп кездешкен бөлчөктөр темасынын бардык эрежелери, ылдам чыгаруу лайфхактары жана окуу куралындагы бардык 40 суроонун онлайн тести камтылган.
             </p>
-            <button onclick="jumpToTest()" class="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl shadow-md transition transform active:scale-95 text-sm flex items-center gap-2">
-                Тестке Өтүү (15 суроо) <i class="fa-solid fa-arrow-right"></i>
-            </button>
+            
+            <!-- Quick Topic Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl mb-8 text-left">
+                <div onclick="goToSlide(1)" class="p-4 bg-white border border-slate-200/80 rounded-2xl hover:border-blue-500 hover:shadow-md transition cursor-pointer group">
+                    <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center font-bold text-sm mb-2 group-hover:bg-blue-600 group-hover:text-white transition">1</div>
+                    <h3 class="font-bold text-slate-900 text-xs mb-1">Бөлчөк түшүнүгү</h3>
+                    <p class="text-slate-500 text-[11px]">Дурус, буруш жана аралаш сандарды айырмалоо.</p>
+                </div>
+                <div onclick="goToSlide(2)" class="p-4 bg-white border border-slate-200/80 rounded-2xl hover:border-blue-500 hover:shadow-md transition cursor-pointer group">
+                    <div class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-sm mb-2 group-hover:bg-indigo-600 group-hover:text-white transition">2</div>
+                    <h3 class="font-bold text-slate-900 text-xs mb-1">Арифметикалык амалдар</h3>
+                    <p class="text-slate-500 text-[11px]">Кошуу, кемитүү, көбөйтүү жана бөлүү алгоритмдери.</p>
+                </div>
+                <div onclick="goToSlide(3)" class="p-4 bg-white border border-slate-200/80 rounded-2xl hover:border-blue-500 hover:shadow-md transition cursor-pointer group">
+                    <div class="w-8 h-8 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center font-bold text-sm mb-2 group-hover:bg-amber-600 group-hover:text-white transition">3</div>
+                    <h3 class="font-bold text-slate-900 text-xs mb-1">ЖРТ Лайфхактары</h3>
+                    <p class="text-slate-500 text-[11px]">Колонкаларды кайчылаш көбөйтүү жана 1ге толуктоо эрежеси.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="nextSlide()" class="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl shadow-md transition active:scale-95 text-xs flex items-center gap-2">
+                    Теорияны баштоо <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button onclick="jumpToTest()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition active:scale-95 text-xs flex items-center gap-2">
+                    Түз тестке өтүү (40 суроо) <i class="fa-solid fa-pen"></i>
+                </button>
+            </div>
         </section>
 
-        <!-- Slide 13: ZIREK TEST PAGE -->
+        <!-- Slide 2: Theory 1 - Fraction Types -->
+        <section class="slide fade-in flex-col justify-center w-full py-4">
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm mb-4">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                    <span class="text-xs font-black uppercase text-blue-600 tracking-wider">1-Сабак • Теория</span>
+                    <span class="text-xs font-bold bg-blue-50 text-blue-700 px-3 py-1 rounded-full">Бөлчөк түшүнүгү жана түрлөрү</span>
+                </div>
+
+                <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200/60 flex flex-col md:flex-row items-center justify-around gap-4 text-center">
+                    <div class="text-2xl font-black text-slate-900">
+                        $$\frac{a}{b} = \frac{\text{Алым (Числитель)}}{\text{Бөлүм (Знаменатель)}}$$
+                    </div>
+                    <p class="text-xs text-slate-600 max-w-md text-left">
+                        <b>Бөлүм ($b$)</b> — бүтүн нерсе канча барабар бөлүккө бөлүнгөнүн көрсөтөт.<br>
+                        <b>Алым ($a$)</b> — ошол бөлүктөрдүн канчасы алынганын көрсөтөт. ($b \neq 0$)
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-emerald-50/50 border border-emerald-200 rounded-xl">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                            <h4 class="font-extrabold text-xs text-emerald-900 uppercase">1. Дурус бөлчөк</h4>
+                        </div>
+                        <p class="text-xs text-slate-700 mb-2">Алымы бөлүмүнөн кичине ($a < b$). Мааниси <b>1ден кичине</b>.</p>
+                        <div class="bg-white p-2 rounded-lg text-center font-bold text-emerald-700 border border-emerald-100">
+                            $$\frac{3}{5} < 1, \quad \frac{7}{12} < 1$$
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-amber-50/50 border border-amber-200 rounded-xl">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+                            <h4 class="font-extrabold text-xs text-amber-900 uppercase">2. Буруш бөлчөк</h4>
+                        </div>
+                        <p class="text-xs text-slate-700 mb-2">Алымы бөлүмүнөн чоң же барабар ($a \ge b$). Мааниси <b>1ге барабар же чоң</b>.</p>
+                        <div class="bg-white p-2 rounded-lg text-center font-bold text-amber-700 border border-amber-100">
+                            $$\frac{8}{5} > 1, \quad \frac{13}{13} = 1$$
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-indigo-50/50 border border-indigo-200 rounded-xl">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-cubes text-indigo-600"></i>
+                            <h4 class="font-extrabold text-xs text-indigo-900 uppercase">3. Аралаш сан</h4>
+                        </div>
+                        <p class="text-xs text-slate-700 mb-2">Бүтүн сан жана дурус бөлчөктүн суммасынан турат.</p>
+                        <div class="bg-white p-2 rounded-lg text-center font-bold text-indigo-700 border border-indigo-100">
+                            $$2 \frac{3}{5} = \frac{2 \cdot 5 + 3}{5} = \frac{13}{5}$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Theory 2 - Operations -->
+        <section class="slide fade-in flex-col justify-center w-full py-4">
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm mb-4">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                    <span class="text-xs font-black uppercase text-indigo-600 tracking-wider">2-Сабак • Теория</span>
+                    <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">Бөлчөктөр үстүнөн арифметикалык амалдар</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                        <h4 class="font-extrabold text-xs text-slate-800 uppercase mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus-minus text-blue-600"></i> Кошуу жана Кемитүү
+                        </h4>
+                        <p class="text-xs text-slate-600 mb-2">Бөлчөктөрдүн бөлүмдөрү бирдей болсо, алымдары кошулат же кемитилет. Башкача болсо, жалпы бөлүмгө (ЭКОК) келтиребиз.</p>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-center font-bold text-slate-800">
+                            $$\frac{a}{c} + \frac{b}{c} = \frac{a+b}{c}, \quad \frac{1}{3} + \frac{1}{2} = \frac{2+3}{6} = \frac{5}{6}$$
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                        <h4 class="font-extrabold text-xs text-slate-800 uppercase mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-xmark text-indigo-600"></i> Көбөйтүү
+                        </h4>
+                        <p class="text-xs text-slate-600 mb-2">Алымды алымга, бөлүмдү бөлүмгө көбөйтөбүз. Жалпы бөлүм табуу талап кылынбайт!</p>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-center font-bold text-slate-800">
+                            $$\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}, \quad \frac{2}{5} \cdot \frac{3}{4} = \frac{6}{20} = \frac{3}{10}$$
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                        <h4 class="font-extrabold text-xs text-slate-800 uppercase mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-divide text-emerald-600"></i> Бөлүү
+                        </h4>
+                        <p class="text-xs text-slate-600 mb-2">Экинчи бөлчөктү оодарып (кайтарым бөлчөк), көбөйтүү амалына айландырабыз.</p>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-center font-bold text-slate-800">
+                            $$\frac{a}{b} \div \frac{c}{d} = \frac{a}{b} \cdot \frac{d}{c} = \frac{a \cdot d}{b \cdot c}$$
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                        <h4 class="font-extrabold text-xs text-slate-800 uppercase mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-percent text-amber-600"></i> Бөлчөктүн негизги касиети
+                        </h4>
+                        <p class="text-xs text-slate-600 mb-2">Бөлчөктүн алымын жана бөлүмүн бирдей нөлдөн айырмалуу санга көбөйтсөк же бөлсөк, бөлчөктүн мааниси өзгөрбөйт.</p>
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-center font-bold text-slate-800">
+                            $$\frac{a}{b} = \frac{a \cdot k}{b \cdot k}, \quad \frac{12}{18} = \frac{12 \div 6}{18 \div 6} = \frac{2}{3}$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Theory 3 - JRT Hacks & Comparison -->
+        <section class="slide fade-in flex-col justify-center w-full py-4">
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm mb-4">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                    <span class="text-xs font-black uppercase text-amber-600 tracking-wider">3-Сабак • ЖРТ Лайфхактары</span>
+                    <span class="text-xs font-bold bg-amber-50 text-amber-700 px-3 py-1 rounded-full">Бөлчөктөрдү ылдам салыштыруу</span>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="p-3.5 bg-blue-50/60 border border-blue-200 rounded-xl flex items-start gap-3">
+                        <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-extrabold text-xs shrink-0 mt-0.5">1</span>
+                        <div>
+                            <h5 class="font-bold text-xs text-slate-900">Бөлүмдөрү бирдей болсо:</h5>
+                            <p class="text-xs text-slate-600">Алымы чоң болгон бөлчөк чоң болот. Мисалы: $\frac{7}{11} > \frac{5}{11}$</p>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 bg-indigo-50/60 border border-indigo-200 rounded-xl flex items-start gap-3">
+                        <span class="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center font-extrabold text-xs shrink-0 mt-0.5">2</span>
+                        <div>
+                            <h5 class="font-bold text-xs text-slate-900">Алымдары бирдей болсо:</h5>
+                            <p class="text-xs text-slate-600">Бөлүмү КИЧИНЕ болгон бөлчөк ЧОҢ болот! Мисалы: $\frac{9}{11} > \frac{9}{13}$</p>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 bg-emerald-50/60 border border-emerald-200 rounded-xl flex items-start gap-3">
+                        <span class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center font-extrabold text-xs shrink-0 mt-0.5">3</span>
+                        <div>
+                            <h5 class="font-bold text-xs text-slate-900">Кайчылаш көбөйтүү (Бычак эрежеси):</h5>
+                            <p class="text-xs text-slate-600">$\frac{a}{b}$ жана $\frac{c}{d}$ үчүн $a \cdot d$ менен $b \cdot c$ көбөйтүндүсүн салыштырабыз. Мисалы $\frac{3}{7}$ жана $\frac{4}{9} \implies 3 \cdot 9 = 27 < 4 \cdot 7 = 28 \implies \frac{3}{7} < \frac{4}{9}$.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 bg-rose-50/60 border border-rose-200 rounded-xl flex items-start gap-3">
+                        <span class="w-6 h-6 bg-rose-600 text-white rounded-full flex items-center justify-center font-extrabold text-xs shrink-0 mt-0.5">4</span>
+                        <div>
+                            <h5 class="font-bold text-xs text-slate-900">Терс бөлчөктөрдү салыштыруу:</h5>
+                            <p class="text-xs text-slate-600">Терс сандарда нөлгө жакыны (модулу кичинеси) чоң болот! Мисалы: $-\frac{8}{9} > -\frac{9}{8}$ анткени $-0.88 > -1.125$.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: SECOM 40 QUESTIONS TEST -->
         <section id="test-slide" class="slide fade-in flex-col justify-center w-full py-4">
             
-            <!-- Student Reg Form Box -->
-            <div class="bg-white border-2 border-blue-600/30 rounded-2xl p-6 shadow-sm mb-8">
-                <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+            <!-- Student Form -->
+            <div class="bg-white border-2 border-blue-600/30 rounded-2xl p-6 shadow-sm mb-6">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
                     <div>
-                        <h2 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-clipboard-check text-blue-600"></i> ZIREK TEST — Онлайн Тест тапшыруу
+                        <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-user-pen text-blue-600"></i> Окуучуну каттоо жана Тест /test18
                         </h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Маалыматтарыңызды толтуруп, 15 суроого жооп бериңиз.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Маалыматыңызды жазып, 40 суроого жооп бериңиз.</p>
                     </div>
-                    <span class="text-xs bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-full border border-blue-100">
-                        Тест коду: /test18
+                    <span class="text-xs bg-emerald-50 text-emerald-700 font-bold px-3 py-1 rounded-full border border-emerald-200">
+                        40 суроо камтылды
                     </span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Аты-жөнүңүз *</label>
-                        <input type="text" id="student-name" placeholder="Мисалы: Асан Усенов" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50/50">
+                        <input type="text" id="student-name" placeholder="Мисалы: Дайырбек Асанов" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50/50">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Телефон номериңиз *</label>
-                        <input type="tel" id="student-phone" placeholder="0550 123 456" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50/50">
+                        <input type="tel" id="student-phone" placeholder="0550 000 000" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50/50">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Тесттин аты (Default)</label>
-                        <input type="text" id="test-title" value="Жөнөкөй бөлчөктөр - 18-тест" readonly class="w-full px-3.5 py-2 text-sm border border-slate-200 rounded-xl bg-slate-100 text-slate-600 font-semibold cursor-not-allowed">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Тесттин аталышы</label>
+                        <input type="text" id="test-title" value="Жөнөкөй бөлчөктөр - 40 суроо (/test18)" readonly class="w-full px-3.5 py-2 text-sm border border-slate-200 rounded-xl bg-slate-100 text-slate-600 font-semibold cursor-not-allowed">
                     </div>
                 </div>
             </div>
 
-            <!-- Options key legend -->
-            <div class="bg-slate-100 border border-slate-200/80 p-4 rounded-xl mb-6 text-xs text-slate-700 grid grid-cols-2 md:grid-cols-4 gap-2 font-medium">
+            <!-- Legend for Column Questions -->
+            <div class="bg-slate-100 border border-slate-200/80 p-3.5 rounded-xl mb-6 text-xs text-slate-700 grid grid-cols-2 md:grid-cols-4 gap-2 font-medium">
                 <div class="flex items-center gap-1.5"><span class="w-5 h-5 bg-blue-600 text-white rounded font-bold inline-flex items-center justify-center text-[10px]">А</span> А колонкасы чоң</div>
                 <div class="flex items-center gap-1.5"><span class="w-5 h-5 bg-blue-600 text-white rounded font-bold inline-flex items-center justify-center text-[10px]">Б</span> Б колонкасы чоң</div>
                 <div class="flex items-center gap-1.5"><span class="w-5 h-5 bg-blue-600 text-white rounded font-bold inline-flex items-center justify-center text-[10px]">В</span> Эки чоңдук барабар</div>
                 <div class="flex items-center gap-1.5"><span class="w-5 h-5 bg-blue-600 text-white rounded font-bold inline-flex items-center justify-center text-[10px]">Г</span> Аныктоо мүмкүн эмес</div>
             </div>
 
-            <!-- 15 Questions List -->
+            <!-- Questions Container -->
             <div id="questions-container" class="space-y-6">
-                <!-- Dynamically Generated via JavaScript -->
+                <!-- 40 Questions dynamically rendered here -->
             </div>
 
-            <!-- Submit Button & Feedback -->
+            <!-- Submit Button -->
             <div class="mt-8 text-center pt-4 border-t border-slate-200">
                 <button id="submit-btn" onclick="submitTest()" class="px-10 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base rounded-2xl shadow-lg transition active:scale-95 flex items-center gap-2 mx-auto">
                     <i class="fa-solid fa-paper-plane"></i> Жоопторду базага жөнөтүү жана жыйынтыкты көрүү
                 </button>
             </div>
 
-            <!-- Result Box (Hidden initially) -->
+            <!-- Result Box -->
             <div id="result-box" class="hidden mt-8 p-6 bg-white border-2 border-emerald-500 rounded-2xl shadow-md">
                 <div class="text-center">
                     <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
                         <i class="fa-solid fa-check"></i>
                     </div>
                     <h3 class="text-2xl font-black text-slate-900 mb-1">Жыйынтык даяр!</h3>
-                    <p id="result-user-info" class="text-xs text-slate-500 mb-4"></p>
+                    <p id="result-user-info" class="text-xs text-slate-500 mb-3"></p>
                     <div id="score-badge" class="inline-block px-6 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-2xl font-black text-emerald-700 mb-4">
-                        -- / 15
+                        -- / 40
                     </div>
                     <p id="db-status" class="text-xs font-semibold text-blue-600 bg-blue-50 py-2 px-4 rounded-xl max-w-md mx-auto mb-6">
-                        <i class="fa-solid fa-database mr-1"></i> Жооптор базага сакталды!
+                        <i class="fa-solid fa-database mr-1"></i> Натыйжа сакталды!
                     </p>
                 </div>
 
-                <div id="detailed-review" class="mt-6 border-t border-slate-100 pt-6 space-y-4 text-xs">
-                    <!-- Detailed solutions review rendered here -->
-                </div>
-            </div>
-
-        </section>
-
-        <!-- Slide 14: ADMIN DASHBOARD (Мугалимдер үчүн панель) -->
-        <section id="admin-slide" class="slide fade-in flex-col justify-start w-full py-4">
-            <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-md mb-6 flex flex-wrap items-center justify-between gap-4">
-                <div>
-                    <span class="text-xs text-amber-400 font-bold uppercase tracking-wider block">Мугалимдин Панели</span>
-                    <h2 class="text-2xl font-black flex items-center gap-2">
-                        <i class="fa-solid fa-user-shield text-amber-400"></i> ZIREK TEST — Базадагы жыйынтыктар
-                    </h2>
-                    <p class="text-xs text-slate-400 mt-1">
-                        Жооптор онлайн режиминде (Real-Time Firestore) /test18 базасынан жүктөлөт.
-                    </p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="refreshAdminData()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl border border-slate-700 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-rotate-right" id="refresh-icon"></i> Жаңыртуу
-                    </button>
-                    <button onclick="goToSlide(0)" class="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-extrabold rounded-xl transition">
-                        Презентацияга кайтуу
-                    </button>
-                </div>
-            </div>
-
-            <!-- Stats Overview -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-white p-4 border border-slate-200 rounded-2xl shadow-2xs">
-                    <span class="text-xs font-bold text-slate-400 uppercase">Жалпы Тапшыргандар</span>
-                    <div id="stat-total-students" class="text-3xl font-black text-slate-900 mt-1">0</div>
-                </div>
-                <div class="bg-white p-4 border border-slate-200 rounded-2xl shadow-2xs">
-                    <span class="text-xs font-bold text-slate-400 uppercase">Орточо Упай</span>
-                    <div id="stat-avg-score" class="text-3xl font-black text-blue-600 mt-1">0 / 15</div>
-                </div>
-                <div class="bg-white p-4 border border-slate-200 rounded-2xl shadow-2xs">
-                    <span class="text-xs font-bold text-slate-400 uppercase">Эң Жогорку Балл</span>
-                    <div id="stat-max-score" class="text-3xl font-black text-emerald-600 mt-1">0</div>
-                </div>
-                <div class="bg-white p-4 border border-slate-200 rounded-2xl shadow-2xs">
-                    <span class="text-xs font-bold text-slate-400 uppercase">Сакталган коллекция</span>
-                    <div class="text-xs font-mono font-bold text-slate-700 mt-2 truncate bg-slate-100 p-1.5 rounded">
-                        test_submissions
-                    </div>
-                </div>
-            </div>
-
-            <!-- Filter & Search Controls -->
-            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs mb-6 flex flex-wrap justify-between items-center gap-3">
-                <div class="relative flex-grow max-w-md">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
-                    <input type="text" id="admin-search" oninput="filterAdminSubmissions()" placeholder="Окуучунун аты же телефону боюнча издөө..." class="w-full pl-9 pr-4 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                </div>
-                <div class="text-xs text-slate-500 font-medium">
-                    Реалдуу убакыт туташуусу: <span id="realtime-status" class="font-bold text-emerald-600">Жигердүү <i class="fa-solid fa-circle text-[8px] animate-pulse"></i></span>
-                </div>
-            </div>
-
-            <!-- Submissions Data Table -->
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-2xs overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-xs">
-                        <thead>
-                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider">
-                                <th class="p-3.5">#</th>
-                                <th class="p-3.5">Окуучунун Аты-жөнү</th>
-                                <th class="p-3.5">Телефон номери</th>
-                                <th class="p-3.5 text-center">Жыйынтык (Упай)</th>
-                                <th class="p-3.5 text-center">Пайыз (%)</th>
-                                <th class="p-3.5">Убактысы</th>
-                                <th class="p-3.5 text-center">Аракеттер</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-table-body" class="divide-y divide-slate-100 font-medium text-slate-800">
-                            <tr>
-                                <td colspan="7" class="p-8 text-center text-slate-400">
-                                    <i class="fa-solid fa-spinner fa-spin mr-2"></i> Базадан маалыматтар жүктөлүүдө...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Student Answers Modal View (Hidden by default) -->
-            <div id="student-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-                <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl max-h-[85vh] overflow-y-auto">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
-                        <div>
-                            <h3 id="modal-student-name" class="text-lg font-black text-slate-900">--</h3>
-                            <p id="modal-student-info" class="text-xs text-slate-500">--</p>
-                        </div>
-                        <button onclick="closeStudentModal()" class="w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-600 flex items-center justify-center font-bold">
-                            ✕
-                        </button>
-                    </div>
-
-                    <div id="modal-student-answers" class="space-y-3 text-xs">
-                        <!-- Rendered dynamically -->
-                    </div>
+                <div id="detailed-review" class="mt-6 border-t border-slate-100 pt-6 space-y-3 text-xs">
+                    <!-- Review items -->
                 </div>
             </div>
 
@@ -592,28 +364,25 @@
     </main>
 
     <!-- Bottom Footer Slide Controls -->
-    <footer class="w-full max-w-6xl mx-auto px-4 md:px-6 pb-6 flex items-center justify-between border-t border-gray-200/60 pt-4">
+    <footer class="w-full max-w-6xl mx-auto px-4 md:px-6 pb-5 flex items-center justify-between border-t border-gray-200/60 pt-4">
         <button id="prev-btn" onclick="prevSlide()" class="px-4 py-2 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl hover:bg-slate-50 transition active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs">
             ← Артка
         </button>
 
-        <div class="hidden sm:flex space-x-1.5" id="dots-container">
-            <!-- Dynamic dots created in JS -->
-        </div>
+        <div class="flex space-x-1.5" id="dots-container"></div>
 
         <button id="next-btn" onclick="nextSlide()" class="px-4 py-2 bg-slate-900 text-white font-bold text-xs rounded-xl hover:bg-slate-800 transition active:scale-95 disabled:opacity-30 shadow-2xs">
             Кийинки →
         </button>
     </footer>
 
-    <!-- Firebase Storage Modules -->
+    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Firebase Global Config
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'zirek-test18-app';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'zirek-app';
         let db = null;
         let auth = null;
 
@@ -624,29 +393,22 @@
                 db = getFirestore(app);
                 auth = getAuth(app);
 
-                // Authenticate before write or read
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
-
-                // Initialize Realtime Listener for Admin Dashboard
-                setupAdminRealtimeListener();
             } catch (err) {
-                console.warn("Firebase initialization skipped or failed:", err);
+                console.warn("Firebase Init fallback:", err);
             }
         }
 
-        // Export helper to save test submission to database
         window.saveSubmissionToFirebase = async function(submissionData) {
             if (!db || !auth || !auth.currentUser) {
-                console.log("Saving locally (Firestore not initialized in current environment):", submissionData);
                 return { success: true, localOnly: true };
             }
 
             try {
-                // Mandatory Rule 1 Path: /artifacts/{appId}/public/data/{collectionName}
                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'test_submissions');
                 await addDoc(colRef, {
                     ...submissionData,
@@ -655,206 +417,144 @@
                 });
                 return { success: true, localOnly: false };
             } catch (error) {
-                console.error("Error saving test result to database:", error);
+                console.error("Firebase save error:", error);
                 return { success: false, error: error.message };
             }
         };
-
-        // Realtime Listener for Admin View (Rule 2: Fetch all and sort client side, avoid complex query)
-        function setupAdminRealtimeListener() {
-            if (!db || !auth || !auth.currentUser) return;
-
-            try {
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'test_submissions');
-                
-                onSnapshot(colRef, (snapshot) => {
-                    const submissions = [];
-                    snapshot.forEach(doc => {
-                        submissions.push({
-                            docId: doc.id,
-                            ...doc.data()
-                        });
-                    });
-
-                    // Sort by createdAt descending in JS memory
-                    submissions.sort((a, b) => {
-                        const dateA = new Date(a.createdAt || 0);
-                        const dateB = new Date(b.createdAt || 0);
-                        return dateB - dateA;
-                    });
-
-                    window.allSubmissionsData = submissions;
-                    if (window.renderAdminTable) {
-                        window.renderAdminTable(submissions);
-                    }
-                }, (error) => {
-                    console.error("Realtime listener error:", error);
-                    const statusEl = document.getElementById('realtime-status');
-                    if (statusEl) statusEl.innerHTML = `<span class="text-rose-600 font-bold">Туташуу катасы: ${error.message}</span>`;
-                });
-            } catch (err) {
-                console.error("Failed to setup snapshot:", err);
-            }
-        }
-
-        window.triggerRealtimeReload = setupAdminRealtimeListener;
     </script>
 
+    <!-- Questions Dataset & App Logic -->
     <script>
-        // 15 Quantitative Comparison Test Questions Dataset
-        const questionsData = [
-            {
-                id: 1,
-                colA: "$$\\frac{3}{4} + \\frac{1}{2}$$",
-                colB: "$$\\frac{4}{3}$$",
-                correctKey: "B",
-                explanation: "А колонкасы: $\\frac{3}{4} + \\frac{2}{4} = \\frac{5}{4} = 1.25$. Б колонкасы: $\\frac{4}{3} \\approx 1.33$. Андыктан Б > А."
-            },
-            {
-                id: 2,
-                colA: "$$2 \\frac{1}{3}$$",
-                colB: "$$\\frac{14}{6}$$",
-                correctKey: "C",
-                explanation: "А колонкасы: $2 \\frac{1}{3} = \\frac{7}{3}$. Б колонкасы: $\\frac{14}{6} = \\frac{7}{3}$. Андыктан А = Б."
-            },
-            {
-                id: 3,
-                colA: "$$\\left( \\frac{2}{3} \\right)^{-2}$$",
-                colB: "$$\\left( \\frac{3}{2} \\right)^{2}$$",
-                correctKey: "C",
-                explanation: "Терс даража эрежеси: $\\left( \\frac{2}{3} \\right)^{-2} = \\left( \\frac{3}{2} \\right)^{2} = \\frac{9}{4}$. Экөө тең барабар."
-            },
-            {
-                id: 4,
-                colA: "$$x^2$$ ($0 < x < 1$ болсо)",
-                colB: "$$x$$",
-                correctKey: "B",
-                explanation: "Эгер сан $0$ менен $1$ ортосунда болсо (мисалы $x = 0.5$), анда $x^2 = 0.25 < 0.5$. Демек Б > А."
-            },
-            {
-                id: 5,
-                colA: "$$\\frac{15}{16} \\cdot \\frac{16}{17}$$",
-                colB: "$$\\frac{15}{17}$$",
-                correctKey: "C",
-                explanation: "А колонкасында $16$лар кыскарып, $\\frac{15}{17}$ калат. Эки колонка тең барабар."
-            },
-            {
-                id: 6,
-                colA: "$$\\frac{1}{3} \\div \\frac{1}{6}$$",
-                colB: "$$\\frac{1}{2} \\cdot 4$$",
-                correctKey: "C",
-                explanation: "А колонкасы: $\\frac{1}{3} \\cdot 6 = 2$. Б колонкасы: $\\frac{1}{2} \\cdot 4 = 2$. Эки маани барабар."
-            },
-            {
-                id: 7,
-                colA: "$$\\frac{31}{13}$$",
-                colB: "$$\\frac{13}{31}$$",
-                correctKey: "A",
-                explanation: "А колонкасы - Буруш бөлчөк ($> 1$). Б колонкасы - Дурус бөлчөк ($< 1$). Демек А > Б."
-            },
-            {
-                id: 8,
-                colA: "$$\\frac{a+1}{b+1}$$ ($a, b > 0$)",
-                colB: "$$\\frac{a}{b}$$",
-                correctKey: "D",
-                explanation: "Салыштыруу $a$ менен $b$нын катышына көз каранды (эгер $a < b$ болсо А чоң, эгер $a > b$ болсо Б чоң). Аныктоо мүмкүн эмес."
-            },
-            {
-                id: 9,
-                colA: "$$\\frac{1}{2} + \\frac{1}{3} + \\frac{1}{6}$$",
-                colB: "$$1$$",
-                correctKey: "C",
-                explanation: "А колонкасы: $\\frac{3+2+1}{6} = \\frac{6}{6} = 1$. Эки маани барабар."
-            },
-            {
-                id: 10,
-                colA: "$$\\frac{7}{8}$$",
-                colB: "$$\\frac{8}{9}$$",
-                correctKey: "B",
-                explanation: "Экөө тең $1$ге жетпейт. $1 - \\frac{7}{8} = \\frac{1}{8}$, ал эми $1 - \\frac{8}{9} = \\frac{1}{9}$. $\\frac{1}{9} < \\frac{1}{8}$ болгондуктан, $\\frac{8}{9}$ чоңураак."
-            },
-            {
-                id: 11,
-                colA: "$$\\left( \\frac{1}{2} \\right)^{3}$$",
-                colB: "$$\\left( \\frac{1}{2} \\right)^{4}$$",
-                correctKey: "A",
-                explanation: "А колонкасы: $\\frac{1}{8} = 0.125$. Б колонкасы: $\\frac{1}{16} = 0.0625$. А > Б."
-            },
-            {
-                id: 12,
-                colA: "$\\frac{5}{12}$ жана $\\frac{7}{12}$ орточо арифметикасы",
-                colB: "$$\\frac{1}{2}$$",
-                correctKey: "C",
-                explanation: "Орточо сан: $\\frac{5/12 + 7/12}{2} = \\frac{12/12}{2} = \\frac{1}{2}$. Экөө тең барабар."
-            },
-            {
-                id: 13,
-                colA: "$$3 \\div \\frac{1}{3}$$",
-                colB: "$$3 \\cdot 3$$",
-                correctKey: "C",
-                explanation: "А колонкасы: $3 \\cdot 3 = 9$. Б колонкасы: $3 \\cdot 3 = 9$. Эки колонка барабар."
-            },
-            {
-                id: 14,
-                colA: "$$\\frac{x}{2}$$ ($x < 0$ болсо)",
-                colB: "$$\\frac{x}{3}$$",
-                correctKey: "B",
-                explanation: "Мисалы $x = -6$ болсун. А колонкасы: $\\frac{-6}{2} = -3$. Б колонкасы: $\\frac{-6}{3} = -2$. Терс сандарда $-2 > -3$, демек Б > А."
-            },
-            {
-                id: 15,
-                colA: "$$\\frac{100}{101}$$",
-                colB: "$$1$$",
-                correctKey: "B",
-                explanation: "$\\frac{100}{101}$ дурус бөлчөк, $1$ден дайыма кичине. Демек Б > А."
-            }
+        // Full 40 Questions Dataset from Fraction Test (35-39 pages)
+        const secomQuestions = [
+            // Page 35 Questions
+            { id: 1, type: "col", colA: "$$\\frac{31}{13}$$", colB: "$$\\frac{13}{31}$$", correctKey: "A", explanation: "А - буруш бөлчөк (>1), Б - дурус бөлчөк (<1). Демек А > Б." },
+            { id: 2, type: "col", colA: "$$\\frac{1}{3} + x$$ ($x \\in N$)", colB: "$$\\frac{1}{2} + x$$", correctKey: "B", explanation: "$\\frac{1}{2} > \\frac{1}{3}$. Эки жагына тең бирдей $x$ кошулса, Б чоңураак." },
+            { id: 3, type: "col", colA: "$$2 \\frac{5}{6}$$", colB: "$$\\left( 1 \\frac{2}{3} \\right)^2$$", correctKey: "A", explanation: "А = $2.833$. Б = $\\left(\\frac{5}{3}\\right)^2 = \\frac{25}{9} = 2.777$. Демек А > Б." },
+            { id: 4, type: "col", colA: "$$-\\frac{8}{9}$$", colB: "$$-\\frac{9}{8}$$", correctKey: "A", explanation: "Терс сандарда $0$го жакыны чоң. $-\\frac{8}{9} = -0.88$, а $-\\frac{9}{8} = -1.125$. Демек А > Б." },
+            { id: 5, type: "col", colA: "$$\\left( -\\frac{2}{3} \\right)^{-2}$$", colB: "$$\\left( \\frac{3}{2} \\right)^2$$", correctKey: "C", explanation: "$\\left(-\\frac{2}{3}\\right)^{-2} = \\left(-\\frac{3}{2}\\right)^2 = \\frac{9}{4}$. Экөө барабар." },
+            { id: 6, type: "col", colA: "$$\\frac{53}{5}$$", colB: "$$1 \\frac{4^0}{5}$$", correctKey: "A", explanation: "А = $10.6$. Б = $1 \\frac{1}{5} = 1.2$. Демек А > Б." },
+
+            // Page 36 Questions
+            { id: 7, type: "col", colA: "$$\\frac{3x}{6}$$ ($x < 0$)", colB: "$$\\frac{2x}{6}$$", correctKey: "B", explanation: "Эгер $x < 0$ болсо (мисалы $x = -6$), А = $-3$, Б = $-2$. Терс сандарда $-2 > -3$. Демек Б > А." },
+            { id: 8, type: "col", colA: "$$3 + \\frac{3}{4}$$", colB: "$$3 \\frac{3}{4}$$", correctKey: "C", explanation: "Бүтүн санга бөлчөктү кошуу аралаш санга барабар. $3 + \\frac{3}{4} = 3 \\frac{3}{4}$." },
+            { id: 9, type: "col", colA: "$$\\frac{5}{4} + \\frac{4}{3} + \\frac{1}{2}$$", colB: "$$\\frac{4}{5} + \\frac{1}{2} + \\frac{3}{4}$$", correctKey: "A", explanation: "А колонкасы: $1.25 + 1.33 + 0.5 = 3.08$. Б колонкасы: $0.8 + 0.5 + 0.75 = 2.05$. А > Б." },
+            { id: 10, type: "col", colA: "$$-\\frac{101}{7}$$", colB: "$$-\\frac{7}{101}$$", correctKey: "B", explanation: "А = $-14.42$, Б = $-0.069$. Терс сандарда модулу кичинеси чоң. Демек Б > А." },
+            { id: 11, type: "col", colA: "$$\\frac{x}{8} \\cdot 88$$ ($x \\in Z^+$)", colB: "$$\\frac{x}{1 \\div 11}$$", correctKey: "C", explanation: "А = $11x$. Б = $x \\cdot 11 = 11x$. Экөө барабар." },
+            { id: 12, type: "col", colA: "$$\\frac{2}{x} + \\frac{2}{x}$$ ($x > 0$)", colB: "$$\\frac{3}{x}$$", correctKey: "A", explanation: "А = $\\frac{4}{x}$. $x > 0$ болгондуктан, $\\frac{4}{x} > \\frac{3}{x}$. А > Б." },
+            { id: 13, type: "col", colA: "$$\\left( -\\frac{2}{3} \\right) \\left( -\\frac{3}{4} \\right)$$", colB: "$$\\left( -\\frac{1}{2} \\right)$$", correctKey: "A", explanation: "А = $+\\frac{1}{2} = 0.5$. Б = $-0.5$. Оң сан терс сандан дайыма чоң." },
+            { id: 14, type: "col", colA: "$$30 \\text{ дүн } \\frac{5}{6} \\text{ и}$$", colB: "$$20$$", correctKey: "A", explanation: "А = $30 \\cdot \\frac{5}{6} = 25$. $25 > 20$, А > Б." },
+            { id: 15, type: "col", colA: "$$7 \\div \\frac{x}{y}$$ ($x, y$ бүтүн оң)", colB: "$$7 \\div \\frac{y}{x}$$", correctKey: "D", explanation: "$x$ менен $y$ сандарынын кайсынысы чоң экени белгисиз. Аныктоо мүмкүн эмес." },
+            { id: 16, type: "col", colA: "$$\\frac{22}{33}$$", colB: "$$\\frac{11}{22}$$", correctKey: "A", explanation: "А = $\\frac{2}{3} \\approx 0.667$. Б = $\\frac{1}{2} = 0.5$. А > Б." },
+            { id: 17, type: "col", colA: "$$\\frac{x}{y} \\div 4$$ ($x, y$ оң)", colB: "$$\\frac{y}{x} \\div 4$$", correctKey: "D", explanation: "$x$ жана $y$ салыштырмалуу мааниси белгисиз. Аныктоо мүмкүн эмес." },
+            { id: 18, type: "col", colA: "$$\\frac{x}{y}$$ ($x < y < -1$)", colB: "$$1$$", correctKey: "A", explanation: "Терс сандарда $x < y < -1$ болсо, $\\frac{x}{y} > 1$ буруш бөлчөк болот. Демек А > Б." },
+
+            // Page 37 Questions
+            { id: 19, type: "col", colA: "$$\\frac{x+1}{x}$$ ($x < -2$)", colB: "$$1$$", correctKey: "B", explanation: "Мисалы $x = -3$ болсо, А = $\\frac{-2}{-3} = \\frac{2}{3} < 1$. Демек Б > А." },
+            { id: 20, type: "col", colA: "$$\\frac{y-1}{x}$$ ($0 < x < y$)", colB: "$$1 - \\frac{x}{y}$$", correctKey: "D", explanation: "Конкреттүү сандык маанилер берилген эмес, аныктоо мүмкүн эмес." },
+            { id: 21, type: "col", colA: "$$\\frac{1}{2} + \\frac{1}{3} + \\frac{1}{4}$$", colB: "$$\\frac{3}{4}$$", correctKey: "A", explanation: "А = $\\frac{6+4+3}{12} = \\frac{13}{12} > 1$. Б = $0.75$. А > Б." },
+            { id: 22, type: "col", colA: "$$y$$ ($\\frac{x}{y} > 0, x < 0$)", colB: "$$0$$", correctKey: "B", explanation: "Эгер $x < 0$ жана бөлчөк оң болсо, $y < 0$ терс сан. $0 > y$, Б > А." },
+            { id: 23, type: "col", colA: "$$\\frac{1}{2} \\cdot \\frac{1}{3} \\cdot \\frac{1}{4} \\cdot \\frac{1}{5}$$", colB: "$$8$$", correctKey: "B", explanation: "А = $\\frac{1}{120} \\approx 0.008$. $8 > 0.008$, Б > А." },
+            { id: 24, type: "col", colA: "$$-1 \\frac{1}{7}$$", colB: "$$-\\frac{10}{7}$$", correctKey: "A", explanation: "А = $-\\frac{8}{7} = -1.14$. Б = $-\\frac{10}{7} = -1.42$. Терс сандарда $-1.14 > -1.42$." },
+            { id: 25, type: "col", colA: "$$\\frac{x}{2}$$", colB: "$$\\frac{x}{4}$$", correctKey: "D", explanation: "$x$тин белгиси (оң же терс) белгисиз болгондуктан аныктоо мүмкүн эмес." },
+            { id: 26, type: "col", colA: "$$\\left( -\\frac{1}{3} \\right)^4$$", colB: "$$\\left( -\\frac{1}{3} \\right)^5$$", correctKey: "A", explanation: "Жуп даражада А оң сан келип чыгат, так даражада Б терс сан. Оң сан терстен чоң." },
+            { id: 27, type: "col", colA: "$$\\frac{9}{11}$$", colB: "$$\\frac{9}{13}$$", correctKey: "A", explanation: "Алымдары бирдей бөлчөктөрдүн бөлүмү кичинеси чоң. $11 < 13 \\implies$ А > Б." },
+            { id: 28, type: "col", colA: "$$\\left( \\frac{1}{7} \\right)^3$$", colB: "$$\\left( \\frac{1}{7} \\right)^4$$", correctKey: "A", explanation: "$1$ден кичине оң сандын даражасы чоңойгон сайын мааниси кичинерет. А > Б." },
+            { id: 29, type: "col", colA: "$$1 - \\frac{x}{y}$$ ($x < y < 0$)", colB: "$$\\frac{y-1}{x}$$", correctKey: "D", explanation: "Аныктоо мүмкүн эмес." },
+            { id: 30, type: "col", colA: "$$15 \\text{ мүнөт}$$", colB: "$$\\frac{1}{4} \\text{ саат}$$", correctKey: "C", explanation: "1 саатта 60 мүнөт бар. $\\frac{1}{4} \\cdot 60 = 15$ мүнөт. Экөө барабар." },
+
+            // Page 38 Questions (Multiple Choice & Columns)
+            { id: 31, type: "col", colA: "$$x \\cdot \\frac{2}{5}$$", colB: "$$x \\div 2 \\frac{1}{2}$$", correctKey: "C", explanation: "Б = $x \\div \\frac{5}{2} = x \\cdot \\frac{2}{5}$. А = Б." },
+            { id: 32, type: "mc", title: "Эгер $B = \\frac{2}{20} + \\frac{3}{30} + \\frac{4}{40} + \\frac{5}{50} + \\frac{6}{60}$ болсо, туура барабарсыздык:", 
+              options: ["А) 1/4 < B < 1/3", "Б) 1/30 < B < 1/16", "В) 1/16 < B < 1/8", "Г) 1/3 < B < 1", "Д) 1/5 < B < 1/3"], 
+              correctKey: "Г", explanation: "$B = 0.1 + 0.1 + 0.1 + 0.1 + 0.1 = 0.5$. $1/3 (0.33) < 0.5 < 1$. Туурасы Г." },
+            { id: 33, type: "mc", title: "Бир сандын 1/6 бөлүгү 5 болсо, анын 1/3 бөлүгү канчага барабар?",
+              options: ["А) 1/5", "Б) 1/4", "В) 30", "Г) 18", "Д) 10"],
+              correctKey: "Д", explanation: "Сан: $5 \\cdot 6 = 30$. Анын $1/3$ бөлүгү: $30 \\cdot 1/3 = 10$. Туурасы Д." },
+            { id: 34, type: "mc", title: "Эсептегиле: $-3 \\frac{1}{2} - 4 \\frac{1}{2} = ?$",
+              options: ["А) 7 3/10", "Б) -16/4", "В) 7 3/7", "Г) -7 1/2", "Д) -8"],
+              correctKey: "Д", explanation: "$-(3.5 + 4.5) = -8$. Туура жооп Д." },
+            { id: 35, type: "mc", title: "Эгерде $\\frac{x}{y} = 1 \\frac{1}{4}$ болсо, анда $\\frac{y}{x} = ?$",
+              options: ["А) 4/5", "Б) 7/4", "В) 3/7", "Г) 7/3", "Д) 1 4/3"],
+              correctKey: "А", explanation: "$\\frac{x}{y} = \\frac{5}{4} \\implies \\frac{y}{x} = \\frac{4}{5}$. Туурасы А." },
+            { id: 36, type: "mc", title: "Эсептегиле: $\\frac{7}{5} - 1 = ?$",
+              options: ["А) 7/5", "Б) 3/5", "В) -7/4", "Г) 2/5", "Д) 3/5"],
+              correctKey: "Г", explanation: "$\\frac{7-5}{5} = \\frac{2}{5}$. Туура жооп Г." },
+
+            // Page 39 Questions
+            { id: 37, type: "mc", title: "Эсептегиле: $\\frac{\\frac{3}{5} + \\frac{3}{5}}{\\frac{3}{5} \\cdot \\frac{3}{5}} = ?$",
+              options: ["А) 3 1/3", "Б) 16/27", "В) 1", "Г) 16/9", "Д) 3"],
+              correctKey: "А", explanation: "Алым: $6/5$. Бөлүм: $9/25$. Жыйынтык: $\\frac{6}{5} \\cdot \\frac{25}{9} = \\frac{10}{3} = 3 \\frac{1}{3}$. А)" },
+            { id: 38, type: "mc", title: "Эсептегиле: $\\left( 22 \\frac{1}{2} - \\frac{45}{2} \\right) \\cdot \\frac{22}{11} = ?$",
+              options: ["А) -5/4", "Б) -1/5", "В) 0", "Г) 1/5", "Д) 5/4"],
+              correctKey: "В", explanation: "$22.5 - 22.5 = 0$. Аны $2ке көбөйтсөк $0$ чыгат. Туурасы В." },
+            { id: 39, type: "mc", title: "Эгер $x, y$ бүтүн оң сандар жана $x - y > 0$ болсо, кайсы туюнтума ТЕРС БОЛО АЛБАЙТ?",
+              options: ["А) x/y - 1", "Б) 1/x - 1", "В) y - x", "Г) 1/y - 1", "Д) -y"],
+              correctKey: "А", explanation: "$x > y > 0 \\implies \\frac{x}{y} > 1 \\implies \\frac{x}{y} - 1 > 0$ дайыма оң. А)" },
+            { id: 40, type: "mc", title: "Эгер $\\frac{c}{b} = 3$ болсо, анда $\\frac{4c - 3b}{b} = ?$",
+              options: ["А) 3", "Б) 5", "В) 7", "Г) 9", "Д) 11"],
+              correctKey: "Г", explanation: "$\\frac{4c}{b} - 3 = 4(3) - 3 = 12 - 3 = 9$. Туура жооп Г." }
         ];
 
-        // User selected answers state
         const userAnswers = {};
-        window.allSubmissionsData = [];
 
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
 
-            questionsData.forEach((q, index) => {
+            secomQuestions.forEach((q, index) => {
                 const card = document.createElement('div');
                 card.className = "bg-white border border-slate-200/80 rounded-2xl p-5 shadow-2xs";
                 card.id = `q-card-${q.id}`;
 
-                card.innerHTML = `
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-black bg-slate-900 text-white px-2.5 py-1 rounded-lg"># ${index + 1} суроо</span>
-                        <span class="text-[11px] text-slate-400 font-semibold">ЖРТ Колонкасы</span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div class="p-4 bg-slate-50 border border-slate-200/60 rounded-xl text-center">
-                            <span class="text-[11px] font-extrabold text-blue-600 uppercase tracking-wider block mb-1">А Колонкасы</span>
-                            <div class="text-xl md:text-2xl font-bold text-slate-900 my-1">${q.colA}</div>
+                if (q.type === 'col') {
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-black bg-slate-900 text-white px-2.5 py-0.5 rounded-md"># ${index + 1} суроо</span>
+                            <span class="text-[11px] text-slate-400 font-semibold">ЖРТ Колонкасы</span>
                         </div>
-                        <div class="p-4 bg-slate-50 border border-slate-200/60 rounded-xl text-center">
-                            <span class="text-[11px] font-extrabold text-amber-600 uppercase tracking-wider block mb-1">Б Колонкасы</span>
-                            <div class="text-xl md:text-2xl font-bold text-slate-900 my-1">${q.colB}</div>
-                        </div>
-                    </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        <button type="button" onclick="selectOption(${q.id}, 'A')" id="btn-${q.id}-A" class="option-btn p-2.5 text-xs font-semibold border border-slate-200 rounded-xl hover:bg-slate-50 flex items-center justify-center gap-2">
-                            <span class="w-5 h-5 bg-slate-200 text-slate-700 rounded font-bold text-[10px] flex items-center justify-center">А</span> А чоң
-                        </button>
-                        <button type="button" onclick="selectOption(${q.id}, 'B')" id="btn-${q.id}-B" class="option-btn p-2.5 text-xs font-semibold border border-slate-200 rounded-xl hover:bg-slate-50 flex items-center justify-center gap-2">
-                            <span class="w-5 h-5 bg-slate-200 text-slate-700 rounded font-bold text-[10px] flex items-center justify-center">Б</span> Б чоң
-                        </button>
-                        <button type="button" onclick="selectOption(${q.id}, 'C')" id="btn-${q.id}-C" class="option-btn p-2.5 text-xs font-semibold border border-slate-200 rounded-xl hover:bg-slate-50 flex items-center justify-center gap-2">
-                            <span class="w-5 h-5 bg-slate-200 text-slate-700 rounded font-bold text-[10px] flex items-center justify-center">В</span> А = Б
-                        </button>
-                        <button type="button" onclick="selectOption(${q.id}, 'D')" id="btn-${q.id}-D" class="option-btn p-2.5 text-xs font-semibold border border-slate-200 rounded-xl hover:bg-slate-50 flex items-center justify-center gap-2">
-                            <span class="w-5 h-5 bg-slate-200 text-slate-700 rounded font-bold text-[10px] flex items-center justify-center">Г</span> Аныкталбайт
-                        </button>
-                    </div>
-                `;
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="p-3.5 bg-slate-50 border border-slate-200/60 rounded-xl text-center">
+                                <span class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider block mb-1">А Колонкасы</span>
+                                <div class="text-lg md:text-xl font-bold text-slate-900 my-1">${q.colA}</div>
+                            </div>
+                            <div class="p-3.5 bg-slate-50 border border-slate-200/60 rounded-xl text-center">
+                                <span class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider block mb-1">Б Колонкасы</span>
+                                <div class="text-lg md:text-xl font-bold text-slate-900 my-1">${q.colB}</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            ${['A', 'B', 'C', 'D'].map(k => `
+                                <button type="button" onclick="selectOption(${q.id}, '${k}')" id="btn-${q.id}-${k}" class="option-btn p-2 text-xs font-semibold border border-slate-200 rounded-xl hover:bg-slate-50 flex items-center justify-center gap-1.5">
+                                    <span class="w-4 h-4 bg-slate-200 text-slate-700 rounded font-bold text-[9px] flex items-center justify-center">${k === 'C' ? 'В' : k === 'D' ? 'Г' : k}</span> 
+                                    ${k === 'A' ? 'А чоң' : k === 'B' ? 'Б чоң' : k === 'C' ? 'А = Б' : 'Аныкталбайт'}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    const keys = ['А', 'Б', 'В', 'Г', 'Д'];
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-black bg-blue-600 text-white px-2.5 py-0.5 rounded-md"># ${index + 1} суроо</span>
+                            <span class="text-[11px] text-slate-400 font-semibold">Тест (Тандоо)</span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-900 mb-3">${q.title}</p>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                            ${q.options.map((opt, i) => {
+                                const k = keys[i];
+                                return `
+                                    <button type="button" onclick="selectOption(${q.id}, '${k}')" id="btn-${q.id}-${k}" class="option-btn p-2 text-xs border border-slate-200 rounded-xl hover:bg-slate-50 text-left font-semibold">
+                                        ${opt}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+
                 container.appendChild(card);
             });
 
@@ -865,7 +565,10 @@
 
         function selectOption(qId, key) {
             userAnswers[qId] = key;
-            ['A', 'B', 'C', 'D'].forEach(k => {
+            const q = secomQuestions.find(item => item.id === qId);
+            const keys = q.type === 'col' ? ['A', 'B', 'C', 'D'] : ['А', 'Б', 'В', 'Г', 'Д'];
+            
+            keys.forEach(k => {
                 const btn = document.getElementById(`btn-${qId}-${k}`);
                 if (btn) btn.classList.remove('selected');
             });
@@ -879,32 +582,27 @@
             const testTitle = document.getElementById('test-title').value;
 
             if (!nameInput || !phoneInput) {
-                const msg = document.createElement('div');
-                msg.className = "fixed top-5 right-5 bg-rose-600 text-white px-4 py-3 rounded-xl shadow-lg text-xs font-bold z-50 animate-bounce";
-                msg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Сураныч, Аты-жөнүңүздү жана Телефонуңузду толтуруңуз!`;
-                document.body.appendChild(msg);
-                setTimeout(() => msg.remove(), 3500);
+                alert("Сураныч, Аты-жөнүңүздү жана Телефонуңузду жазыңыз!");
                 return;
             }
 
             let correctScore = 0;
-            questionsData.forEach(q => {
+            secomQuestions.forEach(q => {
                 if (userAnswers[q.id] === q.correctKey) {
                     correctScore++;
                 }
             });
 
-            const percent = Math.round((correctScore / questionsData.length) * 100);
+            const percent = Math.round((correctScore / secomQuestions.length) * 100);
 
             const submission = {
                 studentName: nameInput,
                 studentPhone: phoneInput,
                 testTitle: testTitle,
                 score: correctScore,
-                total: questionsData.length,
+                total: secomQuestions.length,
                 percentage: percent,
-                answers: userAnswers,
-                answerKey: questionsData.map(q => ({ id: q.id, key: q.correctKey }))
+                answers: userAnswers
             };
 
             const submitBtn = document.getElementById('submit-btn');
@@ -923,32 +621,25 @@
             resultBox.classList.remove('hidden');
 
             document.getElementById('result-user-info').innerText = `${nameInput} (${phoneInput}) • ${testTitle}`;
-            document.getElementById('score-badge').innerText = `${correctScore} / ${questionsData.length} туура (${percent}%)`;
-            
-            const dbStatusEl = document.getElementById('db-status');
-            if (saveResult.success) {
-                dbStatusEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Натыйжа автоматтык түрдө ZIREK базасына сакталды!`;
-            } else {
-                dbStatusEl.innerHTML = `<i class="fa-solid fa-info-circle mr-1"></i> Натыйжа текшерилди.`;
-            }
+            document.getElementById('score-badge').innerText = `${correctScore} / ${secomQuestions.length} туура (${percent}%)`;
 
             const reviewContainer = document.getElementById('detailed-review');
-            reviewContainer.innerHTML = `<h4 class="font-extrabold text-slate-800 text-sm mb-3">Ар бир суроо боюнча түшүндүрмө:</h4>`;
+            reviewContainer.innerHTML = `<h4 class="font-extrabold text-slate-800 text-sm mb-3">Ар бир суроонун түшүндүрмөсү:</h4>`;
 
-            questionsData.forEach((q, index) => {
-                const userAns = userAnswers[q.id] || "Жооп берилген эмес";
+            secomQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[q.id] || "Белгиленген эмес";
                 const isCorrect = userAns === q.correctKey;
 
                 const item = document.createElement('div');
-                item.className = `p-3 rounded-xl border ${isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-rose-50/50 border-rose-200'}`;
+                item.className = `p-3 rounded-xl border ${isCorrect ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200'}`;
                 item.innerHTML = `
                     <div class="flex items-center justify-between font-bold mb-1">
-                        <span>#${index + 1} суроо</span>
-                        <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'} font-extrabold">
-                            ${isCorrect ? '✓ Туура' : `✗ Ката (Сиздики: ${userAns}, Туурасы: ${q.correctKey})`}
+                        <span>#${idx + 1} суроо</span>
+                        <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                            ${isCorrect ? '✓ Туура' : `✗ Ката (Сиздин жооп: ${userAns}, Туурасы: ${q.correctKey})`}
                         </span>
                     </div>
-                    <p class="text-slate-600 text-[11px] mt-1">${q.explanation}</p>
+                    <p class="text-slate-600 text-[11px] mt-0.5">${q.explanation}</p>
                 `;
                 reviewContainer.appendChild(item);
             });
@@ -960,130 +651,6 @@
             resultBox.scrollIntoView({ behavior: 'smooth' });
         }
 
-        window.renderAdminTable = function(data) {
-            const tableBody = document.getElementById('admin-table-body');
-            if (!tableBody) return;
-
-            // Stats calculation
-            const total = data.length;
-            let sumScore = 0;
-            let maxScore = 0;
-
-            if (total === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="p-8 text-center text-slate-400 font-medium">
-                            <i class="fa-solid fa-folder-open text-2xl mb-2 block"></i>
-                            Базада азырынча тапшырылган тесттер жок.
-                        </td>
-                    </tr>
-                `;
-                document.getElementById('stat-total-students').innerText = '0';
-                document.getElementById('stat-avg-score').innerText = '0 / 15';
-                document.getElementById('stat-max-score').innerText = '0';
-                return;
-            }
-
-            tableBody.innerHTML = '';
-            data.forEach((sub, idx) => {
-                sumScore += (sub.score || 0);
-                if ((sub.score || 0) > maxScore) maxScore = sub.score;
-
-                const dateStr = sub.createdAt ? new Date(sub.createdAt).toLocaleString('ky-KG') : 'Билгисиз';
-                const row = document.createElement('tr');
-                row.className = "hover:bg-slate-50 transition border-b border-slate-100";
-                row.innerHTML = `
-                    <td class="p-3.5 font-bold text-slate-400">${idx + 1}</td>
-                    <td class="p-3.5 font-bold text-slate-900">${sub.studentName || 'Аноним'}</td>
-                    <td class="p-3.5 text-slate-600 font-mono">${sub.studentPhone || '-'}</td>
-                    <td class="p-3.5 text-center font-black text-blue-600 bg-blue-50/50 rounded-lg">
-                        ${sub.score || 0} / ${sub.total || 15}
-                    </td>
-                    <td class="p-3.5 text-center font-bold ${sub.percentage >= 70 ? 'text-emerald-600' : 'text-amber-600'}">
-                        ${sub.percentage || 0}%
-                    </td>
-                    <td class="p-3.5 text-slate-500 text-[11px]">${dateStr}</td>
-                    <td class="p-3.5 text-center">
-                        <button onclick="viewStudentDetails('${sub.docId}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] rounded-lg transition">
-                            <i class="fa-solid fa-eye mr-1"></i> Жооптор
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-
-            // Update stats indicators
-            const avg = (sumScore / total).toFixed(1);
-            document.getElementById('stat-total-students').innerText = total;
-            document.getElementById('stat-avg-score').innerText = `${avg} / 15`;
-            document.getElementById('stat-max-score').innerText = `${maxScore} / 15`;
-        };
-
-        function filterAdminSubmissions() {
-            const query = document.getElementById('admin-search').value.toLowerCase().trim();
-            if (!window.allSubmissionsData) return;
-
-            const filtered = window.allSubmissionsData.filter(s => 
-                (s.studentName && s.studentName.toLowerCase().includes(query)) ||
-                (s.studentPhone && s.studentPhone.includes(query))
-            );
-
-            window.renderAdminTable(filtered);
-        }
-
-        function refreshAdminData() {
-            const icon = document.getElementById('refresh-icon');
-            if (icon) icon.classList.add('fa-spin');
-            if (window.triggerRealtimeReload) window.triggerRealtimeReload();
-            setTimeout(() => {
-                if (icon) icon.classList.remove('fa-spin');
-            }, 800);
-        }
-
-        function viewStudentDetails(docId) {
-            const sub = (window.allSubmissionsData || []).find(s => s.docId === docId);
-            if (!sub) return;
-
-            document.getElementById('modal-student-name').innerText = sub.studentName || 'Аты жок';
-            document.getElementById('modal-student-info').innerText = `Тел: ${sub.studentPhone || '-'} • Тапшырган убактысы: ${new Date(sub.createdAt).toLocaleString()} • Упай: ${sub.score}/${sub.total}`;
-
-            const container = document.getElementById('modal-student-answers');
-            container.innerHTML = '';
-
-            questionsData.forEach((q, idx) => {
-                const userChoice = (sub.answers && sub.answers[q.id]) || "Жооп берилген эмес";
-                const isCorrect = userChoice === q.correctKey;
-
-                const item = document.createElement('div');
-                item.className = `p-3 rounded-xl border ${isCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}`;
-                item.innerHTML = `
-                    <div class="flex justify-between font-bold mb-1">
-                        <span>#${idx + 1} суроо</span>
-                        <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
-                            Окуучу белгилеген: ${userChoice} (Туурасы: ${q.correctKey}) ${isCorrect ? '✓' : '✗'}
-                        </span>
-                    </div>
-                    <div class="text-[11px] text-slate-500">${q.explanation}</div>
-                `;
-                container.appendChild(item);
-            });
-
-            document.getElementById('student-modal').classList.remove('hidden');
-        }
-
-        function closeStudentModal() {
-            document.getElementById('student-modal').classList.add('hidden');
-        }
-
-        function openAdminPrompt() {
-            const pwd = prompt("Мугалимдер Админ Панелине кирүү үчүн сыр сөздү (PIN) киргизиңиз (Дефолт: 1234):", "1234");
-            if (pwd === "1234" || pwd === "admin") {
-                goToSlide(slides.length - 1);
-            } else if (pwd !== null) {
-                alert("Сыр сөз туура эмес!");
-            }
-        }
-
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const slideIndicator = document.getElementById('slide-indicator');
@@ -1091,34 +658,27 @@
         const nextBtn = document.getElementById('next-btn');
         const dotsContainer = document.getElementById('dots-container');
 
-        slides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = `w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${index === 0 ? 'bg-blue-600 w-4' : 'bg-slate-300'}`;
-            dot.onclick = () => goToSlide(index);
-            dot.id = `dot-${index}`;
-            dotsContainer.appendChild(dot);
-        });
+        function renderDots() {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, idx) => {
+                const dot = document.createElement('button');
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === currentSlide ? 'bg-blue-600 w-6' : 'bg-slate-300 hover:bg-slate-400'}`;
+                dot.onclick = () => goToSlide(idx);
+                dotsContainer.appendChild(dot);
+            });
+        }
 
         function updateSlide() {
             slides.forEach((slide, index) => {
                 slide.classList.toggle('active', index === currentSlide);
             });
 
-            const slideNum = (currentSlide + 1).toString().padStart(2, '0');
-            const totalNum = slides.length.toString().padStart(2, '0');
-            slideIndicator.textContent = `${slideNum} / ${totalNum}`;
-
+            slideIndicator.textContent = `0${currentSlide + 1} / 0${slides.length}`;
             prevBtn.disabled = currentSlide === 0;
             nextBtn.disabled = currentSlide === slides.length - 1;
 
-            slides.forEach((_, index) => {
-                const dot = document.getElementById(`dot-${index}`);
-                if (dot) {
-                    dot.className = index === currentSlide 
-                        ? 'w-4 h-2 bg-blue-600 rounded-full transition-all duration-300' 
-                        : 'w-2 h-2 bg-slate-300 rounded-full transition-all duration-300';
-                }
-            });
+            renderDots();
 
             if (window.MathJax && MathJax.typesetPromise) {
                 MathJax.typesetPromise();
@@ -1145,15 +705,9 @@
         }
 
         function jumpToTest() {
-            currentSlide = slides.length - 2; // Slide 13 (Test slide)
+            currentSlide = 4; // Slide index 4 is the 40 Questions Test
             updateSlide();
         }
-
-        document.addEventListener('keydown', (e) => {
-            if (document.activeElement.tagName === 'INPUT') return;
-            if (e.key === 'ArrowRight') nextSlide();
-            else if (e.key === 'ArrowLeft') prevSlide();
-        });
 
         window.onload = function() {
             renderQuestions();
