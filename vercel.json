@@ -9,7 +9,8 @@
 "destination": "/test18.html"
 },
   {
-"source": "/test100_18.html",
+"source": "/test100_18",
+"destination": "/test100_18.html"
 }
 ]
 }
