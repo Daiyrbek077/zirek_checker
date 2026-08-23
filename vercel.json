@@ -11,6 +11,10 @@
   {
 "source": "/test100_18",
 "destination": "/math100_18.html"
+},
+  {
+"source": "/kafe",
+"destination": "/menu.html"
 }
 ]
 }
