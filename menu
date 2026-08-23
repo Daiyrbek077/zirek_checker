@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кафе автоматизациясы — Cafe OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F1EA;
+    --surface: #FFFFFF;
+    --ink: #1A1A18;
+    --ink-muted: #706F6A;
+    --primary: #153E3D;
+    --primary-light: #235B5A;
+    --accent: #D9822B;
+    --accent-hover: #C2711F;
+    --success: #2E7D32;
+    --danger: #C62828;
+    --warning: #EF6C00;
+    --line: #E2DDD5;
+    --radius-s: 8px;
+    --radius-m: 14px;
+    --radius-l: 24px;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+    --shadow-lg: 0 16px 32px rgba(21,62,61,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Top Control Switcher */
+  .topbar {
+    padding: 16px;
+    text-align: center;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand {
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;
+  }
+  .brand-logo {
+    width: 32px; height: 32px; background: var(--primary); color: #fff;
+    border-radius: var(--radius-s); display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 18px;
+  }
+  .brand-title { font-size: 18px; font-weight: 700; }
+  
+  .role-switcher {
+    display: inline-flex; background: var(--bg); padding: 4px; border-radius: var(--radius-m);
+    gap: 4px; border: 1px solid var(--line);
+  }
+  .role-btn {
+    padding: 8px 16px; border: none; background: transparent; font-size: 13px; font-weight: 600;
+    color: var(--ink-muted); border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+  }
+  .role-btn.active {
+    background: var(--surface); color: var(--primary); box-shadow: var(--shadow-sm);
+  }
+
+  /* Stage Container */
+  .stage { display: flex; justify-content: center; padding: 24px 16px 60px; }
+  .view { display: none; width: 100%; justify-content: center; }
+  .view.active { display: flex; }
+
+  /* Device Frames */
+  .frame-label {
+    text-align: center; font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--ink-muted); margin-bottom: 12px;
+  }
+
+  /* Client Phone Frame */
+  .phone-frame { width: 100%; max-width: 390px; }
+  .phone-shell {
+    background: #000; border-radius: 40px; padding: 12px; box-shadow: var(--shadow-lg);
+  }
+  .phone-screen {
+    background: var(--surface); border-radius: 30px; overflow: hidden;
+    min-height: 640px; display: flex; flex-direction: column; position: relative;
+  }
+  .phone-notch {
+    height: 24px; background: #000; width: 120px; margin: 0 auto; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+  }
+
+  /* Client Specific UI */
+  .client-header { padding: 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .table-badge { background: #E8F5E9; color: var(--success); font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 20px; }
+  
+  .cat-list { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+  .cat-chip {
+    padding: 8px 14px; border-radius: 20px; border: 1px solid var(--line); background: transparent;
+    font-size: 13px; font-weight: 600; color: var(--ink-muted); white-space: nowrap; cursor: pointer;
+  }
+  .cat-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .menu-feed { padding: 12px 16px 80px; flex: 1; overflow-y: auto; }
+  .food-card {
+    display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); align-items: center;
+  }
+  .food-icon { width: 56px; height: 56px; background: var(--bg); border-radius: var(--radius-m); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .food-details { flex: 1; }
+  .food-title { font-weight: 600; font-size: 15px; }
+  .food-desc { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+  .food-price { font-weight: 700; color: var(--primary); margin-top: 4px; }
+  .add-item-btn {
+    width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--primary);
+    background: transparent; color: var(--primary); font-size: 18px; font-weight: 700; cursor: pointer;
+  }
+  .add-item-btn:active { background: var(--primary); color: #fff; }
+
+  .cart-bar {
+    position: absolute; bottom: 16px; left: 16px; right: 16px;
+    background: var(--primary); color: #fff; border-radius: var(--radius-m); padding: 14px 18px;
+    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+    box-shadow: var(--shadow-lg); transition: transform 0.2s;
+  }
+  .cart-bar:active { transform: scale(0.98); }
+  .cart-count { background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 12px; font-weight: 700; font-size: 12px; margin-right: 8px; }
+
+  /* Tablet / Cashier Frame */
+  .tablet-frame { width: 100%; max-width: 720px; }
+  .tablet-shell { background: #1A1A18; border-radius: 24px; padding: 12px; box-shadow: var(--shadow-lg); }
+  .tablet-screen { background: var(--surface); border-radius: 16px; min-height: 520px; display: flex; flex-direction: column; overflow: hidden; }
+
+  .cashier-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--line); }
+  .sub-tabs button {
+    padding: 8px 14px; border-radius: var(--radius-s); border: 1px solid var(--line);
+    background: transparent; font-weight: 600; font-size: 13px; cursor: pointer; margin-left: 6px;
+  }
+  .sub-tabs button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .orders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding: 16px; }
+  .order-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; }
+  .order-status { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; width: fit-content; }
+  .status-new { background: #FFF3E0; color: var(--warning); }
+  .status-cooking { background: #E1F5FE; color: #0288D1; }
+  .status-ready { background: #E8F5E9; color: var(--success); }
+
+  .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; padding: 16px; }
+  .table-item {
+    height: 90px; border-radius: var(--radius-m); border: 2px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-weight: 700;
+  }
+  .table-free { border-color: var(--success); color: var(--success); background: #F1F8E9; }
+  .table-busy { border-color: var(--danger); color: var(--danger); background: #FFEBEE; }
+
+  /* Desktop / Admin Frame */
+  .desktop-frame { width: 100%; max-width: 900px; }
+  .desktop-shell { background: var(--surface); border-radius: var(--radius-m); border: 1px solid var(--line); box-shadow: var(--shadow-lg); overflow: hidden; }
+  .admin-header { display: flex; border-bottom: 1px solid var(--line); background: var(--bg); }
+  .admin-tab { padding: 16px 20px; border: none; background: transparent; font-weight: 600; font-size: 14px; color: var(--ink-muted); cursor: pointer; }
+  .admin-tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); background: var(--surface); }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; }
+  .stat-card { background: var(--bg); padding: 16px; border-radius: var(--radius-m); border: 1px solid var(--line); }
+  .stat-val { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 6px; }
+
+  .btn-action {
+    background: var(--accent); color: #fff; border: none; padding: 10px 14px;
+    border-radius: var(--radius-s); font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px;
+  }
+  .btn-action:hover { background: var(--accent-hover); }
+
+  .flex-between { display: flex; justify-content: space-between; align-items: center; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-logo">K</div>
+    <div class="brand-title">Kafe OS Pro</div>
+  </div>
+  <div class="role-switcher">
+    <button class="role-btn active" onclick="switchRole('client')">Кардар (Мобильдик)</button>
+    <button class="role-btn" onclick="switchRole('cashier')">Кассир (Планшет)</button>
+    <button class="role-btn" onclick="switchRole('admin')">Админ (Дашборд)</button>
+  </div>
+</div>
+
+<div class="stage">
+
+  <!-- ================= CLIENT VIEW ================= -->
+  <div class="view active" id="view-client">
+    <div class="phone-frame">
+      <div class="frame-label">QR Меню & Онлайн Заказ</div>
+      <div class="phone-shell">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div id="client-content" style="display:flex; flex-direction:column; height:100%;">
+            <!-- Dynamic Content -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CASHIER VIEW ================= -->
+  <div class="view" id="view-cashier">
+    <div class="tablet-frame">
+      <div class="frame-label">POS Терминал — Кассир</div>
+      <div class="tablet-shell">
+        <div class="tablet-screen">
+          <div class="cashier-nav">
+            <h3 style="font-size: 16px;">Заказдарды башкаруу</h3>
+            <div class="sub-tabs">
+              <button class="active" id="btn-tab-orders" onclick="switchCashierTab('orders')">Буйрутмалар</button>
+              <button id="btn-tab-tables" onclick="switchCashierTab('tables')">Столдор</button>
+            </div>
+          </div>
+          <div id="cashier-content" style="flex:1; overflow-y:auto;">
+            <!-- Dynamic Content -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN VIEW ================= -->
+  <div class="view" id="view-admin">
+    <div class="desktop-frame">
+      <div class="frame-label">Башкаруу Панели & Аналитика</div>
+      <div class="desktop-shell">
+        <div class="admin-header">
+          <button class="admin-tab active">Жалпы көрүнүш</button>
+          <button class="admin-tab">Заказдар таржымалы</button>
+          <button class="admin-tab">Склад эсеби</button>
+        </div>
+        <div style="padding:20px;">
+          <div class="stats-row">
+            <div class="stat-card">
+              <span style="font-size:12px; color:var(--ink-muted);">Бүгүнкү түшүм</span>
+              <div class="stat-val mono" id="admin-revenue">18,450 сом</div>
+            </div>
+            <div class="stat-card">
+              <span style="font-size:12px; color:var(--ink-muted);">Заказдар саны</span>
+              <div class="stat-val mono" id="admin-orders-count">42</div>
+            </div>
+            <div class="stat-card">
+              <span style="font-size:12px; color:var(--ink-muted);">Орточо чек</span>
+              <div class="stat-val mono">439 сом</div>
+            </div>
+          </div>
+
+          <h4 style="margin: 16px 0 10px;">Складдагы калдыктар (Критический)</h4>
+          <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+              <tr style="text-align:left; border-bottom:1px solid var(--line); color:var(--ink-muted);">
+                <th style="padding:8px;">Азык</th>
+                <th style="padding:8px;">Калдык</th>
+                <th style="padding:8px;">Статус</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:10px 8px; font-weight:600;">Кофе буурчактары</td>
+                <td style="padding:10px 8px;" class="mono">1.2 кг</td>
+                <td style="padding:10px 8px;"><span style="color:var(--danger); font-weight:700;">Аз калды</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:10px 8px; font-weight:600;">Сүт (3.2%)</td>
+                <td style="padding:10px 8px;" class="mono">4 литр</td>
+                <td style="padding:10px 8px;"><span style="color:var(--warning); font-weight:700;">Орточо</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const MENU = [
+  {id:1, cat:'Суусундуктар', icon:'☕', name:'Капучино', desc:'Эспрессо жана жумшак сүт көбүгү', price:150},
+  {id:2, cat:'Суусундуктар', icon:'🍵', name:'Жашыл чай', desc:'Лимон жана бал кошулган', price:90},
+  {id:3, cat:'Тамактар', icon:'🍜', name:'Лагман', desc:'Колдон чоюлган нукура лапша', price:280},
+  {id:4, cat:'Тамактар', icon:'🍚', name:'Шашлык Плов', desc:'Тайпак күрүч, кой эти', price:260},
+  {id:5, cat:'Десерттер', icon:'🍰', name:'Чизкейк', desc:'Назик быштак торту', price:180}
+];
+
+let cart = {};
+let activeCat = 'Суусундуктар';
+let clientScreen = 'menu';
+let activeCashierTab = 'orders';
+
+let orders = [
+  {id:101, table:4, items:'Капучино x2, Чизкейк x1', total:480, status:'new'},
+  {id:100, table:2, items:'Лагман x1, Жашыл чай x1', total:370, status:'cooking'}
+];
+
+function init() {
+  renderClientView();
+  renderCashierView();
+}
+
+function switchRole(role) {
+  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  
+  event.target.classList.add('active');
+  document.getElementById(`view-${role}`).classList.add('active');
+}
+
+function renderClientView() {
+  const container = document.getElementById('client-content');
+  
+  if (clientScreen === 'menu') {
+    const categories = [...new Set(MENU.map(m => m.cat))];
+    const cartCount = Object.values(cart).reduce((a,b)=>a+b, 0);
+    const cartTotal = Object.keys(cart).reduce((sum, id) => {
+      const item = MENU.find(m => m.id == id);
+      return sum + (item.price * cart[id]);
+    }, 0);
+
+    container.innerHTML = `
+      <div class="client-header">
+        <div>
+          <h3 style="font-size:16px;">Кофекана "Арома"</h3>
+          <span style="font-size:12px; color:var(--ink-muted);">Электрондук меню</span>
+        </div>
+        <span class="table-badge">№4 Стол</span>
+      </div>
+
+      <div class="cat-list">
+        ${categories.map(c => `
+          <button class="cat-chip ${c === activeCat ? 'active':''}" onclick="setCategory('${c}')">${c}</button>
+        `).join('')}
+      </div>
+
+      <div class="menu-feed">
+        ${MENU.filter(m => m.cat === activeCat).map(m => `
+          <div class="food-card">
+            <div class="food-icon">${m.icon}</div>
+            <div class="food-details">
+              <div class="food-title">${m.name}</div>
+              <div class="food-desc">${m.desc}</div>
+              <div class="food-price mono">${m.price} сом</div>
+            </div>
+            <button class="add-item-btn" onclick="addToCart(${m.id})">+</button>
+          </div>
+        `).join('')}
+      </div>
+
+      ${cartCount > 0 ? `
+        <div class="cart-bar" onclick="placeOrder()">
+          <div>
+            <span class="cart-count">${cartCount}</span>
+            <span style="font-weight:600; font-size:14px;">Заказды ырастоо</span>
+          </div>
+          <span class="mono" style="font-weight:700;">${cartTotal} сом</span>
+        </div>
+      ` : ''}
+    `;
+  } else if (clientScreen === 'status') {
+    container.innerHTML = `
+      <div style="padding:24px 16px; text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-size:48px; margin-bottom:12px;">⏳</div>
+        <h3 style="margin-bottom:6px;">Заказыңыз даярдалууда</h3>
+        <p style="font-size:13px; color:var(--ink-muted);">№102 Заказ • №4 Стол</p>
+        
+        <div style="margin:24px 0; padding:16px; background:var(--bg); border-radius:var(--radius-m); text-align:left;">
+          <div style="font-size:12px; color:var(--success); font-weight:700; margin-bottom:4px;">✓ Кабыл алынды (10:42)</div>
+          <div style="font-size:12px; color:var(--warning); font-weight:700;">•• Ашканада даярдалууда</div>
+        </div>
+
+        <button class="btn-action" onclick="resetClient()">Жаңы заказ берүү</button>
+      </div>
+    `;
+  }
+}
+
+function setCategory(cat) { activeCat = cat; renderClientView(); }
+function addToCart(id) { cart[id] = (cart[id] || 0) + 1; renderClientView(); }
+
+function placeOrder() {
+  orders.unshift({
+    id: 102,
+    table: 4,
+    items: 'Жаңы онлайн заказ',
+    total: 300,
+    status: 'new'
+  });
+  cart = {};
+  clientScreen = 'status';
+  renderClientView();
+  renderCashierView();
+}
+
+function resetClient() {
+  clientScreen = 'menu';
+  renderClientView();
+}
+
+function switchCashierTab(tab) {
+  activeCashierTab = tab;
+  document.getElementById('btn-tab-orders').className = tab === 'orders' ? 'active' : '';
+  document.getElementById('btn-tab-tables').className = tab === 'tables' ? 'active' : '';
+  renderCashierView();
+}
+
+function renderCashierView() {
+  const container = document.getElementById('cashier-content');
+  
+  if (activeCashierTab === 'orders') {
+    container.innerHTML = `
+      <div class="orders-grid">
+        ${orders.map(o => `
+          <div class="order-card">
+            <div>
+              <div class="flex-between" style="margin-bottom:8px;">
+                <span style="font-weight:700; font-size:14px;">#${o.id}</span>
+                <span class="order-status status-${o.status}">
+                  ${o.status === 'new' ? 'Жаңы' : o.status === 'cooking' ? 'Бышууда' : 'Даяр'}
+                </span>
+              </div>
+              <div style="font-size:12px; color:var(--ink-muted); margin-bottom:6px;">Стол №${o.table}</div>
+              <div style="font-size:13px; font-weight:500; margin-bottom:12px;">${o.items}</div>
+            </div>
+            <div>
+              <div class="mono" style="font-weight:700; margin-bottom:8px;">${o.total} сом</div>
+              ${o.status === 'new' ? `
+                <button class="btn-action" style="padding:6px; font-size:12px;" onclick="advanceOrder(${o.id})">Ашканага берүү</button>
+              ` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="tables-grid">
+        ${[1,2,3,4,5,6,7,8].map(t => {
+          const isBusy = orders.some(o => o.table === t);
+          return `
+            <div class="table-item ${isBusy ? 'table-busy' : 'table-free'}">
+              <span>№${t}</span>
+              <span style="font-size:10px;">${isBusy ? 'Бош эмес' : 'Бош'}</span>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+}
+
+function advanceOrder(id) {
+  const order = orders.find(o => o.id === id);
+  if (order) order.status = 'cooking';
+  renderCashierView();
+}
+
+init();
+</script>
+</body>
+</html>
