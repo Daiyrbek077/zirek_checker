@@ -1,245 +1,241 @@
 <!DOCTYPE html>
-<html lang="ky">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кафе Автоматизациясы (POS)</title>
+    <title>Video Platform Layout</title>
     <style>
-        * {
-            box-sizing: border-box;
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --accent: #e50914;
+        }
+        
+        body {
             margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
-        body {
-            background-color: #f4f6f9;
+        /* Top Navigation Bar */
+        header {
             display: flex;
-            height: 100vh;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid #333;
+            z-index: 10;
+        }
+
+        .logo { 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .search-bar {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            background: #121212;
+            color: white;
+            width: 40%;
+            max-width: 500px;
+            outline: none;
+        }
+
+        .search-bar:focus { border-color: #555; }
+
+        .profile-icon {
+            background: #333;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Main Layout Container */
+        .container {
+            display: flex;
+            flex: 1;
             overflow: hidden;
         }
 
-        /* Сол тарап: Меню жана Столдор */
-        .main-panel {
-            flex: 1;
-            padding: 20px;
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background-color: var(--card-bg);
+            padding: 25px 20px;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            border-right: 1px solid #333;
         }
 
-        .header {
-            background: #ffffff;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        .sidebar a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-        }
-
-        .tables-bar {
-            display: flex;
             gap: 10px;
         }
 
-        .table-btn {
-            padding: 8px 16px;
-            border: 1px solid #ddd;
-            background: #fff;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .sidebar a:hover { color: var(--text-primary); }
 
-        .table-btn.active {
-            background: #27ae60;
-            color: white;
-            border-color: #27ae60;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            overflow-y: auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card h4 {
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .card span {
-            color: #e67e22;
-            font-weight: bold;
-        }
-
-        /* Оң тарап: Чек / Заказ */
-        .order-panel {
-            width: 380px;
-            background: white;
-            border-left: 1px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .order-header {
-            border-bottom: 2px solid #f4f6f9;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-
-        .order-items {
+        /* Video Feed */
+        .main-content {
             flex: 1;
+            padding: 30px;
             overflow-y: auto;
         }
 
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed #eee;
+        .main-content h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 1.25rem;
         }
 
-        .order-footer {
-            border-top: 2px solid #f4f6f9;
-            padding-top: 15px;
+        /* Responsive CSS Grid for Thumbnails */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
         }
 
-        .total-price {
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .pay-btn {
-            width: 100%;
-            padding: 15px;
-            background: #27ae60;
-            color: white;
-            border: none;
+        .video-card {
+            background-color: transparent;
             border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
+            overflow: hidden;
             cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
-        .pay-btn:hover {
-            background: #219150;
+        .video-card:hover { transform: translateY(-4px); }
+
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .video-info { padding: 12px 0; }
+
+        .video-title { 
+            font-size: 1rem; 
+            margin: 0 0 6px 0; 
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta { 
+            font-size: 0.85rem; 
+            color: var(--text-secondary); 
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .search-bar { width: 30%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-panel">
-        <div class="header">
-            <h2>"Даамдуу" Кафеси</h2>
-            <div class="tables-bar">
-                <button class="table-btn active">Стол №1</button>
-                <button class="table-btn">Стол №2</button>
-                <button class="table-btn">Стол №3</button>
-                <button class="table-btn">VIP Стол</button>
-            </div>
-        </div>
+    <header>
+        <div class="logo">Stream<span>Hub</span></div>
+        <input type="text" class="search-bar" placeholder="Search videos...">
+        <div class="profile-icon">👤</div>
+    </header>
 
-        <h3>Меню</h3>
-        <div class="menu-grid">
-            <div class="card" onclick="addItem('Бургер', 220)">
-                <h4>Бургер</h4>
-                <span>220 сом</span>
-            </div>
-            <div class="card" onclick="addItem('Пицца Маргарита', 450)">
-                <h4>Пицца</h4>
-                <span>450 сом</span>
-            </div>
-            <div class="card" onclick="addItem('Шашлык (Тоок)', 180)">
-                <h4>Шашлык</h4>
-                <span>180 сом</span>
-            </div>
-            <div class="card" onclick="addItem('Фри картошкасы', 120)">
-                <h4>Фри</h4>
-                <span>120 сом</span>
-            </div>
-            <div class="card" onclick="addItem('Капучино', 150)">
-                <h4>Капучино</h4>
-                <span>150 сом</span>
-            </div>
-            <div class="card" onclick="addItem('Кара чай', 50)">
-                <h4>Кара чай</h4>
-                <span>50 сом</span>
-            </div>
-        </div>
-    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <a href="#">🔥 Trending</a>
+            <a href="#">✨ New Releases</a>
+            <a href="#">⭐ Top Rated</a>
+            <hr style="border: 0; border-top: 1px solid #333; width: 100%; margin: 10px 0;">
+            <a href="#">📁 Categories</a>
+            <a href="#">🎬 Studios</a>
+            <a href="#">🕒 Watch Later</a>
+        </aside>
 
-    <div class="order-panel">
-        <div class="order-header">
-            <h3>Учурдагы заказ (Стол №1)</h3>
-        </div>
-
-        <div class="order-items" id="itemList">
-            </div>
-
-        <div class="order-footer">
-            <div class="total-price">
-                <span>Жалпы:</span>
-                <span id="totalSum">0 сом</span>
-            </div>
-            <button class="pay-btn" onclick="checkout()">Төлөө жана Чек чыгаруу</button>
-        </div>
-    </div>
-
-    <script>
-        let total = 0;
-
-        function addItem(name, price) {
-            const list = document.getElementById('itemList');
-            
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'order-item';
-            itemDiv.innerHTML = `
-                <div>
-                    <strong>${name}</strong><br>
-                    <small>${price} сом</small>
+        <main class="main-content">
+            <h2>Recommended for You</h2>
+            <div class="video-grid">
+                
+                <!-- Video Card 1 -->
+                <div class="video-card">
+                    <div class="thumbnail"><span class="duration">10:45</span></div>
+                    <div class="video-info">
+                        <h3 class="video-title">Placeholder Title for Video Upload 1</h3>
+                        <div class="video-meta">UploaderName • 1.2M views • 2 days ago</div>
+                    </div>
                 </div>
-                <span>1 даана</span>
-            `;
-            
-            list.appendChild(itemDiv);
 
-            total += price;
-            document.getElementById('totalSum').innerText = total + ' сом';
-        }
+                <!-- Video Card 2 -->
+                <div class="video-card">
+                    <div class="thumbnail"><span class="duration">22:10</span></div>
+                    <div class="video-info">
+                        <h3 class="video-title">Placeholder Title for Video Upload 2</h3>
+                        <div class="video-meta">StudioX • 850K views • 1 week ago</div>
+                    </div>
+                </div>
 
-        function checkout() {
-            if(total === 0) {
-                alert("Заказ бош!");
-                return;
-            }
-            alert("Төлөм кабыл алынды! Жалпы сумма: " + total + " сом");
-            document.getElementById('itemList').innerHTML = '';
-            total = 0;
-            document.getElementById('totalSum').innerText = '0 сом';
-        }
-    </script>
+                <!-- Video Card 3 -->
+                <div class="video-card">
+                    <div class="thumbnail"><span class="duration">05:30</span></div>
+                    <div class="video-info">
+                        <h3 class="video-title">Placeholder Title for Video Upload 3</h3>
+                        <div class="video-meta">CreatorY • 3.4M views • 1 month ago</div>
+                    </div>
+                </div>
+
+                <!-- Video Card 4 -->
+                <div class="video-card">
+                    <div class="thumbnail"><span class="duration">15:00</span></div>
+                    <div class="video-info">
+                        <h3 class="video-title">Placeholder Title for Video Upload 4</h3>
+                        <div class="video-meta">ChannelZ • 200K views • 5 hours ago</div>
+                    </div>
+                </div>
+
+                <!-- Video Card 5 -->
+                <div class="video-card">
+                    <div class="thumbnail"><span class="duration">45:20</span></div>
+                    <div class="video-info">
+                        <h3 class="video-title">Placeholder Title for Video Upload 5</h3>
+                        <div class="video-meta">MediaGroup • 5M views • 3 months ago</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
 </body>
 </html>
