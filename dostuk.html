@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ресторан Заказ жана Меню Башкаруу</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-xl shadow">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4 md:mb-0">🍽️ Ресторан Стол жана Меню Башкаруу</h1>
+            <nav class="space-x-4">
+                <button onclick="switchTab('orders')" id="btn-orders" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow">Столдор жана Заказдар</button>
+                <button onclick="switchTab('menu')" id="btn-menu" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300">Менюну Башкаруу</button>
+            </nav>
+        </header>
+
+        <!-- Столдор жана Заказдар бөлүмү -->
+        <main id="tab-orders" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Столдордун тизмеси -->
+            <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Столдор</h2>
+                <div id="tables-grid" class="grid grid-cols-2 gap-4">
+                    <!-- JavaScript аркылуу толукталат -->
+                </div>
+            </div>
+
+            <!-- Тандалган столдун заказы -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="current-table-title" class="text-xl font-semibold text-gray-700">Стол тандаңыз</h2>
+                        <span id="table-status" class="px-3 py-1 text-sm rounded-full bg-gray-100 text-gray-600">Бош</span>
+                    </div>
+                    
+                    <div id="order-section" class="hidden">
+                        <h3 class="font-medium text-gray-600 mb-2">Учурдагы заказ:</h3>
+                        <div class="overflow-x-auto max-h-60 overflow-y-auto mb-4 border rounded-lg">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-gray-50 border-b">
+                                    <tr>
+                                        <th class="p-3 text-sm text-gray-600">Тамак</th>
+                                        <th class="p-3 text-sm text-gray-600">Баасы</th>
+                                        <th class="p-3 text-sm text-gray-600">Саны</th>
+                                        <th class="p-3 text-sm text-gray-600">Жалпы</th>
+                                        <th class="p-3 text-sm text-gray-600">Аракет</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order-items-list">
+                                    <!-- Заказ элементтери -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-right text-xl font-bold text-gray-800 mb-6">
+                            Жалпы сумма: <span id="order-total">0</span> сом
+                        </div>
+
+                        <!-- Тамак кошуу формасы -->
+                        <div class="border-t pt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Менюдан тамак кошуу:</h4>
+                            <div class="flex gap-2">
+                                <select id="menu-select" class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <!-- Меню элементтери -->
+                                </select>
+                                <input type="number" id="item-quantity" value="1" min="1" class="w-20 p-2 border rounded-lg text-center">
+                                <button onclick="addItemToOrder()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">Кошуу</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="order-actions" class="mt-6 flex justify-end space-x-4 hidden border-t pt-4">
+                    <button onclick="clearOrder()" class="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 font-medium">Заказдаы тазалоо</button>
+                    <button onclick="closeTable()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium">Столду жабуу (Төлөө)</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Менюну башкаруу бөлүмү -->
+        <main id="tab-menu" class="hidden bg-white p-6 rounded-xl shadow">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-700">Менюну Башкаруу (JSON)</h2>
+                <button onclick="openAddModal()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700">+ Жаңы тамак кошуу</button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="p-3 text-sm text-gray-600">Аталышы</th>
+                            <th class="p-3 text-sm text-gray-600">Баасы (сом)</th>
+                            <th class="p-3 text-sm text-gray-600">Категория</th>
+                            <th class="p-3 text-sm text-gray-600">Абалы (Available)</th>
+                            <th class="p-3 text-sm text-gray-600">Аракеттер</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menu-management-list">
+                        <!-- Меню тизмеси -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Тамак кошуу/оңдоо модалдык терезеси -->
+    <div id="menu-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-xl w-full max-w-md shadow-lg">
+            <h3 id="modal-title" class="text-lg font-bold mb-4 text-gray-800">Жаңы тамак кошуу</h3>
+            <input type="hidden" id="edit-item-id">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Аталышы:</label>
+                <input type="text" id="modal-name" class="w-full p-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Баасы:</label>
+                <input type="number" id="modal-price" class="w-full p-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Категория:</label>
+                <input type="text" id="modal-category" class="w-full p-2 border rounded-lg">
+            </div>
+            <div class="mb-4 flex items-center">
+                <input type="checkbox" id="modal-available" class="w-4 h-4 text-indigo-600 border-gray-300 rounded" checked>
+                <label for="modal-available" class="ml-2 text-sm text-gray-700">Бар (Available)</label>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg">Жокко чыгаруу</button>
+                <button onclick="saveMenuItem()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Сактоо</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTable = null;
+        let menuData = [];
+        let tablesData = {
+            1: { name: "Стол 1", items: [] },
+            2: { name: "Стол 2", items: [] },
+            3: { name: "Стол 3", items: [] },
+            4: { name: "Стол 4", items: [] },
+            5: { name: "Стол 5", items: [] },
+            6: { name: "Стол 6", items: [] },
+        };
+
+        // Табы алмаштыруу
+        function switchTab(tab) {
+            if (tab === 'orders') {
+                document.getElementById('tab-orders').classList.remove('hidden');
+                document.getElementById('tab-menu').classList.add('hidden');
+                document.getElementById('btn-orders').className = "px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow";
+                document.getElementById('btn-menu').className = "px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300";
+            } else {
+                document.getElementById('tab-orders').classList.add('hidden');
+                document.getElementById('tab-menu').classList.remove('hidden');
+                document.getElementById('btn-menu').className = "px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow";
+                document.getElementById('btn-orders').className = "px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300";
+                loadMenuManagement();
+            }
+        }
+
+        // Менюну бэкендден алуу
+        async function fetchMenu() {
+            try {
+                const response = await fetch('/api/menu');
+                menuData = await response.json();
+                updateMenuSelect();
+            } catch (error) {
+                console.error("Менюну жүктөө катасы:", error);
+            }
+        }
+
+        // Селекторду жаңылоо (заказ кошуу үчүн)
+        function updateMenuSelect() {
+            const select = document.getElementById('menu-select');
+            select.innerHTML = '';
+            menuData.filter(item => item.available).forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = `${item.name} - ${item.price} сом`;
+                select.appendChild(option);
+            });
+        }
+
+        // Столдорду көрсөтүү
+        function renderTables() {
+            const grid = document.getElementById('tables-grid');
+            grid.innerHTML = '';
+            for (let id in tablesData) {
+                const table = tablesData[id];
+                const hasOrder = table.items.length > 0;
+                const total = table.items.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+                
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-xl border cursor-pointer transition flex flex-col justify-between ${currentTable == id ? 'border-indigo-600 ring-2 ring-indigo-200' : 'border-gray-200 hover:border-gray-400'} ${hasOrder ? 'bg-amber-50' : 'bg-white'}`;
+                card.onclick = () => selectTable(id);
+                card.innerHTML = `
+                    <div>
+                        <h3 class="font-bold text-gray-800">${table.name}</h3>
+                        <p class="text-xs text-gray-500">${hasOrder ? 'Заказы бар' : 'Бош'}</p>
+                    </div>
+                    <div class="mt-4 text-right font-semibold text-indigo-600">${hasOrder ? total + ' сом' : ''}</div>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        function selectTable(id) {
+            currentTable = id;
+            renderTables();
+            document.getElementById('current-table-title').textContent = tablesData[id].name;
+            document.getElementById('order-section').classList.remove('hidden');
+            document.getElementById('order-actions').classList.remove('hidden');
+            
+            const hasOrder = tablesData[id].items.length > 0;
+            const statusEl = document.getElementById('table-status');
+            statusEl.textContent = hasOrder ? 'Кардар отурат' : 'Бош';
+            statusEl.className = `px-3 py-1 text-sm rounded-full ${hasOrder ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'}`;
+
+            renderOrderItems();
+        }
+
+        function renderOrderItems() {
+            const tbody = document.getElementById('order-items-list');
+            tbody.innerHTML = '';
+            if (!currentTable) return;
+
+            let total = 0;
+            tablesData[currentTable].items.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                const tr = document.createElement('tr');
+                tr.className = 'border-b';
+                tr.innerHTML = `
+                    <td class="p-3 text-sm text-gray-800">${item.name}</td>
+                    <td class="p-3 text-sm text-gray-600">${item.price} сом</td>
+                    <td class="p-3 text-sm text-gray-600">${item.quantity}</td>
+                    <td class="p-3 text-sm font-medium text-gray-800">${itemTotal} сом</td>
+                    <td class="p-3 text-sm">
+                        <button onclick="removeOrderItem(${index})" class="text-red-500 hover:text-red-700">Өчүрүү</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('order-total').textContent = total;
+        }
+
+        function addItemToOrder() {
+            if (!currentTable) return;
+            const select = document.getElementById('menu-select');
+            const itemId = select.value;
+            const quantity = parseInt(document.getElementById('item-quantity').value);
+
+            const menuItem = menuData.find(i => i.id == itemId);
+            if (!menuItem) return;
+
+            const existing = tablesData[currentTable].items.find(i => i.id == itemId);
+            if (existing) {
+                existing.quantity += quantity;
+            } else {
+                tablesData[currentTable].items.push({
+                    id: menuItem.id,
+                    name: menuItem.name,
+                    price: menuItem.price,
+                    quantity: quantity
+                });
+            }
+            renderTables();
+            renderOrderItems();
+            selectTable(currentTable);
+        }
+
+        function removeOrderItem(index) {
+            if (!currentTable) return;
+            tablesData[currentTable].items.splice(index, 1);
+            renderTables();
+            renderOrderItems();
+            selectTable(currentTable);
+        }
+
+        function clearOrder() {
+            if (!currentTable) return;
+            tablesData[currentTable].items = [];
+            renderTables();
+            renderOrderItems();
+            selectTable(currentTable);
+        }
+
+        function closeTable() {
+            if (!currentTable) return;
+            alert(`${tablesData[currentTable].name} боюнча төлөм кабыл алынды! Заказ тазаланды.`);
+            clearOrder();
+        }
+
+        // Менюну башкаруу таблицасы
+        async function loadMenuManagement() {
+            await fetchMenu();
+            const tbody = document.getElementById('menu-management-list');
+            tbody.innerHTML = '';
+            menuData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b';
+                tr.innerHTML = `
+                    <td class="p-3 text-sm text-gray-800">${item.name}</td>
+                    <td class="p-3 text-sm text-gray-600">${item.price} сом</td>
+                    <td class="p-3 text-sm text-gray-600">${item.category}</td>
+                    <td class="p-3 text-sm">
+                        <span class="px-2 py-1 text-xs rounded-full ${item.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                            ${item.available ? 'Бар' : 'Жок'}
+                        </span>
+                    </td>
+                    <td class="p-3 text-sm space-x-2">
+                        <button onclick="openEditModal('${item.id}', '${item.name}', ${item.price}, '${item.category}', ${item.available})" class="text-indigo-600 hover:text-indigo-800">Оңдоо</button>
+                        <button onclick="deleteMenuItem('${item.id}')" class="text-red-500 hover:text-red-700">Өчүрүү</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openAddModal() {
+            document.getElementById('modal-title').textContent = "Жаңы тамак кошуу";
+            document.getElementById('edit-item-id').value = "";
+            document.getElementById('modal-name').value = "";
+            document.getElementById('modal-price').value = "";
+            document.getElementById('modal-category').value = "";
+            document.getElementById('modal-available').checked = true;
+            document.getElementById('menu-modal').classList.remove('hidden');
+        }
+
+        function openEditModal(id, name, price, category, available) {
+            document.getElementById('modal-title').textContent = "Тамакты өзгөртүү";
+            document.getElementById('edit-item-id').value = id;
+            document.getElementById('modal-name').value = name;
+            document.getElementById('modal-price').value = price;
+            document.getElementById('modal-category').value = category;
+            document.getElementById('modal-available').checked = available;
+            document.getElementById('menu-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('menu-modal').classList.add('hidden');
+        }
+
+        async function saveMenuItem() {
+            const id = document.getElementById('edit-item-id').value;
+            const name = document.getElementById('modal-name').value;
+            const price = parseFloat(document.getElementById('modal-price').value);
+            const category = document.getElementById('modal-category').value;
+            const available = document.getElementById('modal-available').checked;
+
+            const url = id ? `/api/menu/${id}` : '/api/menu';
+            const method = id ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, price, category, available })
+            });
+
+            if (response.ok) {
+                closeModal();
+                loadMenuManagement();
+            } else {
+                alert('Ката кетти!');
+            }
+        }
+
+        async function deleteMenuItem(id) {
+            if (!confirm('Бул тамакты өчүрүүнү каалайсызбы?')) return;
+            const response = await fetch(`/api/menu/${id}`, { method: 'DELETE' });
+            if (response.ok) {
+                loadMenuManagement();
+            } else {
+                alert('Өчүрүүдө ката кетти!');
+            }
+        }
+
+        // Баштапкы жүктөө
+        window.onload = () => {
+            fetchMenu();
+            renderTables();
+        };
+    </script>
+</body>
+</html>
