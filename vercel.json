@@ -1,8 +1,8 @@
 {
 "rewrites": [
   {
-"source": "/vedenie",
-"destination": "/vedenie.html"
+"source": "/daiyrbek",
+"destination": "/daiyrbek.html"
 },
 {
 "source": "/admin",
