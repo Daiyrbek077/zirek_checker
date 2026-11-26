@@ -1,6 +1,10 @@
 {
 "rewrites": [
   {
+"source": "/zirekordo",
+"destination": "/zirekordo.html"
+},
+  {
 "source": "/daiyrbek",
 "destination": "/daiyrbek.html"
 },
