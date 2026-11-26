@@ -1,0 +1,2631 @@
+<!doctype html>
+<html lang="ky">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>ZirekOrdo</title>
+<link rel="icon" type="image/x-icon" href="zirek.ico">
+<link rel="shortcut icon" type="image/x-icon" href="zirek.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f9fa;
+  --surface:#ffffff;
+  --surface2:#f1f3f4;
+  --line:#dadce0;
+  --line-soft:#e8eaed;
+  --text:#202124;
+  --muted:#5f6368;
+  --blue:#1a73e8;
+  --blue-bg:#e8f0fe;
+  --blue-ink:#174ea6;
+  --gold:#b06000;
+  --gold-bg:#fef7e0;
+  --ok:#137333;
+  --ok-bg:#e6f4ea;
+  --bad:#c5221f;
+  --bad-bg:#fce8e6;
+  --r:14px;
+  --font:'Google Sans','Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font:400 15px/1.5 var(--font);
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font-family:var(--font);color:inherit}
+button{font:inherit}
+
+/* App Shell */
+#app{
+  display:grid;
+  grid-template-columns:284px minmax(0,1fr);
+  min-height:100vh;
+}
+#rail{
+  background:var(--surface);
+  border-right:1px solid var(--line-soft);
+  padding:16px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+}
+.brand-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:2px 4px;
+}
+.logo{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:19px;
+  letter-spacing:-0.015em;
+  color:var(--text);
+}
+.logo-mark{
+  width:30px;
+  height:30px;
+  border-radius:9px;
+  background:var(--blue);
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  font-weight:700;
+  overflow:hidden;
+  flex:none;
+}
+.logo-mark img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+.icon-row{display:flex;gap:4px}
+.icon-btn{
+  width:32px;height:32px;border-radius:50%;
+  border:0;background:transparent;color:var(--muted);
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+  font-size:15px;
+}
+.icon-btn:hover{background:var(--surface2);color:var(--text)}
+
+nav.rail-nav{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:var(--surface2);
+  padding:4px;
+  border-radius:999px;
+}
+.tab{
+  flex:1;
+  border:0;
+  background:none;
+  padding:7px 10px;
+  border-radius:999px;
+  cursor:pointer;
+  color:var(--muted);
+  font-weight:500;
+  font-size:13.5px;
+  transition:.15s;
+  text-align:center;
+}
+.tab:hover{color:var(--text)}
+.tab.on{
+  background:var(--surface);
+  color:var(--text);
+  box-shadow:0 1px 3px rgba(60,64,67,.12);
+  font-weight:600;
+}
+
+.rail-btn-primary{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:9px 14px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--text);
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 1px 2px rgba(60,64,67,.06);
+  transition:.15s;
+}
+.rail-btn-primary:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue-ink)}
+
+.folder-box{
+  background:var(--bg);
+  border:1px solid var(--line-soft);
+  border-radius:12px;
+  padding:9px 12px;
+  font-size:12px;
+}
+.folder-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:3px;
+}
+
+/* VS Code style collapsible sections */
+.acc-sec{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.acc-sec.grow{
+  flex:1;
+  min-height:0;
+}
+.acc-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:4px;
+  padding:5px 6px;
+  border-radius:8px;
+  user-select:none;
+  transition:.12s;
+}
+.acc-head:hover{background:var(--surface2)}
+.acc-toggle{
+  flex:1;
+  border:0;
+  background:none;
+  padding:0;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  text-align:left;
+  font-size:11.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--muted);
+}
+.acc-toggle:hover{color:var(--text)}
+.chev{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:14px;
+  font-size:11px;
+  transition:transform .16s ease;
+}
+.acc-sec.open .chev{transform:rotate(90deg)}
+.acc-body{
+  display:none;
+  flex-direction:column;
+  gap:4px;
+}
+.acc-sec.open > .acc-body{display:flex}
+
+.game-list{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  overflow-y:auto;
+  flex:1;
+}
+.gitem{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  padding:8px 10px;
+  border-radius:10px;
+  border:1px solid transparent;
+  background:transparent;
+  cursor:pointer;
+  text-align:left;
+  transition:.12s;
+}
+.gitem:hover{background:var(--surface2)}
+.gitem.on{background:var(--blue-bg);border-color:#c6dafc}
+.gitem-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.gitem-title{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gitem.on .gitem-title{color:var(--blue-ink)}
+.gitem-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11.5px;color:var(--muted)}
+.ver-badge{
+  background:var(--surface2);
+  border:1px solid var(--line-soft);
+  border-radius:999px;
+  padding:1px 7px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--muted);
+}
+
+.team-rail-list{
+  flex-direction:column;
+  gap:3px;
+  padding:2px;
+  max-height:220px;
+  overflow-y:auto;
+}
+.titem{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 9px;
+  border-radius:9px;
+  border:1px solid transparent;
+  background:transparent;
+  cursor:pointer;
+  text-align:left;
+  font-size:13px;
+  color:var(--text);
+  transition:.12s;
+}
+.titem:hover{background:var(--surface2)}
+.titem.on{
+  background:var(--blue-bg);
+  border-color:#c6dafc;
+  color:var(--blue-ink);
+}
+.titem-name{
+  flex:1;
+  font-weight:500;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.titem-key{
+  font-size:11px;
+  color:var(--muted);
+  background:var(--surface2);
+  border:1px solid var(--line-soft);
+  padding:1px 6px;
+  border-radius:6px;
+}
+
+.rail-divider{height:1px;background:var(--line-soft);margin:2px 0}
+
+/* Main Content */
+#main{
+  padding:22px 28px 48px;
+  max-width:1380px;
+  width:100%;
+  margin:0 auto;
+}
+
+/* Cards & Typography */
+.card{
+  background:var(--surface);
+  border:1px solid var(--line-soft);
+  border-radius:var(--r);
+  padding:18px 20px;
+  margin-bottom:16px;
+  box-shadow:0 1px 2px rgba(60,64,67,.04);
+}
+.card h3,.card h4,h2{margin:0 0 10px;font-weight:600;letter-spacing:-0.01em}
+h2{font-size:22px}
+h3{font-size:16px}
+h4{font-size:14px}
+h2 small,h3 small{color:var(--muted);font-weight:400;font-size:.82em;margin-left:6px}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.row{display:flex;gap:8px;align-items:center}.wrap{flex-wrap:wrap}
+.muted{color:var(--muted)}.sm{font-size:13px}
+
+/* Buttons & Inputs */
+.btn{
+  background:var(--surface);
+  border:1px solid var(--line);
+  padding:.5rem 1rem;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  transition:.15s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn:hover:not(:disabled){background:var(--surface2);border-color:#c6cacf}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.btn.sm{padding:.35rem .78rem;font-size:13px}
+.btn.lg{padding:.75rem 1.45rem;font-size:15.5px}
+.btn.primary{
+  background:var(--blue);
+  color:#fff;
+  border-color:var(--blue);
+}
+.btn.primary:hover:not(:disabled){background:#1557b0;border-color:#1557b0}
+.btn.danger:hover:not(:disabled){border-color:var(--bad);color:var(--bad);background:var(--bad-bg)}
+
+.mini{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:3px 9px;
+  cursor:pointer;
+  min-width:30px;
+  font-size:13px;
+}
+.mini:hover{background:var(--surface2);border-color:var(--blue)}
+.mini.sel{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600}
+
+kbd{
+  background:var(--surface2);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:1px 6px;
+  font-size:11px;
+  color:var(--muted);
+  margin-left:4px;
+}
+
+.inp{
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--text);
+  border-radius:10px;
+  padding:.5rem .75rem;
+  font-size:14px;
+  width:100%;
+}
+.inp:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,115,232,.14)}
+textarea.inp{resize:vertical;min-height:72px}
+
+.setgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.fld{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted);font-weight:500}
+.fld.chk{flex-direction:row;align-items:center;gap:8px;color:var(--text)}
+
+.pill{
+  display:inline-block;
+  background:var(--surface2);
+  border:1px solid var(--line-soft);
+  border-radius:999px;
+  padding:2px 10px;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:500;
+}
+.pill.gold{color:var(--gold);background:var(--gold-bg);border-color:#f9e29c}
+.pill.blue{color:var(--blue-ink);background:var(--blue-bg);border-color:#c6dafc}
+.pill.ok{color:var(--ok);background:var(--ok-bg);border-color:#a8dab5}
+
+/* Board Matrix in Make (100-500) */
+.matrix-wrap{overflow-x:auto;padding-bottom:6px}
+.mgrid{
+  display:grid;
+  grid-template-columns:repeat(var(--cols),minmax(175px,1fr));
+  gap:10px;
+  min-width:calc(var(--cols)*175px);
+}
+.mcol-head{
+  background:var(--blue-bg);
+  border:1px solid #c6dafc;
+  color:var(--blue-ink);
+  border-radius:10px;
+  padding:10px;
+  font-weight:600;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+}
+.mcol-stack{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.madd-btn{
+  border:1px dashed var(--line);
+  background:transparent;
+  border-radius:10px;
+  padding:9px;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.14s;
+  text-align:center;
+}
+.madd-btn:hover{
+  border-color:var(--blue);
+  color:var(--blue-ink);
+  background:var(--blue-bg);
+}
+.mcell{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+  min-height:112px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:6px;
+  cursor:pointer;
+  transition:.14s;
+}
+.mcell:hover{border-color:var(--blue);background:var(--surface);box-shadow:0 2px 6px rgba(26,115,232,.1)}
+.mcell-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.mcell-pts{font-weight:700;font-size:15px;color:var(--gold)}
+.mcell-q{
+  font-size:12.5px;
+  color:var(--text);
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.mcell-badges{display:flex;gap:4px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+
+/* Teams */
+.teams{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.team{border-top:4px solid var(--c);transition:box-shadow .2s,transform .2s}
+.team.buzz-flash{box-shadow:0 0 0 3px var(--c);transform:translateY(-2px)}
+.trow{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin:12px 0 6px}
+.sw{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.swb{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+.swb.on{border-color:var(--text);box-shadow:0 0 0 2px var(--surface) inset}
+.sw input[type=color]{width:30px;height:28px;border:0;background:none;padding:0;cursor:pointer}
+.emo{background:var(--surface);border:1px solid var(--line);border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:17px}
+.emo:hover{background:var(--surface2)}
+.emo.on{border-color:var(--blue);background:var(--blue-bg)}
+.key.cap{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+.av{
+  --s:40px;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:var(--s);height:var(--s);border-radius:50%;
+  border:2px solid;background:var(--surface2);
+  font-size:calc(var(--s)*.52);overflow:hidden;flex:none;
+}
+.av img{width:100%;height:100%;object-fit:cover}
+.mem-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.mem-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface2);border:1px solid var(--line-soft);
+  border-radius:999px;padding:3px 10px;font-size:12.5px;
+}
+.mem-chip button{border:0;background:none;cursor:pointer;color:var(--muted);padding:0 2px;font-size:13px}
+.mem-chip button:hover{color:var(--bad)}
+
+/* Play Layout */
+#play{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+body.board{background:var(--bg)}
+body.board #rail{display:none}
+body.board #app{grid-template-columns:1fr}
+body.board #main{max-width:1440px}
+body.board #play{grid-template-columns:minmax(0,1fr) 380px}
+body.board #hostside{display:none}
+
+.board-bar{
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line-soft);
+}
+body.board .board-bar{display:flex}
+
+.turn-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--line-soft);
+  border-radius:12px;padding:10px 16px;margin-bottom:14px;
+}
+.rname{font-size:15.5px;font-weight:600;color:var(--blue-ink)}
+.center{text-align:center;padding:36px 20px}
+.big{font-size:clamp(26px,3.6vw,42px);margin:6px 0 12px;color:var(--text);font-weight:700;letter-spacing:-0.02em}
+
+/* 100-500 Play Grid */
+.pgrid{
+  display:grid;
+  grid-template-columns:repeat(var(--n),minmax(150px,1fr));
+  gap:10px;
+  align-items:start;
+}
+.pcol{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.pgh{
+  background:var(--blue-bg);border:1px solid #c6dafc;color:var(--blue-ink);
+  border-radius:12px;padding:12px 8px;text-align:center;font-weight:600;
+  display:flex;align-items:center;justify-content:center;min-height:60px;
+  font-size:clamp(13px,1.2vw,16px);
+}
+.pgc{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  min-height:86px;font-size:clamp(22px,2.5vw,32px);font-weight:700;
+  color:var(--text);cursor:pointer;transition:.15s;
+}
+.pgc:hover:not(:disabled){border-color:var(--blue);background:var(--blue-bg);color:var(--blue-ink);transform:translateY(-1px)}
+.pgc:disabled{background:var(--surface2);color:transparent;cursor:default;opacity:.5}
+body.board .pgc{cursor:default}
+
+/* Question & Answer Card */
+.qcard{
+  background:var(--surface);
+  border:1px solid var(--line-soft);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 1px 3px rgba(60,64,67,.06);
+}
+.qmeta{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.qtext{font-size:clamp(20px,2.4vw,30px);margin:10px 0 18px;line-height:1.3;font-weight:500}
+.qmedia{max-width:100%;max-height:280px;border-radius:12px;margin:12px 0;display:block;border:1px solid var(--line-soft)}
+.media-block{margin:14px 0;padding:12px;border-radius:12px;background:var(--bg);border:1px solid var(--line-soft)}
+.media-lbl{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+
+.ans-box{
+  margin-top:14px;
+  padding:16px 18px;
+  border-radius:12px;
+  background:var(--surface2);
+  border:1px dashed var(--line);
+}
+.ans-box.revealed{background:var(--ok-bg);border:1px solid #a8dab5}
+.ans-lbl{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:4px}
+.ans-box.revealed .ans-lbl{color:var(--ok)}
+.ans-val{font-size:20px;font-weight:600}
+
+.timer{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.t-num{font-size:38px;font-weight:700;color:var(--text);min-width:64px;font-variant-numeric:tabular-nums}
+.t-track{flex:1;height:8px;background:var(--surface2);border-radius:999px;overflow:hidden}
+.t-bar{display:block;height:100%;width:100%;background:var(--blue);transition:width .1s linear}
+.timer.low .t-num{color:var(--bad)}
+.timer.low .t-bar{background:var(--bad)}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.opt{
+  display:flex;align-items:center;gap:12px;
+  background:var(--bg);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;font-size:clamp(15px,1.5vw,19px);transition:.15s;
+}
+.opt b{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--line);
+  color:var(--text);font-size:14px;font-weight:600;flex:none;
+}
+.opt.click{cursor:pointer}
+.opt.click:hover{border-color:var(--blue);background:var(--blue-bg)}
+.opt.hint{border-style:dashed;border-color:var(--ok)}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok)}
+.opt.ok b{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.bad{background:var(--bad-bg);border-color:var(--bad)}
+.opt.bad b{background:var(--bad);color:#fff;border-color:var(--bad)}
+.opt.dim{opacity:.45}
+.opt.dead{opacity:.42;text-decoration:line-through}
+
+.status{
+  margin-top:14px;padding:10px 14px;border-radius:10px;
+  background:var(--bg);border:1px solid var(--line-soft);
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;
+}
+.status.floor{
+  border-color:var(--c);background:var(--surface);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 35%,transparent);
+  font-size:16px;font-weight:500;
+}
+.lockchip{
+  background:var(--bad-bg);color:var(--bad);
+  border:1px solid #f6aea9;border-radius:999px;
+  padding:2px 10px;font-size:12px;font-weight:500;
+}
+.res{margin-top:14px;font-size:17px;font-weight:600}
+.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.expl{color:var(--muted);margin:8px 0 0;font-size:14px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+body.board .ctrl{display:none}
+
+/* Podium */
+.pod{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:20px 0}
+.pod>div{
+  width:min(190px,28%);text-align:center;border-radius:14px 14px 0 0;
+  padding:14px 8px;background:var(--surface2);border:1px solid var(--line);border-bottom:0;
+}
+.pod .p1{height:215px;background:var(--gold-bg);border-color:#f9e29c}
+.pod .p2{height:170px}.pod .p3{height:135px}
+.pod .big{font-size:clamp(22px,2.8vw,34px);margin:6px 0}
+
+/* Scoreboard */
+#sb{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.sbrow{
+  position:relative;display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line-soft);overflow:hidden;
+}
+.sbbar{
+  position:absolute;left:0;top:0;bottom:0;width:0;
+  background:var(--c);opacity:.12;transition:width .75s cubic-bezier(.2,.8,.2,1);
+}
+.sbrow>*:not(.sbbar){position:relative}
+.sbrow .rank{width:20px;text-align:center;color:var(--muted);font-weight:600;font-size:13px}
+.sbrow .nm{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px}
+.sbrow .sc{font-size:22px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.sbrow .av{border-color:var(--c)}
+.sbrow.floor{border-color:var(--c);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 35%,transparent)}
+.sbrow.active{border-color:var(--blue);background:var(--blue-bg)}
+.sbrow.locked{opacity:.52}
+.sc.up{animation:up .55s ease}.sc.dn{animation:dn .55s ease}
+
+.adjrow{display:flex;gap:6px;align-items:center;margin:7px 0;font-size:13.5px}
+.adjrow span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.adjrow .mini{padding:2px 8px;min-width:28px;font-weight:600}
+.step-badge{
+  font-size:11px;font-weight:600;color:var(--blue-ink);
+  background:var(--blue-bg);border-radius:6px;padding:1px 6px;
+}
+
+/* Context Menu */
+#ctx{
+  position:fixed;
+  z-index:200;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:6px;
+  min-width:190px;
+  box-shadow:0 8px 24px rgba(60,64,67,.18);
+  display:none;
+  flex-direction:column;
+  gap:2px;
+}
+#ctx.open{display:flex}
+.ctx-item{
+  border:0;background:transparent;border-radius:8px;
+  padding:8px 12px;text-align:left;cursor:pointer;
+  font-size:13.5px;display:flex;align-items:center;gap:8px;
+}
+.ctx-item:hover{background:var(--surface2)}
+.ctx-item.danger{color:var(--bad)}
+.ctx-item.danger:hover{background:var(--bad-bg)}
+
+/* Bulk Score Modal & Auth Gate */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:150;
+  background:rgba(32,33,36,.45);
+  display:none;align-items:center;justify-content:center;padding:16px;
+}
+.modal-backdrop.open{display:flex}
+.modal-card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:18px;padding:24px;width:min(680px,96vw);
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 16px 40px rgba(32,33,36,.24);
+}
+.bulk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:14px 0}
+.bulk-row{
+  border:1px solid var(--line-soft);border-left:4px solid var(--c);
+  border-radius:12px;padding:12px;background:var(--bg);
+  display:flex;flex-direction:column;gap:8px;
+}
+.bulk-top{display:flex;align-items:center;gap:10px}
+.bulk-ctrl{display:flex;align-items:center;gap:6px}
+.bulk-ctrl input{width:96px;text-align:center;font-weight:700;font-size:16px}
+
+dialog{
+  background:var(--surface);color:var(--text);border:1px solid var(--line);
+  border-radius:16px;padding:22px;width:min(680px,95vw);
+  box-shadow:0 12px 32px rgba(60,64,67,.22);
+}
+dialog::backdrop{background:rgba(32,33,36,.35)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fgrid .full{grid-column:1/-1}
+.orow{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+
+#toast{
+  position:fixed;left:50%;bottom:24px;
+  transform:translateX(-50%) translateY(24px);
+  background:var(--text);color:#fff;
+  border-radius:10px;padding:10px 18px;font-size:14px;
+  opacity:0;pointer-events:none;transition:.2s;z-index:300;
+}
+#toast.show{opacity:1;transform:translateX(-50%)}
+#toast.bad{background:var(--bad)}
+#toast.ok{background:var(--ok)}
+
+@keyframes up{35%{color:var(--ok);transform:scale(1.16)}}
+@keyframes dn{35%{color:var(--bad);transform:scale(.9)}}
+
+@media(max-width:960px){
+  #app{grid-template-columns:1fr}
+  #rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line-soft)}
+  #main{padding:16px 14px 40px}
+  #play,body.board #play{grid-template-columns:1fr}
+  .opts,.fgrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="rail"></aside>
+  <main id="main">
+    <div class="board-bar">
+      <div class="logo"><span class="logo-mark"><img src="zirek.ico" alt="Z" onerror="this.parentElement.textContent='Z'"></span>ZirekOrdo</div>
+      <div class="row">
+        <button class="btn sm" data-act="snd" id="board-snd">🔊 Үн</button>
+        <button class="btn sm" data-act="fs">⛶ Толук экран</button>
+      </div>
+    </div>
+    <section id="view"></section>
+    <section id="play" hidden>
+      <div id="stage"></div>
+      <aside><div id="sb"></div><div id="hostside"></div></aside>
+    </section>
+  </main>
+  <div id="ctx" role="menu"></div>
+  <div id="bulk-modal" class="modal-backdrop" aria-hidden="true"></div>
+  <div id="auth-modal" class="modal-backdrop" aria-hidden="true"></div>
+  <div id="toast"></div>
+  <dialog id="dlg"></dialog>
+</div>
+
+<script>
+(()=>{
+'use strict';
+
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=p=>p+Math.random().toString(36).slice(2,7);
+const longId=()=>String(Date.now())+String(Math.floor(100+Math.random()*900));
+const genPin8=()=>String(Math.floor(10000000+Math.random()*90000000));
+const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+const LS={
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('Сактоо мүмкүн болбоду','bad');return false}}
+};
+
+const LET=['А','Б','В','Г'];
+const POINTS=[100,200,300,400,500];
+const IS_BOARD=new URLSearchParams(location.search).has('board');
+const RESERVED=['Space','Backspace','Enter','KeyQ','KeyW','KeyE','KeyR','Escape','Tab'];
+const keyLabel=c=>!c?'—':c.startsWith('Digit')?c.slice(5):c.startsWith('Key')?c.slice(3):c.startsWith('Numpad')?'Num '+c.slice(6):c;
+const COLORS=['#1a73e8','#137333','#b06000','#c5221f','#7627bb','#007b83'];
+const EMOJI=['🦅','🐎','🌊','🐺','🏔️','🦌','🔥','⭐','🐆','🦉','⚡','🌙'];
+
+let tt;
+function toast(m,k=''){
+  const e=$('#toast');if(!e)return;
+  e.textContent=m;e.className='show '+k;
+  clearTimeout(tt);tt=setTimeout(()=>e.className='',2500);
+}
+
+/* ================= IndexedDB for Folder Handle ================= */
+const IDB={
+  db:null,
+  open(){
+    return new Promise((res,rej)=>{
+      if(this.db)return res(this.db);
+      if(!('indexedDB' in window))return rej(new Error('No IDB'));
+      const req=indexedDB.open('ZirekOrdoFS',1);
+      req.onupgradeneeded=()=>req.result.createObjectStore('kv');
+      req.onsuccess=()=>{this.db=req.result;res(this.db)};
+      req.onerror=()=>rej(req.error);
+    });
+  },
+  async get(k){
+    try{
+      const db=await this.open();
+      return await new Promise((res,rej)=>{
+        const tx=db.transaction('kv','readonly');
+        const r=tx.objectStore('kv').get(k);
+        r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);
+      });
+    }catch(e){return null}
+  },
+  async set(k,v){
+    try{
+      const db=await this.open();
+      return await new Promise((res,rej)=>{
+        const tx=db.transaction('kv','readwrite');
+        tx.objectStore('kv').put(v,k);
+        tx.oncomplete=()=>res(true);tx.onerror=()=>rej(tx.error);
+      });
+    }catch(e){return false}
+  }
+};
+
+/* ================= Game Model & Sample Data ================= */
+function normCell(c,cat,pts,idx){
+  const mode=c?.question_type==='choice'?'choice':'open';
+  let opts=Array.isArray(c?.options)?c.options.map(x=>String(x??'')):['','','',''];
+  while(opts.length<4)opts.push('');
+  opts=opts.slice(0,4);
+  return {
+    id:String(c?.id||longId()),
+    category:String(cat||''),
+    points:POINTS.includes(Number(c?.points))?Number(c.points):pts,
+    question_type:mode,
+    question:String(c?.question||''),
+    answer:String(c?.answer||''),
+    options:opts,
+    correct_index:clamp(Number.isInteger(Number(c?.correct_index))?Number(c.correct_index):0,0,3),
+    explanation:String(c?.explanation||''),
+    qMedia:String(c?.qMedia||''),
+    aMedia:String(c?.aMedia||''),
+    _slot:idx
+  };
+}
+
+function makeSampleGame(title='ZirekOrdo Оюну',numId=null,version=1){
+  const idNum=String(numId||longId());
+  const cats=['Кыргыз тарыхы','География жана жаратылыш','Адабият жана маданият','Логика жана илим'];
+  const bankMap={
+    'Кыргыз тарыхы':[
+      ['1991-жылы 31-августта кандай тарыхый окуя болгон?','Кыргыз Республикасынын мамлекеттик көз карандысыздыгы жарыяланган'],
+      ['1916-жылы кыргыздардын Кытайга карай массалык көчүшү тарыхта кандай аталат?','Үркүн'],
+      ['Кара-Кыргыз автономиялуу облусу кайсы жылы түзүлгөн?','1924-жылы'],
+      ['Талас өрөөнүндөгү белгилүү араб–кытай салгылашуусу кайсы жылы болгон?','751-жылы'],
+      ['Енисей кыргыздары Уйгур каганатын кайсы жылы талкалаган?','840-жылы']
+    ],
+    'География жана жаратылыш':[
+      ['Кыргызстандагы эң чоң көл кайсы?','Ысык-Көл'],
+      ['Кыргызстандын эң бийик чокусу кайсы?','Жеңиш чокусу (7439 м)'],
+      ['Кыргызстанда канча облус бар?','7 облус'],
+      ['Кыргызстандын аянты болжол менен канча миң км²?','~200 миң км²'],
+      ['Ысык-Көлдүн эң терең жери болжол менен канча метр?','~668 метр']
+    ],
+    'Адабият жана маданият':[
+      ['Кыргыз элинин эң белгилүү баатырдык эпосу кайсы?','«Манас» эпосу'],
+      ['«Жамийла» повестинин автору ким?','Чыңгыз Айтматов'],
+      ['Манастын сыйлуу тулпарынын аты ким?','Аккула'],
+      ['«Манас» эпосунун 1000 жылдыгы кайсы жылы белгиленген?','1995-жылы'],
+      ['Акын Токтогул Сатылганов кайсы жылы туулган?','1864-жылы']
+    ],
+    'Логика жана илим':[
+      ['2, 4, 8, 16, … Кийинки сан кайсы?','32'],
+      ['3 алма 6 сом турса, 12 алма канча сом?','24 сом'],
+      ['5 станок 5 буюмду 5 мүнөттө жасайт. 100 станок 100 буюмду канча мүнөттө жасайт?','5 мүнөттө'],
+      ['Топ менен таякча бирге 110 тыйын. Таякча топтон 100 тыйын кымбат. Топ канча?','5 тыйын'],
+      ['Жарыктын вакуумдагы ылдамдыгы болжол менен канча?','~300 000 км/с']
+    ]
+  };
+  const categories=cats.map(catName=>{
+    const items=bankMap[catName]||[];
+    return {
+      name:catName,
+      cells:POINTS.map((pts,r)=>{
+        const pair=items[r]||['',''];
+        return normCell({
+          category:catName,
+          points:pts,
+          question_type:'open',
+          question:pair[0],
+          answer:pair[1]
+        },catName,pts,r);
+      })
+    };
+  });
+  return {
+    id:idNum,
+    fileName:`${idNum}_v${version}.json`,
+    title,
+    version,
+    pin8:genPin8(),
+    password:'',
+    playedCount:0,
+    penalty:'pass',
+    defaultTimerSec:25,
+    categories
+  };
+}
+
+function normGame(raw,fallbackFile){
+  const id=String(raw?.id||longId());
+  const version=Math.max(1,parseInt(raw?.version,10)||1);
+  const fileName=String(raw?.fileName||fallbackFile||`${id}_v${version}.json`);
+  const pinRaw=String(raw?.pin8||'').replace(/\D/g,'');
+  const pin8=pinRaw.length===8?pinRaw:genPin8();
+  const cats=Array.isArray(raw?.categories)&&raw.categories.length
+    ?raw.categories.map(cat=>{
+        const rawCells=Array.isArray(cat?.cells)?cat.cells:[];
+        return {
+          name:String(cat?.name||'Категория'),
+          cells:rawCells.map((cell,r)=>normCell(cell,cat?.name||'Категория',POINTS[r]||((r+1)*100),r))
+        };
+      })
+    :makeSampleGame('Жаңы оюн',id,version).categories;
+  return {
+    id,
+    fileName,
+    title:String(raw?.title||'Аталышсыз оюн'),
+    version,
+    pin8,
+    password:String(raw?.password||''),
+    playedCount:Math.max(0,parseInt(raw?.playedCount,10)||0),
+    penalty:raw?.penalty==='minus'?'minus':'pass',
+    defaultTimerSec:clamp(parseInt(raw?.defaultTimerSec,10)||25,5,180),
+    categories
+  };
+}
+
+/* ================= File System (`files/` folder) ================= */
+const FS={
+  dirHandle:null,
+  mediaHandle:null,
+  blobUrls:new Map(),
+  async pickDir(){
+    if(!('showDirectoryPicker' in window)){
+      toast('Бул браузер папкага түз жазууну колдобойт (Chrome/Edge колдонуңуз)','bad');
+      return false;
+    }
+    try{
+      const handle=await window.showDirectoryPicker({mode:'readwrite'});
+      this.dirHandle=handle;
+      this.mediaHandle=await handle.getDirectoryHandle('media',{create:true});
+      await IDB.set('filesDir',handle);
+      await this.loadAllFromDir();
+      toast('«'+handle.name+'» папкасы туташты','ok');
+      renderAll();
+      return true;
+    }catch(e){
+      if(e&&e.name!=='AbortError')toast('Папканы ачууда ката кетти','bad');
+      return false;
+    }
+  },
+  async tryRestore(){
+    const handle=await IDB.get('filesDir');
+    if(!handle)return;
+    try{
+      let perm=await handle.queryPermission({mode:'readwrite'});
+      if(perm!=='granted')perm=await handle.requestPermission({mode:'readwrite'});
+      if(perm==='granted'){
+        this.dirHandle=handle;
+        this.mediaHandle=await handle.getDirectoryHandle('media',{create:true});
+        await this.loadAllFromDir();
+      }
+    }catch(e){}
+  },
+  hasWrite(){return Boolean(this.dirHandle)},
+  async loadAllFromDir(){
+    if(!this.dirHandle)return;
+    const loaded=[];
+    for await(const [name,entry] of this.dirHandle.entries()){
+      if(entry.kind==='file'&&name.endsWith('.json')){
+        try{
+          const file=await entry.getFile();
+          const txt=await file.text();
+          const g=normGame(JSON.parse(txt),name);
+          loaded.push(g);
+        }catch(e){}
+      }
+    }
+    if(loaded.length){
+      loaded.sort((a,b)=>Number(b.id)-Number(a.id)||b.version-a.version);
+      games=loaded;
+      if(!games.some(g=>g.id===currentGameId))currentGameId=games[0].id;
+      LS.set('zirekordo.games',games);
+      LS.set('zirekordo.curId',currentGameId);
+    }
+  },
+  async saveGameFile(g){
+    LS.set('zirekordo.games',games);
+    LS.set('zirekordo.curId',currentGameId);
+    if(!this.dirHandle)return;
+    try{
+      const fh=await this.dirHandle.getFileHandle(g.fileName,{create:true});
+      const w=await fh.createWritable();
+      await w.write(JSON.stringify(g,null,2));
+      await w.close();
+    }catch(e){}
+  },
+  async deleteGameFile(g){
+    if(!this.dirHandle||!g?.fileName)return;
+    try{await this.dirHandle.removeEntry(g.fileName)}catch(e){}
+  },
+  async saveMediaFile(file,prefix){
+    if(!file)return '';
+    const ext=(file.name.split('.').pop()||'bin').replace(/[^a-zA-Z0-9]/g,'').slice(0,8)||'bin';
+    const fname=`${prefix}_${longId()}.${ext}`;
+    if(this.dirHandle){
+      try{
+        const mh=this.mediaHandle||await this.dirHandle.getDirectoryHandle('media',{create:true});
+        const fh=await mh.getFileHandle(fname,{create:true});
+        const w=await fh.createWritable();
+        await w.write(file);
+        await w.close();
+        const url=URL.createObjectURL(file);
+        this.blobUrls.set(fname,url);
+        return 'media/'+fname;
+      }catch(e){}
+    }
+    return await new Promise(res=>{
+      const r=new FileReader();
+      r.onload=()=>res(String(r.result||''));
+      r.readAsDataURL(file);
+    });
+  },
+  async resolveSrc(ref){
+    if(!ref)return '';
+    if(ref.startsWith('data:')||ref.startsWith('http')||ref.startsWith('blob:'))return ref;
+    const fname=ref.replace(/^media\//,'');
+    if(this.blobUrls.has(fname))return this.blobUrls.get(fname);
+    if(this.mediaHandle){
+      try{
+        const fh=await this.mediaHandle.getFileHandle(fname);
+        const f=await fh.getFile();
+        const u=URL.createObjectURL(f);
+        this.blobUrls.set(fname,u);
+        return u;
+      }catch(e){}
+    }
+    return ref;
+  }
+};
+
+/* ================= Persistent App State ================= */
+const defTeams=()=>[
+  {id:'t1',name:'1-команда',captain:'',members:[],color:COLORS[0],avatar:'🦅',key:'Digit1',score:0},
+  {id:'t2',name:'2-команда',captain:'',members:[],color:COLORS[1],avatar:'🐎',key:'Digit2',score:0},
+  {id:'t3',name:'3-команда',captain:'',members:[],color:COLORS[2],avatar:'🌊',key:'Digit3',score:0}
+];
+
+let games=(LS.get('zirekordo.games',null)||[]).map(g=>normGame(g));
+if(!games.length)games=[makeSampleGame('ZirekOrdo Негизги Оюн')];
+let currentGameId=LS.get('zirekordo.curId',null);
+if(!games.some(g=>g.id===currentGameId))currentGameId=games[0].id;
+const curGame=()=>games.find(g=>g.id===currentGameId)||games[0];
+
+let S=LS.get('zirekordo.state',null)||{teams:defTeams(),game:null,bulkOpen:false};
+if(!Array.isArray(S.teams)||S.teams.length<2)S.teams=defTeams();
+S.teams=S.teams.map((t,i)=>({
+  id:t.id||uid('t'),
+  name:String(t.name||(i+1)+'-команда'),
+  captain:String(t.captain||''),
+  members:Array.isArray(t.members)?t.members.map(String):[],
+  color:t.color||COLORS[i%COLORS.length],
+  avatar:t.avatar||EMOJI[i%EMOJI.length],
+  key:t.key||'',
+  score:Number(t.score)||0
+}));
+if(S.game&&S.game.timer&&S.game.timer.running){
+  S.game.timer.left=Math.max(0,(S.game.timer.endsAt-Date.now())/1000);
+  S.game.timer.running=false;
+}
+
+let tab=IS_BOARD?'play':(sessionStorage.getItem('zirekordo.tab')||'make');
+let capturing=null;
+let focusedTeamId='';
+let resolvedMedia={qSrc:'',aSrc:''};
+let unlockedGameIds=new Set();
+let playGateOpen=false;
+let authError='';
+
+const savedRail=LS.get('zirekordo.railOpen',null);
+let railOpen={
+  games:savedRail&&typeof savedRail.games==='boolean'?savedRail.games:true,
+  teams:savedRail&&typeof savedRail.teams==='boolean'?savedRail.teams:true
+};
+const stepCounters={};
+
+const team=id=>S.teams.find(t=>t.id===id);
+const ch=('BroadcastChannel' in window)?new BroadcastChannel('zirekordo'):null;
+const post=m=>{try{ch&&ch.postMessage(m)}catch(e){}};
+
+function saveState(){
+  if(!IS_BOARD){
+    LS.set('zirekordo.state',S);
+    post({type:'state',state:S,games,currentGameId});
+  }
+}
+function commit(){saveState();renderAll()}
+
+if(ch){
+  ch.onmessage=e=>{
+    const m=e.data||{};
+    if(IS_BOARD){
+      if(m.type==='state'){
+        S=m.state;
+        if(Array.isArray(m.games)&&m.games.length)games=m.games;
+        if(m.currentGameId)currentGameId=m.currentGameId;
+        renderAll();
+      }else if(m.type==='sfx'){
+        Snd.play(m.name);
+      }
+    }else{
+      if(m.type==='hello')post({type:'state',state:S,games,currentGameId});
+      else if(m.type==='key')handleKey(m.code);
+    }
+  };
+}
+
+/* ================= Sound Effects (Web Audio API) ================= */
+const Snd={
+  ctx:null,
+  on:!IS_BOARD,
+  init(){
+    try{
+      if(!this.ctx)this.ctx=new(window.AudioContext||window.webkitAudioContext)();
+      if(this.ctx.state==='suspended')this.ctx.resume();
+    }catch(e){}
+    return this.ctx;
+  },
+  tone(f,s,d,type='sine',v=.16,f2=null){
+    const c=this.ctx;if(!c)return;
+    const o=c.createOscillator(),g=c.createGain(),t0=c.currentTime+s;
+    o.type=type;o.frequency.setValueAtTime(f,t0);
+    if(f2)o.frequency.exponentialRampToValueAtTime(f2,t0+d);
+    g.gain.setValueAtTime(.0001,t0);
+    g.gain.exponentialRampToValueAtTime(v,t0+.015);
+    g.gain.exponentialRampToValueAtTime(.0001,t0+d);
+    o.connect(g);g.connect(c.destination);
+    o.start(t0);o.stop(t0+d+.05);
+  },
+  play(n){
+    if(!this.on||!this.init())return;
+    const t=(...a)=>this.tone(...a);
+    switch(n){
+      case 'tick':t(1050,0,.04,'square',.03);break;
+      case 'tick2':t(1480,0,.08,'square',.08);break;
+      case 'start':t(660,0,.12,'triangle',.18);t(990,.12,.22,'triangle',.18);break;
+      case 'buzz':t(340,0,.32,'sawtooth',.2,210);break;
+      case 'correct':[523,659,784,1047].forEach((f,i)=>t(f,i*.08,.28,'triangle',.2));break;
+      case 'wrong':t(220,0,.4,'sawtooth',.18,95);break;
+      case 'timeup':[0,.25,.5].forEach(s=>t(320,s,.18,'square',.14));break;
+      case 'fanfare':[[523,0],[659,.15],[784,.3],[1047,.48]].forEach(([f,s])=>t(f,s,.35,'triangle',.18));break;
+    }
+  }
+};
+function sfx(n){Snd.play(n);post({type:'sfx',name:n})}
+
+/* ================= Security (8-digit PIN + Password on Play) ================= */
+function needsAuth(g){
+  if(!g)return false;
+  const hasPass=Boolean(String(g.password||'').trim());
+  const hasPin=Boolean(String(g.pin8||'').trim());
+  if(!hasPass && !hasPin)return false;
+  return !unlockedGameIds.has(g.id);
+}
+
+function requestPlayAccess(){
+  const g=curGame();
+  if(!needsAuth(g)){
+    playGateOpen=false;
+    authError='';
+    enterPlayView();
+    return;
+  }
+  playGateOpen=true;
+  authError='';
+  renderAuthGate();
+}
+
+function verifyPlayAuth(){
+  const g=curGame();
+  const pinInput=($('#auth-pin')?.value||'').replace(/\D/g,'').trim();
+  const passInput=($('#auth-pass')?.value||'').trim();
+  const expectedPin=String(g.pin8||'').trim();
+  const expectedPass=String(g.password||'').trim();
+  const pinOk=!expectedPin || pinInput===expectedPin;
+  const passOk=!expectedPass || passInput===expectedPass;
+  if(pinOk && passOk){
+    unlockedGameIds.add(g.id);
+    playGateOpen=false;
+    authError='';
+    renderAuthGate();
+    enterPlayView();
+    toast('ПИН код жана пароль туура','ok');
+  }else{
+    authError='8 орундуу ПИН код же пароль туура эмес';
+    renderAuthGate();
+    sfx('wrong');
+  }
+}
+
+function enterPlayView(){
+  tab='play';
+  sessionStorage.setItem('zirekordo.tab',tab);
+  if(!S.game || S.game.gameId!==curGame().id){
+    startNewSessionForCurrentGame();
+  }else{
+    renderAll();
+  }
+}
+
+function renderAuthGate(){
+  const el=$('#auth-modal');
+  if(!el)return;
+  const g=curGame();
+  if(!playGateOpen || !needsAuth(g) || IS_BOARD){
+    el.classList.remove('open');
+    el.setAttribute('aria-hidden','true');
+    el.innerHTML='';
+    return;
+  }
+  el.classList.add('open');
+  el.setAttribute('aria-hidden','false');
+  el.innerHTML=`
+    <div class="modal-card" style="max-width:440px">
+      <h3>🔐 Оюнга кирүү — Коопсуздук текшерүүсү</h3>
+      <p class="muted sm" style="margin:4px 0 14px">«${esc(g.title)}» (v${g.version}) оюнун ойнотуу үчүн 8 орундуу ПИН кодду жана паролду жазыңыз.</p>
+      <div class="fgrid" style="grid-template-columns:1fr">
+        <label class="fld">
+          <span>8 сандык ПИН код</span>
+          <input class="inp" id="auth-pin" type="password" inputmode="numeric" maxlength="8" placeholder="8 сан" autocomplete="off">
+        </label>
+        <label class="fld">
+          <span>Оюндун паролу</span>
+          <input class="inp" id="auth-pass" type="password" placeholder="Паролду жазыңыз" autocomplete="off">
+        </label>
+      </div>
+      ${authError?`<div class="res bad" style="font-size:13.5px;margin-top:10px">✖ ${esc(authError)}</div>`:''}
+      <div class="ctrl" style="justify-content:flex-end;margin-top:18px">
+        <button type="button" class="btn" data-act="auth_cancel">Жабуу</button>
+        <button type="button" class="btn primary" data-act="auth_submit">Ырастап кирүү ▶</button>
+      </div>
+    </div>
+  `;
+  setTimeout(()=>$('#auth-pin')?.focus(),30);
+}
+
+/* ================= Game Play Engine (100-500 Grid) ================= */
+function startNewSessionForCurrentGame(){
+  const g=curGame();
+  S.teams.forEach(t=>t.score=0);
+  const cols=g.categories.map(c=>c.cells.map(cell=>({...cell,used:false})));
+  S.game={
+    gameId:g.id,
+    title:g.title,
+    version:g.version,
+    penalty:g.penalty||'pass',
+    defaultTimerSec:g.defaultTimerSec||25,
+    status:'playing',
+    phase:'grid', // 'grid' | 'question' | 'reveal' | 'finished'
+    activeTeamId:S.teams[0]?.id||'',
+    floorTeamId:null,
+    lockedTeams:[],
+    deadOpts:[],
+    chosenOpt:null,
+    openResult:null,
+    currentCell:null,
+    revealReason:'',
+    cats:g.categories.map(c=>c.name),
+    cols,
+    timer:{total:25,left:25,running:false,endsAt:0}
+  };
+  g.playedCount=(Number(g.playedCount)||0)+1;
+  FS.saveGameFile(g);
+  sfx('start');
+  commit();
+}
+
+const remaining=()=>{
+  const g=S.game;if(!g||!g.timer)return 0;
+  return g.timer.running?Math.max(0,(g.timer.endsAt-Date.now())/1000):g.timer.left;
+};
+function runTimer(){
+  const g=S.game;if(!g||!g.timer)return;
+  g.timer.running=true;
+  g.timer.endsAt=Date.now()+g.timer.left*1000;
+}
+function pauseTimer(){
+  const g=S.game;if(!g||!g.timer)return;
+  g.timer.left=remaining();
+  g.timer.running=false;
+}
+
+async function selectGridCell(cIdx,rIdx){
+  const g=S.game;if(!g||g.phase!=='grid')return;
+  const cell=g.cols?.[cIdx]?.[rIdx];
+  if(!cell||cell.used)return;
+  const sec=g.defaultTimerSec||25;
+  g.currentCell={c:cIdx,r:rIdx,data:cell};
+  g.phase='question';
+  g.floorTeamId=g.activeTeamId||S.teams[0]?.id||null;
+  g.lockedTeams=[];
+  g.deadOpts=[];
+  g.chosenOpt=null;
+  g.openResult=null;
+  g.revealReason='';
+  g.timer={total:sec,left:sec,running:true,endsAt:Date.now()+sec*1000};
+  resolvedMedia={
+    qSrc:await FS.resolveSrc(cell.qMedia),
+    aSrc:await FS.resolveSrc(cell.aMedia)
+  };
+  sfx('start');
+  commit();
+}
+
+function advanceTurn(){
+  const g=S.game;if(!g||!S.teams.length)return;
+  const i=S.teams.findIndex(t=>t.id===g.activeTeamId);
+  g.activeTeamId=S.teams[(Math.max(0,i)+1)%S.teams.length].id;
+}
+
+function buzzTeam(tid){
+  const g=S.game;if(!g||g.phase!=='question')return;
+  if(g.floorTeamId)return;
+  if(g.lockedTeams.includes(tid))return;
+  g.floorTeamId=tid;
+  pauseTimer();
+  sfx('buzz');
+  commit();
+}
+
+function applyScoreDelta(tid,delta,reason=''){
+  const t=team(tid);if(!t||!delta)return;
+  t.score+=delta;
+  const dir=delta>0?1:-1;
+  stepCounters[tid]=(stepCounters[tid]||0)+dir;
+  saveState();
+}
+
+function awardCurrentCell(tid,ok){
+  const g=S.game;if(!g||!g.currentCell)return;
+  const pts=Number(g.currentCell.data.points)||100;
+  if(ok){
+    if(tid)applyScoreDelta(tid,pts,'туура');
+    g.cols[g.currentCell.c][g.currentCell.r].used=true;
+    g.phase='reveal';
+    g.revealReason='correct';
+    g.floorTeamId=tid;
+    pauseTimer();
+    sfx('correct');
+    commit();
+  }else{
+    if(tid&&g.penalty==='minus')applyScoreDelta(tid,-pts,'ката');
+    if(tid&&!g.lockedTeams.includes(tid))g.lockedTeams.push(tid);
+    sfx('wrong');
+    const allLocked=S.teams.every(t=>g.lockedTeams.includes(t.id));
+    if(allLocked || remaining()<=0.2){
+      g.cols[g.currentCell.c][g.currentCell.r].used=true;
+      g.phase='reveal';
+      g.revealReason='wrong';
+      g.floorTeamId=null;
+      pauseTimer();
+    }else{
+      g.floorTeamId=null;
+      if(!g.timer.running)runTimer();
+    }
+    commit();
+  }
+}
+
+function judgeChoice(optIdx){
+  const g=S.game;if(!g||g.phase!=='question')return;
+  const cell=g.currentCell?.data;if(!cell||cell.question_type==='open')return;
+  const tid=g.floorTeamId||g.activeTeamId;
+  g.chosenOpt=optIdx;
+  const ok=optIdx===cell.correct_index;
+  if(!ok)g.deadOpts.push(optIdx);
+  awardCurrentCell(tid,ok);
+}
+
+function judgeOpen(ok){
+  const g=S.game;if(!g||g.phase!=='question')return;
+  const tid=g.floorTeamId||g.activeTeamId;
+  g.openResult=ok?'ok':'bad';
+  awardCurrentCell(tid,ok);
+}
+
+function revealAnswerNow(){
+  const g=S.game;if(!g||g.phase!=='question'||!g.currentCell)return;
+  g.cols[g.currentCell.c][g.currentCell.r].used=true;
+  g.phase='reveal';
+  g.revealReason='shown';
+  g.floorTeamId=null;
+  pauseTimer();
+  commit();
+}
+
+function returnToGrid(){
+  const g=S.game;if(!g)return;
+  g.currentCell=null;
+  g.floorTeamId=null;
+  g.lockedTeams=[];
+  g.deadOpts=[];
+  g.chosenOpt=null;
+  g.openResult=null;
+  resolvedMedia={qSrc:'',aSrc:''};
+  advanceTurn();
+  const anyLeft=g.cols.some(col=>col.some(c=>!c.used));
+  if(!anyLeft){
+    g.phase='finished';
+    sfx('fanfare');
+  }else{
+    g.phase='grid';
+  }
+  commit();
+}
+
+function onTimeUp(){
+  const g=S.game;if(!g||g.phase!=='question'||!g.currentCell)return;
+  g.timer.running=false;
+  g.timer.left=0;
+  g.cols[g.currentCell.c][g.currentCell.r].used=true;
+  g.phase='reveal';
+  g.revealReason='time';
+  g.floorTeamId=null;
+  sfx('timeup');
+  commit();
+}
+
+/* ================= Incremental 1, 2, 3... Score Stepper ================= */
+function stepTeamScore(tid,sign){
+  const g=S.game;
+  const pts=(g&&g.currentCell&&g.currentCell.data&&Number(g.currentCell.data.points))||100;
+  const t=team(tid);if(!t)return;
+  const prevStep=stepCounters[tid]||0;
+  const nextStep=(prevStep>0 && sign<0)?-1:(prevStep<0 && sign>0)?1:prevStep+sign;
+  stepCounters[tid]=nextStep;
+  const delta=sign*pts;
+  t.score+=delta;
+  saveState();
+  renderAll();
+  toast(`${t.name}: ${sign>0?'+':''}${delta} (${Math.abs(nextStep)} кадам)`,sign>0?'ok':'bad');
+}
+
+/* ================= Bulk Score Modal (Host + Board View) ================= */
+function setBulkModalOpen(open){
+  S.bulkOpen=Boolean(open);
+  saveState();
+  renderBoardBulkOverlay();
+}
+
+function renderBoardBulkOverlay(){
+  const el=$('#bulk-modal');if(!el)return;
+  if(!S.bulkOpen){
+    el.classList.remove('open');
+    el.setAttribute('aria-hidden','true');
+    el.innerHTML='';
+    return;
+  }
+  const isHost=!IS_BOARD;
+  el.classList.add('open');
+  el.setAttribute('aria-hidden','false');
+  el.innerHTML=`
+    <div class="modal-card">
+      <div class="head" style="margin-bottom:8px">
+        <div>
+          <h3 style="margin:0">🧮 Бардык командалардын упайларын өзгөртүү</h3>
+          <div class="muted sm">${isHost?'Упайларды өзгөртүп сактасаңыз, проектор таблосунда да өзгөрөт':'Проектор таблосу — упайлар жаңыланууда'}</div>
+        </div>
+        ${isHost?`<button type="button" class="mini" data-act="bulk_close">✕</button>`:''}
+      </div>
+      <div class="bulk-grid">
+        ${S.teams.map(t=>`
+          <div class="bulk-row" style="--c:${t.color}">
+            <div class="bulk-top">
+              ${av(t,36)}
+              <div style="flex:1;min-width:0">
+                <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.name)}</div>
+                <div class="muted sm">Учурда: <b>${t.score}</b></div>
+              </div>
+            </div>
+            ${isHost?`
+              <div class="bulk-ctrl">
+                <button type="button" class="mini" data-act="bulk_adj" data-t="${t.id}" data-d="-100">−100</button>
+                <button type="button" class="mini" data-act="bulk_adj" data-t="${t.id}" data-d="-50">−50</button>
+                <input type="number" class="inp" data-bulk-inp="${t.id}" value="${t.score}">
+                <button type="button" class="mini" data-act="bulk_adj" data-t="${t.id}" data-d="50">+50</button>
+                <button type="button" class="mini" data-act="bulk_adj" data-t="${t.id}" data-d="100">+100</button>
+              </div>
+            `:`<div style="font-size:24px;font-weight:700;text-align:right">${t.score}</div>`}
+          </div>
+        `).join('')}
+      </div>
+      ${isHost?`
+        <div class="ctrl" style="justify-content:flex-end">
+          <button type="button" class="btn" data-act="bulk_zero">Баарын 0 кылуу</button>
+          <button type="button" class="btn" data-act="bulk_close">Жабуу</button>
+          <button type="button" class="btn primary" data-act="bulk_save">✔ Сактоо</button>
+        </div>
+      `:''}
+    </div>
+  `;
+}
+
+/* ================= Context Menu (Right-Click) ================= */
+const ctxEl=$('#ctx');
+let ctxPayload=null;
+
+function hideCtx(){
+  ctxPayload=null;
+  ctxEl.classList.remove('open');
+  ctxEl.innerHTML='';
+}
+
+function openCtx(x,y,items,payload){
+  if(IS_BOARD)return;
+  ctxPayload={...payload,handlers:items.map(it=>it.fn)};
+  ctxEl.innerHTML=items.map((it,i)=>`
+    <button type="button" class="ctx-item ${it.danger?'danger':''}" data-ctx-idx="${i}">
+      <span>${it.icon||''}</span><span>${esc(it.label)}</span>
+    </button>
+  `).join('');
+  ctxEl.classList.add('open');
+  const rect=ctxEl.getBoundingClientRect();
+  const left=clamp(x,8,window.innerWidth-(rect.width||200)-8);
+  const top=clamp(y,8,window.innerHeight-(rect.height||120)-8);
+  ctxEl.style.left=left+'px';
+  ctxEl.style.top=top+'px';
+}
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#ctx'))hideCtx();
+  const cBtn=e.target.closest('[data-ctx-idx]');
+  if(cBtn && ctxPayload){
+    const idx=Number(cBtn.dataset.ctxIdx);
+    const fn=ctxPayload.handlers?.[idx];
+    hideCtx();
+    if(typeof fn==='function')fn(ctxPayload);
+  }
+});
+
+document.addEventListener('contextmenu',e=>{
+  if(IS_BOARD)return;
+  const gBtn=e.target.closest('[data-ctx="game"]');
+  if(gBtn){
+    e.preventDefault();
+    const gid=gBtn.dataset.id;
+    const g=games.find(x=>x.id===gid);
+    if(!g)return;
+    openCtx(e.clientX,e.clientY,[
+      {icon:'✎',label:'Атын өзгөртүү',fn:()=>renameGamePrompt(g.id)},
+      {icon:'⧉',label:'Башка версия жасоо',fn:()=>createGameVersion(g.id)},
+      {icon:'🗑',label:'Оюнду өчүрүү',danger:true,fn:()=>deleteGameById(g.id)}
+    ],{gid});
+    return;
+  }
+
+  const mCell=e.target.closest('[data-ctx="cell"]');
+  if(mCell){
+    e.preventDefault();
+    const c=Number(mCell.dataset.c),r=Number(mCell.dataset.r);
+    openCtx(e.clientX,e.clientY,[
+      {icon:'✎',label:'Суроону оңдоо',fn:()=>openCellEditor(c,r)},
+      {icon:'＋',label:'Жаңы суроо кошуу',fn:()=>addCellToCat(c)},
+      {icon:'🧹',label:'Текстти тазалоо',fn:()=>clearCell(c,r)},
+      {icon:'🗑',label:'Уячаны өчүрүү',danger:true,fn:()=>deleteCellFromCat(c,r)}
+    ],{c,r});
+    return;
+  }
+
+  const tEl=e.target.closest('[data-ctx="team"]');
+  if(tEl){
+    e.preventDefault();
+    const tid=tEl.dataset.t;
+    openCtx(e.clientX,e.clientY,[
+      {icon:'⧉',label:'Команданы көчүрүү',fn:()=>duplicateTeam(tid)},
+      {icon:'🗑',label:'Команданы өчүрүү',danger:true,fn:()=>removeTeam(tid)}
+    ],{tid});
+  }
+});
+
+/* ================= Game CRUD & Versioning ================= */
+async function createNewGame(){
+  const numId=longId();
+  const title='Оюн #'+numId.slice(-6);
+  const g=makeSampleGame(title,numId,1);
+  games.unshift(g);
+  currentGameId=g.id;
+  railOpen.games=true;
+  LS.set('zirekordo.railOpen',railOpen);
+  await FS.saveGameFile(g);
+  tab='make';
+  sessionStorage.setItem('zirekordo.tab',tab);
+  commit();
+  toast(`Жаңы оюн түзүлдү: ${g.fileName}`,'ok');
+}
+
+async function createGameVersion(gid){
+  const src=games.find(x=>x.id===gid)||curGame();
+  const maxVer=games
+    .filter(x=>x.id===src.id || x.title===src.title)
+    .reduce((m,x)=>Math.max(m,Number(x.version)||1),1);
+  const nextVer=maxVer+1;
+  const newId=longId();
+  const copy=normGame({
+    ...src,
+    id:newId,
+    version:nextVer,
+    fileName:`${newId}_v${nextVer}.json`,
+    playedCount:0,
+    categories:src.categories.map(cat=>({
+      name:cat.name,
+      cells:cat.cells.map(cell=>normCell({...cell,id:longId()},cat.name,cell.points,cell._slot))
+    }))
+  });
+  games.unshift(copy);
+  currentGameId=copy.id;
+  await FS.saveGameFile(copy);
+  commit();
+  toast(`v${nextVer} версиясы түзүлдү (${copy.fileName})`,'ok');
+}
+
+function renameGamePrompt(gid){
+  const g=games.find(x=>x.id===gid);if(!g)return;
+  const d=$('#dlg');
+  d.innerHTML=`
+    <h3>Оюндун аталышын өзгөртүү</h3>
+    <label class="fld">
+      <span>Жаңы аталышы</span>
+      <input type="text" class="inp" id="ren-game-inp" value="${esc(g.title)}" maxlength="60">
+    </label>
+    <div class="ctrl" style="justify-content:flex-end;margin-top:16px">
+      <button type="button" class="btn" data-act="dlgclose">Жабуу</button>
+      <button type="button" class="btn primary" data-act="ren_game_save" data-id="${esc(g.id)}">Сактоо</button>
+    </div>
+  `;
+  d.showModal();
+  setTimeout(()=>{const i=$('#ren-game-inp');if(i){i.focus();i.select()}},30);
+}
+
+async function deleteGameById(gid){
+  if(games.length<=1)return toast('Кеминде 1 оюн калышы керек','bad');
+  const idx=games.findIndex(x=>x.id===gid);
+  if(idx<0)return;
+  const [removed]=games.splice(idx,1);
+  await FS.deleteGameFile(removed);
+  if(currentGameId===gid)currentGameId=games[0].id;
+  LS.set('zirekordo.games',games);
+  LS.set('zirekordo.curId',currentGameId);
+  commit();
+  toast('Оюн өчүрүлдү','ok');
+}
+
+/* ================= Render Functions ================= */
+function av(t,s=36){
+  return `<span class="av" style="--s:${s}px;border-color:${t.color}">${t.avatar&&t.avatar.startsWith('data:')?`<img src="${t.avatar}" alt="">`:esc(t.avatar||'🙂')}</span>`;
+}
+
+function renderRail(){
+  const r=$('#rail');if(IS_BOARD){r.innerHTML='';return}
+  const hasDir=FS.hasWrite();
+  const gOpen=Boolean(railOpen.games);
+  const tOpen=Boolean(railOpen.teams);
+  r.innerHTML=`
+    <div class="brand-row">
+      <div class="logo"><span class="logo-mark"><img src="zirek.ico" alt="Z" onerror="this.parentElement.textContent='Z'"></span>ZirekOrdo</div>
+      <div class="icon-row">
+        <button type="button" class="icon-btn" data-act="snd" title="Үн">${Snd.on?'🔊':'🔇'}</button>
+        <button type="button" class="icon-btn" data-act="fs" title="Толук экран">⛶</button>
+      </div>
+    </div>
+    <nav class="rail-nav">
+      ${['make','groups','play'].map(k=>`<button type="button" class="tab ${tab===k?'on':''}" data-act="tab" data-v="${k}">${{make:'Make',groups:'Groups',play:'Play'}[k]}</button>`).join('')}
+    </nav>
+    <button type="button" class="rail-btn-primary" data-act="new_game_file">＋ Жаңы оюн</button>
+    <div class="folder-box">
+      <div class="folder-head">
+        <span>📁 ${hasDir?esc(FS.dirHandle.name):'files/ папкасы'}</span>
+        <button type="button" class="mini" data-act="pick_dir">${hasDir?'Жаңылоо':'Тандоо'}</button>
+      </div>
+      <div class="muted">${hasDir?'Оюндар жана медиа автоматтык сакталат':'Папка тандалса, оюндар files/ папкасына сакталат'}</div>
+    </div>
+
+    <div class="acc-sec ${gOpen?'open grow':''}">
+      <div class="acc-head">
+        <button type="button" class="acc-toggle" data-act="toggle_sec" data-sec="games" aria-expanded="${gOpen}">
+          <span class="chev">▸</span>
+          <span>Оюндар (${games.length})</span>
+        </button>
+        <button type="button" class="mini" data-act="new_game_file" title="Жаңы оюн кошуу" style="padding:1px 7px;min-width:24px">＋</button>
+      </div>
+      <div class="acc-body game-list">
+        ${games.map(g=>`
+          <button type="button" class="gitem ${g.id===currentGameId?'on':''}" data-act="sel_game" data-id="${g.id}" data-ctx="game">
+            <div class="gitem-top">
+              <span class="gitem-title">${esc(g.title)}</span>
+              <span class="ver-badge">v${g.version}</span>
+            </div>
+            <div class="gitem-meta">
+              <span>▶ ${g.playedCount} жолу ойнолгон</span>
+              <span>${g.pin8||g.password?'🔒':'🔓'}</span>
+            </div>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="rail-divider"></div>
+
+    <div class="acc-sec ${tOpen?'open':''}">
+      <div class="acc-head">
+        <button type="button" class="acc-toggle" data-act="toggle_sec" data-sec="teams" aria-expanded="${tOpen}">
+          <span class="chev">▸</span>
+          <span>Командалар (${S.teams.length})</span>
+        </button>
+        <button type="button" class="mini" data-act="addteam_rail" title="Жаңы команда кошуу" style="padding:1px 7px;min-width:24px" ${S.teams.length>=6?'disabled':''}>＋</button>
+      </div>
+      <div class="acc-body team-rail-list">
+        ${S.teams.map((t,idx)=>`
+          <button type="button" class="titem ${tab==='groups'&&focusedTeamId===t.id?'on':''}" data-act="focus_team" data-t="${t.id}" data-ctx="team" data-idx="${idx}">
+            ${av(t,22)}
+            <span class="titem-name">${esc(t.name)}</span>
+            <span class="titem-key">${keyLabel(t.key)}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+
+    <button type="button" class="btn sm" data-act="board" style="justify-content:center;margin-top:auto">📺 Проектор таблосу</button>
+  `;
+}
+
+/* ================= Make View ================= */
+function makeHTML(){
+  const g=curGame();
+  const cols=g.categories.length;
+  return `
+    <div class="head">
+      <div>
+        <h2>Make <small>${esc(g.fileName)} · v${g.version}</small></h2>
+        <div class="muted sm">Бул бөлүмдө оюн түзүлөт, оңдолот жана башка версиялары жасалат</div>
+      </div>
+      <div class="row wrap">
+        <button type="button" class="btn" data-act="make_version" data-id="${g.id}">⧉ Башка версия жасоо</button>
+        <button type="button" class="btn primary" data-act="go_play">▶ Ойнотуу</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Оюндун жөндөөлөрү жана коопсуздугу</h3>
+      <div class="setgrid">
+        <label class="fld">
+          <span>Оюндун аталышы</span>
+          <input type="text" class="inp" id="g-title" value="${esc(g.title)}">
+        </label>
+        <label class="fld">
+          <span>8 сандык ПИН код</span>
+          <input type="text" class="inp" id="g-pin8" inputmode="numeric" maxlength="8" value="${esc(g.pin8)}">
+        </label>
+        <label class="fld">
+          <span>Оюндун паролу</span>
+          <input type="password" class="inp" id="g-pass" value="${esc(g.password)}" placeholder="Паролду коюңуз">
+        </label>
+        <label class="fld">
+          <span>Таймер (сек)</span>
+          <input type="number" class="inp" id="g-timer" min="5" max="180" value="${g.defaultTimerSec}">
+        </label>
+        <label class="fld">
+          <span>Ката жооп эрежеси</span>
+          <select class="inp" id="g-pen">
+            <option value="pass" ${g.penalty==='pass'?'selected':''}>Жооп укугу башка командага өтөт</option>
+            <option value="minus" ${g.penalty==='minus'?'selected':''}>Упай кемитилет (−номинал)</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head" style="margin-bottom:12px">
+        <h3>Категориялар жана суроолор торчосу <small>ар бир категорияда каалаган санда суроо кошсоңуз болот</small></h3>
+        <div class="row">
+          <input type="text" class="inp" id="new-cat-name" placeholder="Жаңы категория…" style="width:200px">
+          <button type="button" class="btn sm primary" data-act="add_cat">＋ Категория</button>
+        </div>
+      </div>
+      <div class="matrix-wrap">
+        <div class="mgrid" style="--cols:${cols}">
+          ${g.categories.map((cat,c)=>`
+            <div class="mcol-stack">
+              <div class="mcol-head">
+                <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(cat.name)}">${esc(cat.name)} <small style="font-weight:400;opacity:.75">(${cat.cells.length})</small></span>
+                <div class="row" style="gap:3px">
+                  <button type="button" class="mini" data-act="add_cell" data-c="${c}" title="Суроо кошуу">＋</button>
+                  <button type="button" class="mini" data-act="ren_cat" data-c="${c}" title="Атын өзгөртүү">✎</button>
+                  <button type="button" class="mini" data-act="del_cat" data-c="${c}" title="Өчүрүү" ${g.categories.length<=1?'disabled':''}>✕</button>
+                </div>
+              </div>
+              ${cat.cells.map((cell,r)=>`
+                <div class="mcell" data-act="edit_cell" data-c="${c}" data-r="${r}" data-ctx="cell">
+                  <div class="mcell-top">
+                    <span class="mcell-pts">${cell.points}</span>
+                    <div class="row" style="gap:4px">
+                      <span class="pill ${cell.question_type==='choice'?'blue':''}">${cell.question_type==='choice'?'Тест':'Суроо/Жооп'}</span>
+                      <button type="button" class="mini" data-act="del_cell" data-c="${c}" data-r="${r}" title="Суроону өчүрүү" style="padding:1px 6px;min-width:22px;font-size:11px">✕</button>
+                    </div>
+                  </div>
+                  <div class="mcell-q">${esc(cell.question||'Суроо жазыла элек')}</div>
+                  <div class="mcell-badges">
+                    ${cell.qMedia?'<span>🖼 Сур.</span>':''}
+                    ${cell.aMedia?'<span>🎬 Жооп медиа</span>':''}
+                  </div>
+                </div>
+              `).join('')}
+              <button type="button" class="madd-btn" data-act="add_cell" data-c="${c}">＋ Суроо кошуу</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function addCellToCat(c){
+  const g=curGame();
+  const cat=g.categories[c];if(!cat)return;
+  const r=cat.cells.length;
+  const nextPts=POINTS[r]||((r+1)*100);
+  const newCell=normCell({category:cat.name,points:nextPts,question_type:'open',question:'',answer:''},cat.name,nextPts,r);
+  cat.cells.push(newCell);
+  FS.saveGameFile(g);
+  renderAll();
+  openCellEditor(c,r);
+}
+
+function deleteCellFromCat(c,r){
+  const g=curGame();
+  const cat=g.categories[c];if(!cat)return;
+  cat.cells.splice(r,1);
+  cat.cells.forEach((cell,idx)=>cell._slot=idx);
+  FS.saveGameFile(g);
+  renderAll();
+  toast('Суроо өчүрүлдү','ok');
+}
+
+function openCellEditor(c,r){
+  const g=curGame();
+  const cell=g.categories[c]?.cells[r];
+  if(!cell)return;
+  const d=$('#dlg');
+  const isChoice=cell.question_type==='choice';
+  const ptsOptions=[...new Set([...POINTS,cell.points,600,700,800,900,1000])].sort((a,b)=>a-b);
+  d.innerHTML=`
+    <h3>${esc(g.categories[c].name)} · ${cell.points} упай</h3>
+    <div class="fgrid">
+      <label class="fld">
+        <span>Суроонун түрү</span>
+        <select class="inp" id="cf-type">
+          <option value="open" ${!isChoice?'selected':''}>Жөн эле суроо жана жообу</option>
+          <option value="choice" ${isChoice?'selected':''}>Тест варианттары (А, Б, В, Г)</option>
+        </select>
+      </label>
+      <label class="fld">
+        <span>Упай номиналы</span>
+        <input type="number" class="inp" id="cf-pts" list="cf-pts-list" min="10" max="10000" step="10" value="${cell.points}">
+        <datalist id="cf-pts-list">${ptsOptions.map(p=>`<option value="${p}">`).join('')}</datalist>
+      </label>
+      <label class="fld full">
+        <span>Суроо</span>
+        <textarea class="inp" id="cf-q">${esc(cell.question)}</textarea>
+      </label>
+      <label class="fld full">
+        <span>Туура жообу</span>
+        <input type="text" class="inp" id="cf-ans" value="${esc(cell.answer)}">
+      </label>
+      <div class="full" id="cf-opts-box" style="${isChoice?'':'display:none'}">
+        <div class="fld" style="margin-bottom:6px"><span>Тест варианттары</span></div>
+        ${cell.options.map((o,i)=>`
+          <div class="orow">
+            <input type="radio" name="cf-ok" value="${i}" ${i===cell.correct_index?'checked':''}>
+            <b>${LET[i]}</b>
+            <input type="text" class="inp" id="cf-o${i}" value="${esc(o)}">
+          </div>
+        `).join('')}
+      </div>
+      <label class="fld">
+        <span>Суроого медияфайл (сүрөт/аудио/видео)</span>
+        <input type="file" class="inp" id="cf-qfile" accept="image/*,audio/*,video/*">
+        <span class="muted sm" id="cf-qref">${esc(cell.qMedia||'Тандалган эмес')}</span>
+      </label>
+      <label class="fld">
+        <span>Жоопко медияфайл (сүрөт/аудио/видео)</span>
+        <input type="file" class="inp" id="cf-afile" accept="image/*,audio/*,video/*">
+        <span class="muted sm" id="cf-aref">${esc(cell.aMedia||'Тандалган эмес')}</span>
+      </label>
+      <label class="fld full">
+        <span>Түшүндүрмө</span>
+        <input type="text" class="inp" id="cf-exp" value="${esc(cell.explanation)}">
+      </label>
+    </div>
+    <input type="hidden" id="cf-qmedia-val" value="${esc(cell.qMedia)}">
+    <input type="hidden" id="cf-amedia-val" value="${esc(cell.aMedia)}">
+    <div class="ctrl" style="justify-content:flex-end">
+      <button type="button" class="btn" data-act="dlgclose">Жабуу</button>
+      <button type="button" class="btn primary" data-act="save_cell" data-c="${c}" data-r="${r}">Сактоо</button>
+    </div>
+  `;
+  $('#cf-type').addEventListener('change',e=>{
+    $('#cf-opts-box').style.display=e.target.value==='choice'?'':'none';
+  });
+  $('#cf-qfile').addEventListener('change',async e=>{
+    const f=e.target.files?.[0];if(!f)return;
+    const ref=await FS.saveMediaFile(f,'q');
+    $('#cf-qmedia-val').value=ref;
+    $('#cf-qref').textContent=ref;
+    toast('Суроонун медияфайлы сакталды','ok');
+  });
+  $('#cf-afile').addEventListener('change',async e=>{
+    const f=e.target.files?.[0];if(!f)return;
+    const ref=await FS.saveMediaFile(f,'a');
+    $('#cf-amedia-val').value=ref;
+    $('#cf-aref').textContent=ref;
+    toast('Жооптун медияфайлы сакталды','ok');
+  });
+  d.showModal();
+}
+
+function clearCell(c,r){
+  const g=curGame();
+  const cell=g.categories[c]?.cells[r];if(!cell)return;
+  cell.question='';cell.answer='';cell.explanation='';cell.qMedia='';cell.aMedia='';
+  FS.saveGameFile(g);
+  renderAll();
+  toast('Уяча тазаланды','ok');
+}
+
+/* ================= Groups View ================= */
+function groupsHTML(){
+  return `
+    <div class="head">
+      <div>
+        <h2>Groups <small>${S.teams.length} / 6 команда</small></h2>
+        <div class="muted sm">Командаларды түзүү, капитан жана мүчөлөрдү кошуу, баззер баскычын бекитүү</div>
+      </div>
+      <div class="row wrap">
+        <button type="button" class="btn" data-act="preset_4teams">4 команда түзүү</button>
+        <button type="button" class="btn primary" data-act="addteam" ${S.teams.length>=6?'disabled':''}>＋ Команда кошуу</button>
+        <button type="button" class="btn" data-act="resetscores">Упайларды нөлгө</button>
+      </div>
+    </div>
+    <div class="teams">${S.teams.map(teamCard).join('')}</div>
+  `;
+}
+
+function teamCard(t){
+  return `
+    <div class="card team" data-t="${t.id}" data-ctx="team" style="--c:${t.color}">
+      <div class="trow">
+        ${av(t,48)}
+        <input type="text" class="inp" data-field="name" data-t="${t.id}" value="${esc(t.name)}" maxlength="28" placeholder="Команданын аты">
+        <button type="button" class="btn sm danger" data-act="delteam" data-t="${t.id}" ${S.teams.length<=2?'disabled':''}>✕</button>
+      </div>
+      <div class="lbl">Капитан</div>
+      <input type="text" class="inp" data-field="captain" data-t="${t.id}" value="${esc(t.captain||'')}" placeholder="Капитандын аты-жөнү">
+      <div class="lbl">Катышуучулар (мүчөлөр)</div>
+      <div class="row">
+        <input type="text" class="inp" data-mem-inp="${t.id}" placeholder="Катышуучунун аты…">
+        <button type="button" class="btn sm" data-act="add_mem" data-t="${t.id}">＋</button>
+      </div>
+      <div class="mem-list">
+        ${(t.members||[]).map((m,mi)=>`
+          <span class="mem-chip">${esc(m)}<button type="button" data-act="del_mem" data-t="${t.id}" data-mi="${mi}">×</button></span>
+        `).join('')}
+      </div>
+      <div class="lbl">Түсү</div>
+      <div class="sw">
+        ${COLORS.map(c=>`<button type="button" class="swb ${c===t.color?'on':''}" style="background:${c}" data-act="color" data-t="${t.id}" data-c="${c}"></button>`).join('')}
+        <input type="color" value="${t.color}" data-field="color" data-t="${t.id}">
+      </div>
+      <div class="lbl">Логотип / Аватар</div>
+      <div class="sw">
+        ${EMOJI.map(e=>`<button type="button" class="emo ${e===t.avatar?'on':''}" data-act="avatar" data-t="${t.id}" data-e="${e}">${e}</button>`).join('')}
+        <label class="btn sm">Сүрөт<input type="file" accept="image/*" hidden data-up="${t.id}"></label>
+      </div>
+      <div class="lbl">Баззер баскычы</div>
+      <button type="button" class="btn key ${capturing===t.id?'cap':''}" data-act="keycap" data-t="${t.id}">
+        ${capturing===t.id?'Баскычты басыңыз… (Esc — токтотуу)':'⌨ '+keyLabel(t.key)}
+      </button>
+    </div>
+  `;
+}
+
+function freeKey(){
+  const used=S.teams.map(t=>t.key);
+  return ['Digit1','Digit2','Digit3','Digit4','Digit5','Digit6','Digit7','Digit8','Digit9','KeyZ','KeyX','KeyC','KeyV'].find(k=>!used.includes(k))||'';
+}
+
+function duplicateTeam(tid){
+  if(S.teams.length>=6)return toast('Максимум 6 команда','bad');
+  const src=team(tid);if(!src)return;
+  const nt={
+    ...src,
+    id:uid('t'),
+    name:src.name+' (көчүрмө)',
+    members:[...(src.members||[])],
+    key:freeKey(),
+    score:0
+  };
+  S.teams.push(nt);
+  commit();
+  toast('Команда көчүрүлдү','ok');
+}
+
+function removeTeam(tid){
+  if(S.teams.length<=2)return toast('Кеминде 2 команда болушу керек','bad');
+  S.teams=S.teams.filter(t=>t.id!==tid);
+  if(focusedTeamId===tid)focusedTeamId='';
+  commit();
+}
+
+function uploadAvatar(tid,file){
+  if(!file)return;
+  const img=new Image(),fr=new FileReader();
+  fr.onload=()=>{
+    img.onload=()=>{
+      const c=document.createElement('canvas');c.width=c.height=96;
+      const x=c.getContext('2d'),s=Math.min(img.width,img.height);
+      x.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,96,96);
+      team(tid).avatar=c.toDataURL('image/jpeg',.82);
+      commit();
+    };
+    img.src=fr.result;
+  };
+  fr.readAsDataURL(file);
+}
+
+/* ================= Play View ================= */
+function renderPlay(){
+  const g=S.game,host=!IS_BOARD,el=$('#stage');
+  if(!g){
+    el.innerHTML=`
+      <div class="card center">
+        <h2 class="big">ZirekOrdo</h2>
+        <p class="muted" style="max-width:560px;margin:0 auto 20px">Оюн баштоо үчүн «Оюнду баштоо» баскычын басыңыз. Оюндун 8 сандык ПИН коду жана паролу текшерилет.</p>
+        ${host?`<button type="button" class="btn primary lg" data-act="start_play_auth">▶ Оюнду баштоо</button>`:''}
+      </div>`;
+    return;
+  }
+  if(g.status==='finished'||g.phase==='finished'){
+    el.innerHTML=podiumHTML(host);
+    return;
+  }
+  const actT=team(g.activeTeamId);
+  const turnBar=`
+    <div class="turn-bar">
+      <div class="rname">${esc(g.title)} <span class="muted sm">· v${g.version}</span></div>
+      <div class="row">
+        <span class="muted sm">Кезектеги команда:</span>
+        ${actT?`<span class="pill blue">${av(actT,20)} ${esc(actT.name)}</span>`:''}
+      </div>
+    </div>`;
+
+  if(g.phase==='grid'){
+    el.innerHTML=turnBar+playGridHTML(g,host);
+  }else{
+    el.innerHTML=turnBar+questionStageHTML(g,host);
+  }
+}
+
+function playGridHTML(g,host){
+  const n=g.cats.length;
+  return `<div class="pgrid" style="--n:${n}">`+g.cats.map((catName,c)=>{
+    const colCells=g.cols[c]||[];
+    return `<div class="pcol">
+      <div class="pgh">${esc(catName)}</div>
+      ${colCells.length?colCells.map((cell,r)=>`
+        <button type="button" class="pgc" ${cell.used||!host?'disabled':''} data-act="pick_cell" data-c="${c}" data-r="${r}">${cell.used?'':cell.points}</button>
+      `).join(''):`<div class="muted sm" style="text-align:center;padding:18px 8px">Суроо жок</div>`}
+    </div>`;
+  }).join('')+`</div>`;
+}
+
+function mediaTag(src,label){
+  if(!src)return '';
+  const isVid=/\.(mp4|webm|ogg)(\?|$)/i.test(src)||src.startsWith('data:video');
+  const isAud=/\.(mp3|wav|m4a|ogg)(\?|$)/i.test(src)||src.startsWith('data:audio');
+  let body;
+  if(isVid)body=`<video class="qmedia" controls src="${esc(src)}"></video>`;
+  else if(isAud)body=`<audio controls src="${esc(src)}" style="width:100%"></audio>`;
+  else body=`<img class="qmedia" src="${esc(src)}" alt="">`;
+  return `<div class="media-block"><div class="media-lbl">${esc(label)}</div>${body}</div>`;
+}
+
+function questionStageHTML(g,host){
+  const cell=g.currentCell.data;
+  const rev=g.phase==='reveal';
+  const ft=g.floorTeamId?team(g.floorTeamId):null;
+  const isChoice=cell.question_type==='choice';
+
+  let h=`<div class="qcard">
+    <div class="qmeta">
+      <span class="pill">${esc(cell.category)}</span>
+      <span class="pill gold">${cell.points} упай</span>
+      <span class="pill blue">${isChoice?'Тест':'Суроо & Жообу'}</span>
+    </div>
+    <div class="timer">
+      <div class="t-num" id="tnum">${Math.ceil(remaining())}</div>
+      <div class="t-track"><i class="t-bar" id="tbar"></i></div>
+    </div>
+    <h2 class="qtext">${esc(cell.question||'Суроо')}</h2>
+    ${mediaTag(resolvedMedia.qSrc,'Суроонун медияфайлы')}`;
+
+  if(isChoice){
+    const canPick=host && !rev;
+    h+=`<div class="opts">`+cell.options.map((o,i)=>{
+      let cls='opt';
+      if(rev)cls+=i===cell.correct_index?' ok':(i===g.chosenOpt?' bad':' dim');
+      else{
+        if(host&&i===cell.correct_index)cls+=' hint';
+        if(g.deadOpts.includes(i))cls+=' dead';
+        if(canPick)cls+=' click';
+      }
+      return `<div class="${cls}" ${canPick?`data-act="pick_opt" data-i="${i}"`:''}><b>${LET[i]}</b><span>${esc(o)}</span></div>`;
+    }).join('')+`</div>`;
+  }else{
+    if(host || rev){
+      h+=`<div class="ans-box ${rev?'revealed':''}">
+        <div class="ans-lbl">${rev?'Туура жооп':'Жообу'}</div>
+        <div class="ans-val">${esc(cell.answer||'—')}</div>
+      </div>`;
+    }else{
+      h+=`<div class="ans-box"><div class="ans-lbl">Жооп</div><div class="muted sm">Алып баруучу жоопту ачат</div></div>`;
+    }
+  }
+
+  if(rev && resolvedMedia.aSrc){
+    h+=mediaTag(resolvedMedia.aSrc,'Жооптун медияфайлы');
+  }
+
+  if(ft && !rev){
+    h+=`<div class="status floor" style="--c:${ft.color}">🔔 ${av(ft,28)} <b>${esc(ft.name)}</b> жооп берет</div>`;
+  }else if(!rev){
+    h+=`<div class="status">${g.timer.running?'⚡ Жооп берүү убактысы жүрүп жатат':'⏸ Таймер токтотулду'}${g.lockedTeams.map(id=>`<span class="lockchip">✖ ${esc(team(id)?.name||'')}</span>`).join('')}</div>`;
+  }
+
+  if(rev){
+    const w=g.floorTeamId?team(g.floorTeamId):null;
+    if(g.revealReason==='correct')h+=`<div class="res ok">✔ ${esc(w?.name||'')} туура жооп берди · +${cell.points}</div>`;
+    else if(g.revealReason==='time')h+=`<div class="res bad">⏱ Убакыт бүттү</div>`;
+    else if(g.revealReason==='wrong')h+=`<div class="res bad">✖ Туура жооп берилген жок</div>`;
+    else h+=`<div class="res">👁 Жооп көрсөтүлдү</div>`;
+    if(cell.explanation)h+=`<p class="expl">💡 ${esc(cell.explanation)}</p>`;
+  }
+
+  h+=`</div>`;
+
+  if(host){
+    if(rev){
+      h+=`<div class="ctrl"><button type="button" class="btn primary" data-act="back_grid">Торчого кайтуу › <kbd>Enter</kbd></button></div>`;
+    }else{
+      h+=`<div class="ctrl">
+        <button type="button" class="btn primary" data-act="toggle_timer">${g.timer.running?'⏸ Пауза':'▶ Улантуу'} <kbd>Space</kbd></button>
+        ${!isChoice?`
+          <button type="button" class="btn" data-act="open_ok">✔ Туура (+${cell.points})</button>
+          <button type="button" class="btn danger" data-act="open_bad">✖ Ката</button>
+        `:''}
+        <button type="button" class="btn" data-act="reveal_now">👁 Жоопту көрсөт</button>
+      </div>`;
+    }
+  }
+  return h;
+}
+
+function podiumHTML(host){
+  const s=[...S.teams].sort((a,b)=>b.score-a.score),cls=['p1','p2','p3'],ord=[1,0,2].filter(i=>s[i]);
+  return `
+    <div class="card center">
+      <h2 class="big">🏆 Оюн аяктады</h2>
+      <div class="pod">
+        ${ord.map(i=>`<div class="${cls[i]}" style="border-top:4px solid ${s[i].color}">${av(s[i],46)}<div class="big">${i+1}</div><b>${esc(s[i].name)}</b><div class="big" style="font-size:24px">${s[i].score}</div></div>`).join('')}
+      </div>
+      ${s.slice(3).map((t,i)=>`<div class="muted">${i+4}. ${esc(t.name)} — ${t.score}</div>`).join('')}
+      ${host?`<div class="ctrl" style="justify-content:center;margin-top:18px"><button type="button" class="btn primary" data-act="restart_same_game">↻ Кайра баштоо</button></div>`:''}
+    </div>`;
+}
+
+let sbSig='',shownScores={};
+function renderSB(){
+  const box=$('#sb'),ts=S.teams;
+  const sig=ts.map(t=>t.id+'|'+t.name+'|'+t.color+'|'+(t.avatar||'').length).join(';');
+  if(sig!==sbSig){
+    sbSig=sig;
+    box.innerHTML=ts.map(t=>`
+      <div class="sbrow" data-t="${t.id}" style="--c:${t.color}">
+        <i class="sbbar"></i>
+        <div class="rank"></div>
+        ${av(t,36)}
+        <div class="nm">${esc(t.name)}</div>
+        <div class="sc" data-s>0</div>
+      </div>`).join('');
+  }
+  const g=S.game;
+  const sorted=[...ts].sort((a,b)=>b.score-a.score);
+  const max=Math.max(100,...ts.map(t=>t.score));
+  sorted.forEach((t,i)=>{
+    const row=box.querySelector(`[data-t="${t.id}"]`);if(!row)return;
+    row.style.order=i;
+    row.querySelector('.rank').textContent=i+1;
+    row.querySelector('.sbbar').style.width=Math.max(0,t.score)/max*100+'%';
+    row.classList.toggle('floor',!!g&&g.floorTeamId===t.id);
+    row.classList.toggle('active',!!g&&g.phase==='grid'&&g.activeTeamId===t.id);
+    row.classList.toggle('locked',!!g&&(g.lockedTeams||[]).includes(t.id)&&g.phase!=='reveal');
+    const scEl=row.querySelector('[data-s]');
+    const from=shownScores[t.id]??t.score,to=t.score;
+    shownScores[t.id]=to;
+    scEl.textContent=to;
+    if(from!==to){
+      scEl.classList.remove('up','dn');void scEl.offsetWidth;
+      scEl.classList.add(to>from?'up':'dn');
+    }
+  });
+}
+
+function renderHostSide(){
+  const el=$('#hostside');if(IS_BOARD){el.innerHTML='';return}
+  const g=S.game;
+  const activePts=(g&&g.currentCell&&g.currentCell.data&&Number(g.currentCell.data.points))||100;
+  el.innerHTML=`
+    <div class="card">
+      <div class="head" style="margin-bottom:10px">
+        <h4 style="margin:0">Упайларды башкаруу</h4>
+        <button type="button" class="btn sm primary" data-act="bulk_open">🧮 Баарынын упайы</button>
+      </div>
+      <div class="muted sm" style="margin-bottom:8px">Суроо ачылганда − / + баскычтары <b>${activePts}</b> баллдан кошуп-кемитет (1, 2, 3… кадам).</div>
+      ${S.teams.map(t=>{
+        const st=stepCounters[t.id]||0;
+        return `
+          <div class="adjrow">
+            <button type="button" class="mini" data-act="set_turn" data-t="${t.id}" title="Кезек берүү">${av(t,22)}</button>
+            <span>${esc(t.name)}</span>
+            ${st?`<span class="step-badge">${st>0?'+':''}${st}×</span>`:''}
+            <button type="button" class="mini" data-act="step_score" data-t="${t.id}" data-d="-1">−</button>
+            <button type="button" class="mini" data-act="step_score" data-t="${t.id}" data-d="1">+</button>
+          </div>`;
+      }).join('')}
+      <div class="ctrl" style="margin-top:12px">
+        ${g?`<button type="button" class="btn sm" data-act="restart_same_game">↻ Раундду нөлдөө</button>`:''}
+      </div>
+    </div>
+  `;
+}
+
+function tickUI(){
+  const g=S.game,n=$('#tnum');if(!n||!g||!g.timer)return;
+  const left=remaining();
+  n.textContent=Math.ceil(left);
+  const b=$('#tbar');if(b)b.style.width=(g.timer.total?left/g.timer.total*100:0)+'%';
+  n.parentElement.classList.toggle('low',left<=5&&left>0&&g.timer.running);
+}
+
+let lastSec=-1;
+setInterval(()=>{
+  tickUI();
+  const g=S.game;
+  if(IS_BOARD||!g||g.phase!=='question'||!g.timer||!g.timer.running){lastSec=-1;return}
+  const left=(g.timer.endsAt-Date.now())/1000;
+  const sec=Math.ceil(left);
+  if(sec!==lastSec&&sec>0){lastSec=sec;sfx(sec<=5?'tick2':'tick')}
+  if(left<=0)onTimeUp();
+},100);
+
+function renderAll(){
+  document.body.classList.toggle('board',IS_BOARD);
+  renderRail();
+  renderAuthGate();
+  renderBoardBulkOverlay();
+  const bs=$('#board-snd');if(bs)bs.textContent=Snd.on?'🔊 Үн':'🔇 Үн';
+  if(tab==='play'){
+    $('#view').hidden=true;
+    $('#play').hidden=false;
+    renderPlay();
+    renderSB();
+    renderHostSide();
+    tickUI();
+  }else{
+    $('#play').hidden=true;
+    const v=$('#view');v.hidden=false;
+    v.innerHTML=tab==='make'?makeHTML():groupsHTML();
+    if(tab==='groups'&&focusedTeamId){
+      const card=$(`.team[data-t="${focusedTeamId}"]`);
+      if(card){
+        card.classList.add('buzz-flash');
+        setTimeout(()=>card.classList.remove('buzz-flash'),550);
+      }
+    }
+  }
+}
+
+/* ================= Keyboard & Buzzers ================= */
+function handleKey(code){
+  const t=S.teams.find(x=>x.key===code);
+  if(t && S.game && S.game.phase==='question'){
+    buzzTeam(t.id);
+    return true;
+  }
+  if(tab!=='play'||!S.game)return false;
+  if(code==='Space'&&S.game.phase==='question'){
+    S.game.timer.running?pauseTimer():runTimer();
+    commit();return true;
+  }
+  if(code==='Enter'&&S.game.phase==='reveal'){
+    returnToGrid();return true;
+  }
+  if(['KeyQ','KeyW','KeyE','KeyR'].includes(code)&&S.game.phase==='question'){
+    judgeChoice({KeyQ:0,KeyW:1,KeyE:2,KeyR:3}[code]);
+    return true;
+  }
+  return false;
+}
+
+const typing=e=>{const t=e.target;return t&&(/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)||t.isContentEditable)};
+window.addEventListener('keydown',e=>{
+  if(e.repeat||e.ctrlKey||e.metaKey||e.altKey)return;
+  if(IS_BOARD){if(!typing(e))post({type:'key',code:e.code});return}
+  if(capturing){
+    e.preventDefault();
+    const t=team(capturing);
+    if(e.code==='Escape'){capturing=null;renderAll();return}
+    if(RESERVED.includes(e.code))return toast('Бул баскыч резервде','bad');
+    const dup=S.teams.find(x=>x.key===e.code&&x.id!==capturing);
+    if(dup)return toast(`«${dup.name}» командасында колдонулуп жатат`,'bad');
+    t.key=e.code;capturing=null;commit();
+    toast('Баззер баскычы: '+keyLabel(e.code),'ok');
+    return;
+  }
+  if(playGateOpen && e.key==='Enter'){e.preventDefault();verifyPlayAuth();return}
+  if(typing(e)||$('#dlg').open)return;
+  if(handleKey(e.code))e.preventDefault();
+});
+
+/* ================= Event Delegation ================= */
+function toggleFS(){
+  if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+  else if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});
+}
+
+function act(a,b){
+  const d=b.dataset,g=curGame();
+  switch(a){
+    case 'tab':
+      if(d.v==='play'){requestPlayAccess();return}
+      tab=d.v;sessionStorage.setItem('zirekordo.tab',tab);capturing=null;renderAll();
+      break;
+    case 'toggle_sec':{
+      const k=d.sec;
+      railOpen[k]=!Boolean(railOpen[k]);
+      LS.set('zirekordo.railOpen',railOpen);
+      renderRail();
+      break;
+    }
+    case 'focus_team':
+      focusedTeamId=d.t;
+      tab='groups';
+      sessionStorage.setItem('zirekordo.tab',tab);
+      capturing=null;
+      renderAll();
+      break;
+    case 'addteam_rail':
+      if(S.teams.length<6){
+        const i=S.teams.length;
+        const nt={id:uid('t'),name:(i+1)+'-команда',captain:'',members:[],color:COLORS[i%COLORS.length],avatar:EMOJI[(i*3)%EMOJI.length],key:freeKey(),score:0};
+        S.teams.push(nt);
+        focusedTeamId=nt.id;
+        railOpen.teams=true;
+        LS.set('zirekordo.railOpen',railOpen);
+        tab='groups';
+        sessionStorage.setItem('zirekordo.tab',tab);
+        commit();
+        toast('Жаңы команда кошулду','ok');
+      }
+      break;
+    case 'pick_dir':FS.pickDir();break;
+    case 'new_game_file':createNewGame();break;
+    case 'sel_game':
+      currentGameId=d.id;
+      LS.set('zirekordo.curId',currentGameId);
+      if(tab==='play'){
+        if(S.game && S.game.gameId!==currentGameId)S.game=null;
+        requestPlayAccess();
+      }else renderAll();
+      break;
+    case 'ren_game_save':{
+      const gTarget=games.find(x=>x.id===d.id);
+      const val=($('#ren-game-inp')?.value||'').trim();
+      if(!gTarget)return;
+      if(!val)return toast('Аталыш бош болбошу керек','bad');
+      gTarget.title=val;
+      FS.saveGameFile(gTarget);
+      $('#dlg').close();
+      commit();
+      toast('Аталышы өзгөрдү','ok');
+      break;
+    }
+    case 'make_version':createGameVersion(d.id);break;
+    case 'go_play':requestPlayAccess();break;
+    case 'start_play_auth':requestPlayAccess();break;
+    case 'auth_cancel':playGateOpen=false;authError='';renderAuthGate();break;
+    case 'auth_submit':verifyPlayAuth();break;
+    case 'restart_same_game':startNewSessionForCurrentGame();break;
+    case 'board':window.open(location.href.split('?')[0]+'?board=1','zirekordo-board','width=1280,height=720');break;
+    case 'fs':toggleFS();break;
+    case 'snd':Snd.on=!Snd.on;if(Snd.on)Snd.init();renderAll();break;
+
+    /* Make actions */
+    case 'add_cat':{
+      const inp=$('#new-cat-name');const nm=(inp?.value||'').trim();
+      if(!nm)return toast('Категориянын атын жазыңыз','bad');
+      g.categories.push({
+        name:nm,
+        cells:POINTS.map((pts,r)=>normCell({category:nm,points:pts,question_type:'open',question:'',answer:''},nm,pts,r))
+      });
+      FS.saveGameFile(g);renderAll();toast('Категория кошулду','ok');
+      break;
+    }
+    case 'ren_cat':{
+      const c=Number(d.c);const cat=g.categories[c];if(!cat)return;
+      const dEl=$('#dlg');
+      dEl.innerHTML=`
+        <h3>Категориянын атын өзгөртүү</h3>
+        <label class="fld">
+          <span>Жаңы аталышы</span>
+          <input type="text" class="inp" id="ren-cat-inp" value="${esc(cat.name)}" maxlength="50">
+        </label>
+        <div class="ctrl" style="justify-content:flex-end;margin-top:16px">
+          <button type="button" class="btn" data-act="dlgclose">Жабуу</button>
+          <button type="button" class="btn primary" data-act="ren_cat_save" data-c="${c}">Сактоо</button>
+        </div>
+      `;
+      dEl.showModal();
+      setTimeout(()=>{const i=$('#ren-cat-inp');if(i){i.focus();i.select()}},30);
+      break;
+    }
+    case 'ren_cat_save':{
+      const c=Number(d.c);const cat=g.categories[c];if(!cat)return;
+      const nn=($('#ren-cat-inp')?.value||'').trim();
+      if(!nn)return toast('Аталыш бош болбошу керек','bad');
+      cat.name=nn;
+      cat.cells.forEach(cell=>cell.category=cat.name);
+      FS.saveGameFile(g);
+      $('#dlg').close();
+      renderAll();
+      toast('Категория жаңыланды','ok');
+      break;
+    }
+    case 'del_cat':{
+      const c=Number(d.c);if(g.categories.length<=1)return;
+      g.categories.splice(c,1);
+      FS.saveGameFile(g);renderAll();toast('Категория өчүрүлдү','ok');
+      break;
+    }
+    case 'add_cell':addCellToCat(Number(d.c));break;
+    case 'del_cell':deleteCellFromCat(Number(d.c),Number(d.r));break;
+    case 'edit_cell':openCellEditor(Number(d.c),Number(d.r));break;
+    case 'save_cell':{
+      const c=Number(d.c),r=Number(d.r);
+      const cell=g.categories[c]?.cells[r];if(!cell)return;
+      const type=$('#cf-type').value;
+      const qTxt=$('#cf-q').value.trim();
+      const ansTxt=$('#cf-ans').value.trim();
+      if(!qTxt)return toast('Суроону жазыңыз','bad');
+      cell.question_type=type;
+      cell.points=Number($('#cf-pts').value)||100;
+      cell.question=qTxt;
+      cell.answer=ansTxt;
+      cell.options=[0,1,2,3].map(i=>$('#cf-o'+i).value.trim());
+      cell.correct_index=+($('input[name="cf-ok"]:checked')?.value||0);
+      cell.qMedia=$('#cf-qmedia-val').value;
+      cell.aMedia=$('#cf-amedia-val').value;
+      cell.explanation=$('#cf-exp').value.trim();
+      FS.saveGameFile(g);
+      $('#dlg').close();
+      renderAll();
+      toast('Суроо сакталды','ok');
+      break;
+    }
+    case 'dlgclose':$('#dlg').close();break;
+
+    /* Groups actions */
+    case 'preset_4teams':
+      S.teams=[0,1,2,3].map(i=>({
+        id:uid('t'),name:(i+1)+'-команда',captain:'',members:[],
+        color:COLORS[i%COLORS.length],avatar:EMOJI[i%EMOJI.length],
+        key:['Digit1','Digit2','Digit3','Digit4'][i],score:0
+      }));
+      commit();toast('4 команда түзүлдү','ok');
+      break;
+    case 'addteam':
+      if(S.teams.length>=6)return;
+      {const i=S.teams.length;S.teams.push({id:uid('t'),name:(i+1)+'-команда',captain:'',members:[],color:COLORS[i%COLORS.length],avatar:EMOJI[(i*3)%EMOJI.length],key:freeKey(),score:0});commit()}
+      break;
+    case 'delteam':removeTeam(d.t);break;
+    case 'color':team(d.t).color=d.c;commit();break;
+    case 'avatar':team(d.t).avatar=d.e;commit();break;
+    case 'keycap':capturing=capturing===d.t?null:d.t;renderAll();break;
+    case 'resetscores':S.teams.forEach(t=>t.score=0);Object.keys(stepCounters).forEach(k=>delete stepCounters[k]);commit();break;
+    case 'add_mem':{
+      const inp=$(`[data-mem-inp="${d.t}"]`);
+      const name=(inp?.value||'').trim();if(!name)return;
+      const t=team(d.t);t.members=t.members||[];t.members.push(name);
+      commit();
+      break;
+    }
+    case 'del_mem':{
+      const t=team(d.t);if(!t)return;
+      t.members.splice(Number(d.mi),1);
+      commit();
+      break;
+    }
+
+    /* Play actions */
+    case 'pick_cell':selectGridCell(Number(d.c),Number(d.r));break;
+    case 'toggle_timer':if(S.game){S.game.timer.running?pauseTimer():runTimer();commit()}break;
+    case 'pick_opt':judgeChoice(Number(d.i));break;
+    case 'open_ok':judgeOpen(true);break;
+    case 'open_bad':judgeOpen(false);break;
+    case 'reveal_now':revealAnswerNow();break;
+    case 'back_grid':returnToGrid();break;
+    case 'set_turn':if(S.game){S.game.activeTeamId=d.t;commit()}break;
+    case 'step_score':stepTeamScore(d.t,Number(d.d));break;
+
+    /* Bulk Score Modal */
+    case 'bulk_open':setBulkModalOpen(true);break;
+    case 'bulk_close':setBulkModalOpen(false);break;
+    case 'bulk_adj':{
+      const inp=$(`[data-bulk-inp="${d.t}"]`);if(!inp)return;
+      inp.value=(Number(inp.value)||0)+Number(d.d);
+      break;
+    }
+    case 'bulk_zero':
+      $$('[data-bulk-inp]').forEach(inp=>inp.value=0);
+      break;
+    case 'bulk_save':
+      $$('[data-bulk-inp]').forEach(inp=>{
+        const t=team(inp.dataset.bulkInp);
+        if(t)t.score=parseInt(inp.value,10)||0;
+      });
+      S.bulkOpen=false;
+      saveState();
+      sfx('correct');
+      renderAll();
+      toast('Бардык командалардын упайы жаңыланды','ok');
+      break;
+  }
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');
+  if(!b||b.disabled)return;
+  Snd.init();
+  act(b.dataset.act,b);
+});
+
+document.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.dataset.field==='name'){team(el.dataset.t).name=el.value;saveState()}
+  else if(el.dataset.field==='captain'){team(el.dataset.t).captain=el.value;saveState()}
+  else if(el.dataset.field==='color'){team(el.dataset.t).color=el.value;saveState()}
+});
+
+document.addEventListener('change',e=>{
+  const el=e.target,g=curGame();
+  if(el.id==='g-title'){g.title=el.value.trim()||g.title;FS.saveGameFile(g);renderRail()}
+  else if(el.id==='g-pin8'){g.pin8=el.value.replace(/\D/g,'').slice(0,8);el.value=g.pin8;FS.saveGameFile(g)}
+  else if(el.id==='g-pass'){g.password=el.value;FS.saveGameFile(g)}
+  else if(el.id==='g-timer'){g.defaultTimerSec=clamp(parseInt(el.value,10)||25,5,180);FS.saveGameFile(g)}
+  else if(el.id==='g-pen'){g.penalty=el.value==='minus'?'minus':'pass';FS.saveGameFile(g)}
+  else if(el.dataset.up){uploadAvatar(el.dataset.up,el.files?.[0])}
+});
+
+/* ================= Boot ================= */
+renderAll();
+if(IS_BOARD){
+  post({type:'hello'});
+  setInterval(()=>{
+    const cell=S.game?.currentCell?.data;
+    if(cell){
+      Promise.all([FS.resolveSrc(cell.qMedia),FS.resolveSrc(cell.aMedia)]).then(([qSrc,aSrc])=>{
+        if(qSrc!==resolvedMedia.qSrc || aSrc!==resolvedMedia.aSrc){
+          resolvedMedia={qSrc,aSrc};
+          renderPlay();
+        }
+      });
+    }
+  },800);
+}else FS.tryRestore();
+})();
+</script>
+</body>
+</html>
